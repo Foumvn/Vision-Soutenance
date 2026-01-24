@@ -1,0 +1,7 @@
+{
+    "name": "vision-soutenance",
+    "framework": "nextjs",
+    "rootDirectory": "web",
+    "installCommand": "npm install",
+    "buildCommand": "npm run build"
+}
