@@ -45,9 +45,9 @@ export default function NotificationBell() {
         if (!token) return;
         try {
             await markNotificationAsRead(notificationId, token);
-            setNotifications(prev => prev.map(n => n.id === notificationId ? { ...n, read: true } : n));
+            setNotifications(prev => prev.filter(n => n.id !== notificationId));
         } catch (error) {
-            console.error("Failed to mark as read", error);
+            console.error("Failed to delete notification", error);
         }
     };
 
@@ -56,7 +56,7 @@ export default function NotificationBell() {
         if (!token) return;
         try {
             await clearAllNotifications(token);
-            setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+            setNotifications([]);
         } catch (error) {
             console.error("Failed to clear notifications", error);
         }
@@ -203,7 +203,7 @@ export default function NotificationBell() {
                                     onClick={handleClearAll}
                                     className="w-full text-center text-xs font-bold text-primary hover:underline"
                                 >
-                                    Tout marquer comme lu
+                                    Tout supprimer
                                 </button>
                             </div>
                         )}

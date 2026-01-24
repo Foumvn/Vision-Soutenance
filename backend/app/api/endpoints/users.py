@@ -5,7 +5,11 @@ from app.models.user import UserResponse, UserInDB, Notification, NotificationTy
 from app.api.endpoints.auth import get_current_user
 from bson import ObjectId
 
+import logging
+
+logger = logging.getLogger(__name__)
 router = APIRouter()
+print("!!! USERS ENDPOINT MODULE LOADED !!!")
 
 @router.get("/search", response_model=UserResponse)
 async def search_user(email: str, db = Depends(get_database)):
@@ -45,8 +49,13 @@ async def add_contact(
 
     # Add to current user's contacts if not already there
     if contact_id_str not in current_user.contacts:
+        try:
+            current_oid = ObjectId(str(current_user.id))
+        except:
+            current_oid = current_user.id
+
         await db["users"].update_one(
-            {"_id": current_user.id},
+            {"_id": current_oid},
             {"$push": {"contacts": contact_id_str}}
         )
         
@@ -99,8 +108,15 @@ async def invite_user(
     return {"message": "Invitation envoyée"}
 
 @router.get("/me/notifications", response_model=List[Notification])
-async def get_notifications(current_user: UserInDB = Depends(get_current_user)):
-    print(f"DEBUG: Fetching notifications for {current_user.email}. Count: {len(current_user.notifications)}")
+async def get_notifications(
+    current_user: UserInDB = Depends(get_current_user),
+    db = Depends(get_database)
+):
+    print(f"DEBUG: get_notifications - current_user.id: {current_user.id}")
+    # Fetch directly for comparison
+    direct_user = await db.users.find_one({"_id": ObjectId(str(current_user.id))})
+    direct_count = len(direct_user.get('notifications', [])) if direct_user else "USER NOT FOUND"
+    print(f"DEBUG: Fetching notifications for {current_user.email}. Pydantic count: {len(current_user.notifications)}, Direct DB count: {direct_count}")
     return current_user.notifications
 
 @router.get("/contacts", response_model=List[UserResponse])
@@ -120,8 +136,13 @@ async def delete_contact(
     current_user: UserInDB = Depends(get_current_user),
     db = Depends(get_database)
 ):
+    try:
+        current_oid = ObjectId(str(current_user.id))
+    except:
+        current_oid = current_user.id
+
     await db["users"].update_one(
-        {"_id": current_user.id},
+        {"_id": current_oid},
         {"$pull": {"contacts": contact_id}}
     )
     return {"message": "Contact supprimé"}
@@ -132,19 +153,31 @@ async def mark_notification_read(
     current_user: UserInDB = Depends(get_current_user),
     db = Depends(get_database)
 ):
-    await db["users"].update_one(
-        {"_id": current_user.id, "notifications.id": notification_id},
-        {"$set": {"notifications.$.read": True}}
+    try:
+        current_oid = ObjectId(str(current_user.id))
+    except Exception:
+        current_oid = current_user.id
+
+    result = await db["users"].update_one(
+        {"_id": current_oid},
+        {"$pull": {"notifications": {"id": notification_id}}}
     )
-    return {"message": "Notification marquée comme lue"}
+    print(f"DEBUG: mark_notification_read - current_oid: {current_oid} ({type(current_oid)}), matched: {result.matched_count}")
+    return {"message": "Notification supprimée"}
 
 @router.post("/me/notifications/clear")
 async def clear_notifications(
     current_user: UserInDB = Depends(get_current_user),
     db = Depends(get_database)
 ):
-    await db["users"].update_one(
-        {"_id": current_user.id},
-        {"$set": {"notifications.$[].read": True}}
+    try:
+        current_oid = ObjectId(str(current_user.id))
+    except Exception:
+        current_oid = current_user.id
+
+    result = await db["users"].update_one(
+        {"_id": current_oid},
+        {"$set": {"notifications": []}}
     )
-    return {"message": "Toutes les notifications ont été marquées comme lues"}
+    print(f"DEBUG: clear_notifications - current_oid: {current_oid} ({type(current_oid)}), matched: {result.matched_count}")
+    return {"message": "Toutes les notifications ont été supprimées"}
