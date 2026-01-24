@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Invite Participants</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#A3E635",
+                        "background-dark": "#0B0A0F",
+                        "card-dark": "#1C1C1E",
+                        "neon-blue": "#00F0FF",
+                        "ai-purple": "#8B5CF6",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
+    <style type="text/tailwindcss">
+        .ios-status-bar {
+            height: 44px;
+            padding: 0 32px;
+        }
+        .bg-aura {
+            background: radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.2) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 40%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .neon-button-glow {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body class="bg-zinc-900 font-display flex items-center justify-center min-h-screen">
+    <div
+        class="relative w-[390px] h-[844px] bg-background-dark overflow-hidden rounded-[55px] shadow-2xl border-[8px] border-zinc-800 bg-aura flex flex-col">
+        <div class="ios-status-bar flex justify-between items-center w-full z-50 pt-4">
+            <span class="text-white text-[15px] font-semibold">19:02</span>
+            <div class="flex items-center gap-1.5">
+                <span class="material-symbols-rounded text-white text-[18px]">signal_cellular_4_bar</span>
+                <span class="material-symbols-rounded text-white text-[18px]">wifi</span>
+                <span class="material-symbols-rounded text-white text-[22px]">battery_full</span>
+            </div>
+        </div>
+        <div class="px-6 mt-6 flex items-center justify-between">
+            <button class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white">
+                <span class="material-symbols-rounded">close</span>
+            </button>
+            <h1 class="text-white text-lg font-semibold">Invite Participants</h1>
+            <div class="w-10"></div>
+        </div>
+        <div class="px-6 mt-8">
+            <div class="glass-card rounded-[32px] p-8 text-center flex flex-col items-center">
+                <div
+                    class="w-16 h-16 bg-gradient-to-tr from-ai-purple to-neon-blue rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-ai-purple/20">
+                    <span class="material-symbols-rounded text-white text-3xl">link</span>
+                </div>
+                <h2 class="text-white/60 text-sm font-medium uppercase tracking-widest mb-2">Meeting Link</h2>
+                <p class="text-white text-xl font-bold mb-6">v-meeting.ai/dev-team-sync</p>
+                <button
+                    class="bg-neon-blue text-background-dark font-bold py-4 px-8 rounded-2xl flex items-center gap-3 neon-button-glow active:scale-95 transition-all">
+                    <span class="material-symbols-rounded text-[20px]">content_copy</span>
+                    Copy Link
+                </button>
+            </div>
+        </div>
+        <div class="px-6 mt-10 flex-1 overflow-y-auto no-scrollbar">
+            <h3 class="text-white/40 text-xs font-bold uppercase tracking-wider mb-4 px-1">Frequent Contacts</h3>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between bg-white/5 p-3 rounded-2xl border border-white/5">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-full overflow-hidden border border-white/10">
+                            <img alt="Alison Roberts" class="w-full h-full object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeKLHwcvoQdMMAKMJLWtZm3N37e8Hqb7hdBe48Lj0EzqOxNtthWY-9ytfi0nFVoRC8iIROize-Bgt2up6Jbk73LK6KEgToDMRpQp_eNaAT6r2ugJ7VuBzNrRWSuYT8T_J0oNoZmQ18anOq5wA5h7pJMr66Vq2nq5NvxL20k-GNbTsBezhl9IM49N3_Hy3Jmmypp79Ag6jYlg1kiIHhTJAcNhStjtSdQRd3Qt3FW_XTqz4T-nal7KmhmDL86Ov3tu7oyAWD3RbXENg" />
+                        </div>
+                        <div>
+                            <p class="text-white font-medium">Alison Roberts</p>
+                            <p class="text-white/40 text-xs">Product Designer</p>
+                        </div>
+                    </div>
+                    <button
+                        class="bg-white/10 hover:bg-white/20 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors">
+                        Invite
+                    </button>
+                </div>
+                <div class="flex items-center justify-between bg-white/5 p-3 rounded-2xl border border-white/5">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-full overflow-hidden border border-white/10">
+                            <img alt="Sarah Paige" class="w-full h-full object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuI-yWwU-2tX8OzQhZPB9WEMyOCRS0i9l0KOeTCek6nW3hMFH0BY6y8Vj_QIQa7ZXhxQUJNf5hMlPs-rTZao2UXB-RptWUmHAuuWd9WbpcOOerDI62W7evT7cLodCAQXsMsZNlCWOzRixGEdePxkRIgvP8bFCHOVrNi8DMJl0V0TNYg_1Vb3mfOH-YeqCzeKFTl58HpALZECclqJ9RZvZf8qk5Ry25jVXHTW22QUX_ub8wtxsmM1i3vREUE3qs0tKhHQDyoMTw7bM" />
+                        </div>
+                        <div>
+                            <p class="text-white font-medium">Sarah Paige</p>
+                            <p class="text-white/40 text-xs">Engineering Lead</p>
+                        </div>
+                    </div>
+                    <button
+                        class="bg-white/10 hover:bg-white/20 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors">
+                        Invite
+                    </button>
+                </div>
+                <div class="flex items-center justify-between bg-white/5 p-3 rounded-2xl border border-white/5">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-full overflow-hidden border border-white/10">
+                            <img alt="Peter Lee" class="w-full h-full object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCATDRZUqD4UaQcrFegcmQc9Ui3nhFN3i6CMa-y9XAySIQnwfHI1Qh8CMhVcMz70DzECxuiPjBcNo9ab3xqgIgie4LtpDcL1x6HJ5Eu4tXo6cy3-ChuaM_5mVBKboC_cOE3HSFSFjhGARLV_EsVq6UB29QC1cN3zKibRbNhMSp4zGEhDn2zYES-md44zb49LnA1uqCyHI11r75PBDwPQNVnEW41Viuaxh5h5fbGZpoj4P7HrmVl3TslnfNVL0feku4VFz7Ut6FosjY" />
+                        </div>
+                        <div>
+                            <p class="text-white font-medium">Peter Lee</p>
+                            <p class="text-white/40 text-xs">CTO</p>
+                        </div>
+                    </div>
+                    <button
+                        class="bg-white/10 hover:bg-white/20 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors">
+                        Invite
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="p-8 bg-zinc-900/80 backdrop-blur-xl border-t border-white/10">
+            <h3 class="text-white/40 text-xs font-bold uppercase tracking-wider mb-6 text-center">Share Via</h3>
+            <div class="flex justify-around items-center">
+                <button class="flex flex-col items-center gap-2 group">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-[#25D366]/20 flex items-center justify-center border border-[#25D366]/30 group-active:scale-90 transition-all">
+                        <span class="material-symbols-rounded text-[#25D366] text-3xl">chat</span>
+                    </div>
+                    <span class="text-white/60 text-[10px] font-medium uppercase">WhatsApp</span>
+                </button>
+                <button class="flex flex-col items-center gap-2 group">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-[#4A154B]/30 flex items-center justify-center border border-[#4A154B]/50 group-active:scale-90 transition-all">
+                        <span class="material-symbols-rounded text-white text-3xl">hub</span>
+                    </div>
+                    <span class="text-white/60 text-[10px] font-medium uppercase">Slack</span>
+                </button>
+                <button class="flex flex-col items-center gap-2 group">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center border border-white/10 group-active:scale-90 transition-all">
+                        <span class="material-symbols-rounded text-white text-3xl">mail</span>
+                    </div>
+                    <span class="text-white/60 text-[10px] font-medium uppercase">Email</span>
+                </button>
+                <button class="flex flex-col items-center gap-2 group">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center border border-white/10 group-active:scale-90 transition-all">
+                        <span class="material-symbols-rounded text-white text-3xl">more_horiz</span>
+                    </div>
+                    <span class="text-white/60 text-[10px] font-medium uppercase">More</span>
+                </button>
+            </div>
+            <div class="w-32 h-1 bg-white/20 mx-auto mt-8 rounded-full"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>

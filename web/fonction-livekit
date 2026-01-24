@@ -1,0 +1,59 @@
+C'est une excellente question. L'intégration de LiveKit dans Ton projet WithIn est déjà bien structurée. Elle repose sur une architecture robuste répartie entre le serveur LiveKit, le backend (Spring Boot & ASP.NET) et le frontend (Flutter).
+
+Voici comment LiveKit fonctionne dans ton projet, du backend jusqu'au frontend.
+
+1. Architecture Globale
+Le flux de communication en temps réel se divise en deux parties distinctes :
+
+La Signalisation (Orchestration) : Gérée par Spring Boot (logique métier) et ASP.NET Core SignalR (notifications en temps réel). C'est ici qu'on dit "Hé, je t'appelle !".
+Le Transport Média (Audio/Vidéo) : Géré par le Serveur LiveKit. C'est lui qui transporte les flux vidéo et audio une fois que l'appel est accepté.
+2. Le Backend (Spring Boot) : Le "Garde-Barrière"
+Le rôle principal du backend Spring Boot est de générer des jetons d'accès (Tokens JWT). LiveKit ne laisse personne se connecter sans un jeton signé avec ta clé secrète.
+
+Comment ça marche dans ton code (
+LiveKitTokenService.java
+) :
+Lorsqu'un utilisateur veut rejoindre un appel, le frontend appelle ton API Spring Boot. Le service utilise le SDK LiveKit pour créer un jeton incluant les permissions (ex: droit de parler, d'utiliser la caméra).
+
+java
+// Exemple inspiré de ton service LiveKitTokenService
+public String createToken(String roomName, String participantIdentity) {
+    AccessToken token = new AccessToken(apiKey, apiSecret);
+    token.setName(participantIdentity);
+    token.setIdentity(participantIdentity);
+    
+    // Ajout des permissions pour la "Room"
+    token.addGrants(new RoomJoinGrant(roomName));
+    
+    return token.toJwt();
+}
+3. La Signalisation (ASP.NET Core & SignalR) : "Le Téléphone sonne"
+Avant de se connecter à LiveKit, il faut que l'autre personne sache qu'on l'appelle.
+
+Spring Boot demande à ASP.NET Core d'envoyer une notification.
+ASP.NET Core (SignalR) envoie l'événement IncomingCall au téléphone du destinataire.
+4. Le Frontend (Flutter) : L'Expérience Utilisateur
+C'est ici que tout se rejoint. Le SDK Flutter de LiveKit (livekit_client) gère la connexion SFU.
+
+Étape A : Réception de l'appel
+Grâce à ton CallNotificationService.dart, Flutter écoute SignalR. Quand il reçoit un appel :
+
+Il affiche un dialogue (genre WhatsApp).
+Si l'utilisateur accepte, il appelle le backend pour récupérer son Token.
+Étape B : Connexion à la Room (LiveKitRoomService.dart)
+Une fois le token reçu, on se connecte au serveur LiveKit :
+
+dart
+// Exemple de connexion dans ton Flutter
+final room = await LiveKitClient.connect(
+  "ws://192.168.100.6:7880", // URL de ton serveur LiveKit
+  token, // Le jeton récupéré de Spring Boot
+);
+Étape C : Affichage de la Vidéo (LiveKitCallScreen.dart)
+Pour afficher la vidéo, ton projet utilise des widgets spécifiques fournis par LiveKit qui gèrent automatiquement le rendu des flux :
+
+dart
+// Pour la vidéo locale (Moi)
+VideoTrackRenderer(room.localParticipant.videoTracks.first.track);
+// Pour la vidéo distante (Lui)
+VideoTrackRenderer(participant.videoTracks.first.track);

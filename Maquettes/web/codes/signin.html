@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign Up | AI-Powered Video Conferencing</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#8B5CF6", // Electric Purple
+                        "primary-hover": "#7C3AED",
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#0F0F12",
+                        "field-dark": "rgba(255, 255, 255, 0.05)",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "12px",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .ambient-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .glow-1 {
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 50%;
+            height: 50%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(139, 92, 246, 0) 70%);
+            filter: blur(80px);
+        }
+        .glow-2 {
+            position: absolute;
+            bottom: -10%;
+            left: -10%;
+            width: 50%;
+            height: 50%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, rgba(139, 92, 246, 0) 70%);
+            filter: blur(80px);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col items-center justify-center p-6">
+<div class="ambient-glow">
+<div class="glow-1"></div>
+<div class="glow-2"></div>
+</div>
+<main class="w-full max-w-[480px] space-y-8 py-12">
+<div class="text-center space-y-3">
+<h1 class="text-4xl font-bold tracking-tight text-primary">
+                Create Account
+            </h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg">
+                Join the next generation of AI-powered video conferencing
+            </p>
+</div>
+<div class="glass-card p-8 rounded-3xl space-y-6 shadow-2xl">
+<form action="#" class="space-y-5" method="POST">
+<div class="space-y-2">
+<label class="block text-sm font-medium text-slate-600 dark:text-slate-300" for="name">Full Name</label>
+<input class="w-full px-4 py-3 bg-white dark:bg-field-dark border border-slate-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600" id="name" name="name" placeholder="John Doe" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-medium text-slate-600 dark:text-slate-300" for="email">Email Address</label>
+<input class="w-full px-4 py-3 bg-white dark:bg-field-dark border border-slate-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600" id="email" name="email" placeholder="john@example.com" type="email"/>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-medium text-slate-600 dark:text-slate-300" for="password">Password</label>
+<div class="relative">
+<input class="w-full px-4 py-3 bg-white dark:bg-field-dark border border-slate-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600" id="password" name="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-xl">visibility</span>
+</button>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-primary-hover text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-primary/20 transition-all transform hover:scale-[1.01] active:scale-[0.99] mt-2" type="submit">
+                    Create Account
+                </button>
+</form>
+<div class="relative flex items-center py-2">
+<div class="flex-grow border-t border-slate-200 dark:border-white/10"></div>
+<span class="flex-shrink mx-4 text-xs font-semibold tracking-wider text-slate-400 dark:text-slate-500 uppercase">Or continue with</span>
+<div class="flex-grow border-t border-slate-200 dark:border-white/10"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 py-3 px-4 border border-slate-200 dark:border-white/10 rounded-xl bg-white dark:bg-field-dark hover:bg-slate-50 dark:hover:bg-white/10 transition-colors">
+<svg class="w-5 h-5" viewBox="0 0 24 24">
+<path d="M12.48 10.92v3.28h7.84c-.24 1.84-.9 3.32-1.92 4.36-1.12 1.12-2.8 2.36-5.92 2.36-4.76 0-8.64-3.88-8.64-8.64S7.72 3.64 12.48 3.64c2.56 0 4.4 1 5.8 2.32l2.32-2.32C18.6 1.76 15.84 0 12.48 0 5.88 0 .52 5.36.52 12s5.36 12 11.96 12c3.56 0 6.24-1.16 8.32-3.32 2.12-2.12 2.84-5.16 2.84-7.76 0-.56-.04-1.12-.12-1.64H12.48z" fill="#EA4335"></path>
+</svg>
+<span class="text-sm font-medium">Google</span>
+</button>
+<button class="flex items-center justify-center gap-2 py-3 px-4 border border-slate-200 dark:border-white/10 rounded-xl bg-white dark:bg-field-dark hover:bg-slate-50 dark:hover:bg-white/10 transition-colors">
+<svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+<path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.702z"></path>
+</svg>
+<span class="text-sm font-medium">Apple</span>
+</button>
+</div>
+</div>
+<div class="text-center">
+<p class="text-slate-500 dark:text-slate-400">
+                Already have an account? 
+                <a class="text-primary font-semibold hover:underline underline-offset-4 ml-1" href="#">Log In</a>
+</p>
+</div>
+</main>
+<button class="fixed bottom-6 right-6 p-3 rounded-full bg-white dark:bg-field-dark border border-slate-200 dark:border-white/10 shadow-lg text-slate-500 dark:text-slate-400 hover:text-primary transition-colors" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined block dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined hidden dark:block">light_mode</span>
+</button>
+
+</body></html>

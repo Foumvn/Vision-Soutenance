@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AI Onboarding - Visual Features v1</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#8B5CF6",
+                        "background-dark": "#0B0A0F",
+                        "card-dark": "#1C1C1E",
+                        "accent-purple": "#8B5CF6",
+                        "accent-blue": "#3B82F6",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #8B5CF6;
+        }
+        .bg-aura {
+            background: radial-gradient(circle at 50% 20%, rgba(139, 92, 246, 0.25) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                        #0B0A0F;
+        }
+        .glass-tag {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .ios-status-bar {
+            height: 44px;
+            padding: 0 32px;
+        }
+        .image-glow {
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.2);
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body class="bg-zinc-100 font-display flex items-center justify-center min-h-screen">
+    <div
+        class="relative w-[390px] h-[844px] bg-background-dark overflow-hidden rounded-[55px] shadow-2xl border-[8px] border-zinc-800 bg-aura">
+        <div class="ios-status-bar flex justify-between items-center w-full z-50 pt-4">
+            <span class="text-white text-[15px] font-semibold">9:41</span>
+            <div class="flex items-center gap-1.5">
+                <span class="material-symbols-rounded text-white text-[18px]">signal_cellular_4_bar</span>
+                <span class="material-symbols-rounded text-white text-[18px]">wifi</span>
+                <span class="material-symbols-rounded text-white text-[22px]">battery_full</span>
+            </div>
+        </div>
+        <div class="px-10 mt-6 flex gap-2">
+            <div class="h-1 flex-1 bg-primary rounded-full"></div>
+            <div class="h-1 flex-1 bg-white/10 rounded-full"></div>
+            <div class="h-1 flex-1 bg-white/10 rounded-full"></div>
+        </div>
+        <div class="flex flex-col items-center px-8 pt-10">
+            <div class="relative w-full aspect-square flex items-center justify-center mb-12">
+                <div class="relative w-64 h-64 rounded-[40px] overflow-hidden border-4 border-white/5 image-glow">
+                    <img alt="Professional in video call" class="w-full h-full object-cover"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAROoIDA5ARGAEOZR7NEwDdfimhBbuCwSm-i_89PDykKoAQGh_KvQ_mZRhYLe5R4zilqE2dagBIBe01dmAIYqVFv2k6w-41N-IQOrXihVGDCuoqofI9ZDvtmrtTosSYXw3t5LyJWfGf-nheKxg9H8CAZ-wR1bIhzgmDGzvkJIuXYtNs3045yn0f_wGjgkVuBGcPTWpr0iQ0L-2jZURJovqiPWNFniBtNPGz8jkW9xgPSXCMMvCLtcCzgg9_Qteb36jKg7flaO-BtY" />
+                </div>
+                <div class="absolute -top-2 -left-2 glass-tag px-4 py-2 rounded-xl flex items-center gap-2">
+                    <span class="material-symbols-outlined text-purple-600 text-sm">translate</span>
+                    <span class="text-[11px] font-bold text-gray-800">Live Translation</span>
+                </div>
+                <div class="absolute top-12 -right-4 glass-tag px-4 py-2 rounded-xl flex items-center gap-2">
+                    <span class="material-symbols-outlined text-purple-600 text-sm">description</span>
+                    <span class="text-[11px] font-bold text-gray-800">Smart Notes</span>
+                </div>
+                <div class="absolute bottom-10 -left-6 glass-tag px-4 py-2 rounded-xl flex items-center gap-2">
+                    <span class="material-symbols-outlined text-purple-600 text-sm">closed_caption</span>
+                    <span class="text-[11px] font-bold text-gray-800">AI Transcription</span>
+                </div>
+                <div
+                    class="absolute -bottom-4 right-8 w-12 h-12 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center shadow-lg">
+                    <span class="material-symbols-outlined text-white">videocam</span>
+                </div>
+                <div
+                    class="absolute top-0 right-10 w-10 h-10 rounded-full bg-blue-500/90 backdrop-blur-md flex items-center justify-center shadow-lg border border-white/20">
+                    <span class="material-symbols-outlined text-white text-lg">mic</span>
+                </div>
+            </div>
+            <div class="text-center w-full mt-4">
+                <h2 class="text-white text-[32px] font-bold leading-tight mb-4 px-4">
+                    Experience Intelligence
+                </h2>
+                <p class="text-white/60 text-[16px] leading-relaxed mb-10 px-2">
+                    Elevate your video meetings with real-time AI features that help you focus on the conversation, not
+                    the notes.
+                </p>
+                <div class="flex justify-center gap-2 mb-10">
+                    <div class="w-2.5 h-1.5 rounded-full bg-primary"></div>
+                    <div class="w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                    <div class="w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                </div>
+                <div class="flex flex-col gap-4 w-full px-2">
+                    <div class="flex gap-3">
+                        <button onclick="goToPrev()"
+                            class="px-6 bg-white/10 text-white font-semibold py-5 rounded-2xl hover:bg-white/20 transition-all active:scale-95">
+                            Back
+                        </button>
+                        <button onclick="getStarted()"
+                            class="flex-1 bg-primary text-white font-bold py-5 rounded-2xl shadow-xl shadow-purple-500/20 hover:brightness-110 active:scale-[0.98] transition-all text-lg">
+                            Get Started
+                        </button>
+                    </div>
+                    <a onclick="skipOnboarding()"
+                        class="text-white/60 text-[15px] font-medium py-2 cursor-pointer hover:text-white/80 transition-colors"
+                        href="#">
+                        Skip for now
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-white/20 rounded-full"></div>
+    </div>
+
+    <script>
+        // Navigation avec animation
+        function getStarted() {
+            // Sauvegarder que l'onboarding est terminé
+            localStorage.setItem('onboardingCompleted', 'true');
+
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.3s ease-out';
+
+            setTimeout(() => {
+                window.location.href = 'create.html';
+            }, 300);
+        }
+
+        function skipOnboarding() {
+            localStorage.setItem('onboardingCompleted', 'true');
+
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.3s ease-out';
+
+            setTimeout(() => {
+                window.location.href = 'create.html';
+            }, 300);
+        }
+
+        function goToPrev() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.3s ease-out';
+
+            setTimeout(() => {
+                window.location.href = 'Onboarding1.html';
+            }, 300);
+        }
+
+        // Support du swipe pour mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 100;
+            const diff = touchStartX - touchEndX;
+
+            if (diff > swipeThreshold) {
+                // Swipe left - finish onboarding
+                getStarted();
+            } else if (diff < -swipeThreshold) {
+                // Swipe right - previous page
+                goToPrev();
+            }
+        }
+
+        // Navigation au clavier
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Enter') {
+                getStarted();
+            } else if (e.key === 'ArrowLeft') {
+                goToPrev();
+            }
+        });
+
+        // Animation d'entrée
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease-in';
+                document.body.style.opacity = '1';
+            }, 50);
+        });
+    </script>
+
+</body>
+
+</html>

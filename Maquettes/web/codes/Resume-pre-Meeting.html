@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Post-Meeting Summary Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7f13ec",
+                        "background-light": "#f7f6f8",
+                        "background-dark": "#121212", // Deep charcoal
+                        "accent-green": "#10b981",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(127, 19, 236, 0.3);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(127, 19, 236, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-white font-display min-h-screen">
+<div class="layout-container flex flex-col min-h-screen">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 px-6 py-4 bg-background-dark/80 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-8 bg-primary/20 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight">Lumina AI</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-white/60 hover:text-white text-sm font-medium transition-colors" href="#">Dashboard</a>
+<a class="text-white text-sm font-bold border-b-2 border-primary pb-1" href="#">Meetings</a>
+<a class="text-white/60 hover:text-white text-sm font-medium transition-colors" href="#">Insights</a>
+<a class="text-white/60 hover:text-white text-sm font-medium transition-colors" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 gap-2">
+<span class="material-symbols-outlined text-white/40 text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 placeholder:text-white/30" placeholder="Search archive..." type="text"/>
+</div>
+<button class="p-2 hover:bg-white/5 rounded-full transition-colors relative">
+<span class="material-symbols-outlined text-white/70">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-primary rounded-full"></span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8 border border-primary/40" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAdFC3vqxL-ZkeeeW0Abyy7idJqwVM1-IEmgaXCDZH-2Z4_aAWIxzEbmPKHDacnUUKQ-S0bLUggmZDxnTFRgjeNUUxUo0m97MOTRS8583ihUN3v5rfXnBJLM23hb7I5HxRcNxFCuda8h9X1Aglt4B2s7Ll-veKg0ZhfIHoY5UtqYyI-YkICfbT_VSIDqhdwOsrZaHuRXXS0XV9KI9dc5ZyI9GATLdWQmAAbYCnrvWJv1JM70jnTfQVfPz9zo1pdwwfAsQ8bLghzOJk");'></div>
+</div>
+</header>
+<main class="flex-1 px-6 lg:px-12 py-8 max-w-[1600px] mx-auto w-full">
+<!-- Page Heading -->
+<div class="flex flex-wrap items-end justify-between gap-6 mb-8">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-primary text-sm font-semibold uppercase tracking-widest">
+<span class="material-symbols-outlined text-sm">video_camera_back</span>
+                        Recorded Session
+                    </div>
+<h1 class="text-white text-4xl font-bold tracking-tight">Quarterly Technical Review</h1>
+<div class="flex items-center gap-4 text-white/50 text-sm mt-1">
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">calendar_today</span> Oct 12, 2023</span>
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">schedule</span> 1h 15m</span>
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">language</span> Translated (EN)</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-4">
+<div class="flex items-center">
+<div class="overflow-visible w-[34px]">
+<div class="bg-center bg-no-repeat aspect-square bg-cover border-[#121212] bg-[#302839] text-[#ab9db9] rounded-full flex items-center justify-center size-10 border-2" data-alt="Participant Sarah L." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDOd-jhJQMnnLeNSYwQJo1COmFXMuujc_7_Mmel_9li5BnI7iU5tSZit71aYPaWHw7BXTHn-PSc5psRvf6Lojkq1ifkZ58GAQKZwzIpBDXFl-ofInctezQvcCJVT2nDkkkWEif5uwzH5EYVLq1tGWgxHCv4F5lLPXDbDRjBT86BTvZpKPovcaS6TdXVbQUbKkP6iUV4hxZDbCVn0Qt9pCbCOBVuIrxvNkD5XIuC6eYIIAw0UWPpxwiXWn8pMPDyQ4lCJKc4ZVrQ-14");'></div>
+</div>
+<div class="overflow-visible w-[34px]">
+<div class="bg-center bg-no-repeat aspect-square bg-cover border-[#121212] bg-[#302839] text-[#ab9db9] rounded-full flex items-center justify-center size-10 border-2" data-alt="Participant David K." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAcbGn6Ur2RK5sjEjK5sJ1rjww9BMGHqablw7zMmA3IR-02krkQKbV1dnkFtlAPV6gwoTRp8jNCq3g8pyMWr1P04K1icExklsyL93soe-fmrauWuzlaVBp7Zk9RwSxfBrjkYPP1thYyzksQxAn3yRdkKGmQdHqs3U_3SwvSLJaDGlnY-pIqRNr_36-n6Dzj8ldLAG8qcRXN89Q2DkH1UnjQ1FPV6FmJD5snih8joOeRD2jl7grk1abHd9wf6NUzfQF62WDYnmyP0uI");'></div>
+</div>
+<div class="overflow-visible w-[34px]">
+<div class="bg-center bg-no-repeat aspect-square bg-cover border-[#121212] bg-[#302839] text-[#ab9db9] rounded-full flex items-center justify-center size-10 border-2" data-alt="Participant Elena R." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB2vzaj5ILYTCfdHuBKCp4jr68CjTrewzX3kemJ5Wc8LX76_lOGywsTLmB-hFsH1f5x3-rAoDrfG1p72U36ndaXeefKTl9dvwwZHZQ_tB5OZ3iQ9z_wPp52c2tAEKnEw7J5aS-ZMApkUJiv1mgMT1qIdr925_X0xXDLfX9HJmrWnMe8CJvmh3E6mjdGqTPPWAlIUZSQYxyzBgPwjQVbJXzppbMat679qfwB1NWw7G58KJ0cKMkLP5BWVnltho5e4Jye3s4y134mw18");'></div>
+</div>
+<div class="overflow-visible w-[34px]">
+<div class="bg-center bg-no-repeat aspect-square bg-cover border-[#121212] bg-[#302839] text-white text-xs font-bold rounded-full flex items-center justify-center size-10 border-2 bg-primary">+5</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 hover:bg-white/10 rounded-lg text-sm font-semibold transition-all">
+<span class="material-symbols-outlined text-lg">picture_as_pdf</span>
+                            Export PDF
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 rounded-lg text-sm font-semibold transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-lg">share</span>
+                            Share to Slack
+                        </button>
+</div>
+</div>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column (Main Content) -->
+<div class="lg:col-span-2 space-y-8">
+<!-- Executive Summary -->
+<section class="glass-card rounded-xl p-6">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">auto_fix_high</span>
+<h2 class="text-xl font-bold">Executive Summary</h2>
+</div>
+<p class="text-white/80 leading-relaxed text-lg italic">
+                            The meeting focused on the Q3 infrastructure scaling performance and the proposed budget for Q4. The engineering team successfully migrated 80% of services to the new architecture, resulting in a 25% reduction in latency. Key discussion points included the deprecation of legacy databases by November 15th and the integration of new zero-trust security protocols. Overall, the technical roadmap is on track with a slight adjustment to the backend hiring timeline to ensure high quality onboarding.
+                        </p>
+</section>
+<!-- Key Decisions -->
+<section class="glass-card rounded-xl p-6">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-accent-green">check_circle</span>
+<h2 class="text-xl font-bold">Key Decisions</h2>
+</div>
+<ul class="space-y-4">
+<li class="flex items-start gap-4 bg-white/5 rounded-lg p-4 border-l-4 border-accent-green">
+<span class="material-symbols-outlined text-accent-green mt-0.5">verified</span>
+<div>
+<p class="font-bold">Migration Strategy Approved</p>
+<p class="text-sm text-white/60">Agreed to full AWS us-east-1 cutover by end of October.</p>
+</div>
+</li>
+<li class="flex items-start gap-4 bg-white/5 rounded-lg p-4 border-l-4 border-accent-green">
+<span class="material-symbols-outlined text-accent-green mt-0.5">verified</span>
+<div>
+<p class="font-bold">Q4 Infrastructure Budget</p>
+<p class="text-sm text-white/60">Total spend of $1.2M approved with focus on observability tools.</p>
+</div>
+</li>
+<li class="flex items-start gap-4 bg-white/5 rounded-lg p-4 border-l-4 border-accent-green">
+<span class="material-symbols-outlined text-accent-green mt-0.5">verified</span>
+<div>
+<p class="font-bold">Security Vendor Selection</p>
+<p class="text-sm text-white/60">Proceeding with CrowdStrike for enterprise-wide coverage.</p>
+</div>
+</li>
+</ul>
+</section>
+<!-- Action Items -->
+<section class="glass-card rounded-xl p-6">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">list_alt</span>
+<h2 class="text-xl font-bold">Action Items</h2>
+</div>
+<span class="text-xs text-white/40 uppercase font-bold tracking-widest">4 Tasks Pending</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between bg-white/5 p-4 rounded-lg border border-white/5">
+<div class="flex items-center gap-4">
+<input class="rounded border-white/20 bg-transparent text-primary focus:ring-primary focus:ring-offset-background-dark" type="checkbox"/>
+<span class="text-sm font-medium">Update legacy DB deprecation docs</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-[10px] px-2 py-1 bg-primary/20 text-primary rounded font-bold uppercase">Oct 18</span>
+<div class="size-8 rounded-full bg-cover" data-alt="Assignee Sarah" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBPVMcho-H60w5FDHMozai2jNJeyZK32SFMCpQlExvnFJz2VIRr7XtwqECw2Y9yH10z5J-C4nQPyJy7r1JBUIaPKSIwKui9qRB8vhbsB3ECwvPtQBa3koEA9kd2Es7ZVWknW0uDd6gdqDS6XTyl3IcXsgp7IBzuxw3_UIcxv7O_b8zTbw0Ny9n1HZ-zqMiO4Od_U3P0bXo5cnJRm6iNUKJZDb4FhOtKaz4K_2_jGcmZ5b5wRNH-LkwLCRjLzRbP93W6X06kka8prIw');"></div>
+</div>
+</div>
+<div class="flex items-center justify-between bg-white/5 p-4 rounded-lg border border-white/5">
+<div class="flex items-center gap-4">
+<input class="rounded border-white/20 bg-transparent text-primary focus:ring-primary focus:ring-offset-background-dark" type="checkbox"/>
+<span class="text-sm font-medium">Finalize security protocol draft</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-[10px] px-2 py-1 bg-white/10 text-white/60 rounded font-bold uppercase">Oct 20</span>
+<div class="size-8 rounded-full bg-cover" data-alt="Assignee David" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC-GE7SJ_D63ruUg20RTSa3ESuFqBaFAr2Ll-o_WtqpVloSI3Z7EfzXDGpoUVLO6ARbDr_TzVzILCebHl-hXVbEpCJiR8vc7hFpbZTEe52OEflGpykqTnYYXzPJBOPEjT0RGDwljhzGmcaPtHUjdS3YFShem2CTnpw1s5ZGLxUIJIfZq2SzDgkUy6x2bzv-63Sh0oSf8iXjrFcTfRQ30fjJF9wTvw2hP1-AvvdhJG6FrF5zQVySQ-7Da9wD7FWVjUaY2_aeor2aB4g');"></div>
+</div>
+</div>
+<div class="flex items-center justify-between bg-white/5 p-4 rounded-lg border border-white/5">
+<div class="flex items-center gap-4">
+<input class="rounded border-white/20 bg-transparent text-primary focus:ring-primary focus:ring-offset-background-dark" type="checkbox"/>
+<span class="text-sm font-medium">Review Q4 hiring pipeline</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-[10px] px-2 py-1 bg-white/10 text-white/60 rounded font-bold uppercase">Oct 22</span>
+<div class="size-8 rounded-full bg-cover" data-alt="Assignee Elena" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCIRBsj3AfDg2ma4GvfiQjgQjr2q0CcFHITQHPqiAZR-sy9eagTZaOWA1ZkYCWRz65C7XGWyFn3zBDJ3YqMqPXU4EDWDqiucDGZWGE2l8bdrqagrQURhAJxAXcF3NVXR4g1kU_cT3sG6uBqKRJ7GOEmj3EEBNyQGjLjQvrj3s6nCvj3hMAH7hMc3ynH4LYXD1eval1i3I2XQuzX48KXpmLI1Ejz5xyzT5wPUQ9dfl05dADko8ZN9Jz6r-WDPUzTxbZvpaigfR8MD1o');"></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column (Analytics & Media) -->
+<div class="space-y-8">
+<!-- Meeting Recording -->
+<section class="glass-card rounded-xl overflow-hidden">
+<div class="relative group aspect-video bg-black/40 flex items-center justify-center">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<span class="material-symbols-outlined text-6xl text-white/80 group-hover:text-primary transition-colors cursor-pointer relative z-10">play_circle</span>
+<div class="absolute bottom-0 left-0 right-0 p-4 z-20">
+<div class="flex items-center justify-between text-[10px] text-white/60 mb-2">
+<span>24:15 / 1:15:00</span>
+<span>HD</span>
+</div>
+<div class="h-1.5 w-full bg-white/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[32%]"></div>
+</div>
+</div>
+</div>
+<div class="p-4 flex items-center justify-between">
+<h3 class="text-sm font-bold">Watch Replay</h3>
+<div class="flex gap-2">
+<button class="material-symbols-outlined text-white/40 hover:text-white text-lg">closed_caption</button>
+<button class="material-symbols-outlined text-white/40 hover:text-white text-lg">settings</button>
+</div>
+</div>
+</section>
+<!-- Transcript -->
+<section class="glass-card rounded-xl p-6 h-[400px] flex flex-col">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-lg font-bold">Transcript</h2>
+<div class="flex bg-white/5 p-1 rounded-lg">
+<button class="px-3 py-1 text-[10px] font-bold uppercase bg-primary rounded">Orig</button>
+<button class="px-3 py-1 text-[10px] font-bold uppercase text-white/40">Trans</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto pr-2 space-y-4">
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[10px]">
+<span class="text-primary font-bold">David K.</span>
+<span class="text-white/30">12:05</span>
+</div>
+<p class="text-sm text-white/70">The latency issue we saw last Tuesday was primarily due to the DB cache miss in the staging environment.</p>
+</div>
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[10px]">
+<span class="text-accent-green font-bold">Sarah L.</span>
+<span class="text-white/30">12:18</span>
+</div>
+<p class="text-sm text-white/70">Right, that's why the migration to the new architecture is critical. We need consistent performance.</p>
+</div>
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[10px]">
+<span class="text-white/60 font-bold">Elena R.</span>
+<span class="text-white/30">12:45</span>
+</div>
+<p class="text-sm text-white/70">I've allocated the budget for the new security layer. We can start the procurement next week.</p>
+</div>
+<!-- More transcript items -->
+<div class="space-y-1 opacity-50">
+<div class="flex items-center justify-between text-[10px]">
+<span class="text-primary font-bold">David K.</span>
+<span class="text-white/30">13:10</span>
+</div>
+<p class="text-sm text-white/70">Agreed. Let's make sure the engineering leads are briefed before Friday.</p>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-white/10">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm">search</span>
+<input class="w-full bg-white/5 border border-white/10 rounded-lg pl-10 py-2 text-xs focus:ring-primary focus:border-primary" placeholder="Search transcript..." type="text"/>
+</div>
+</div>
+</section>
+<!-- Sentiment Analysis -->
+<section class="glass-card rounded-xl p-6">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-lg font-bold">Sentiment</h2>
+<span class="text-[10px] px-2 py-1 bg-accent-green/20 text-accent-green rounded font-bold uppercase">Productive</span>
+</div>
+<div class="flex items-center gap-8">
+<div class="relative size-24 flex items-center justify-center">
+<svg class="size-full" viewbox="0 0 36 36">
+<circle class="stroke-white/10" cx="18" cy="18" fill="none" r="16" stroke-width="3"></circle>
+<circle class="stroke-accent-green" cx="18" cy="18" fill="none" r="16" stroke-dasharray="85, 100" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="text-2xl font-bold leading-none">85%</span>
+</div>
+</div>
+<div class="flex-1 space-y-3">
+<div class="flex items-center justify-between text-xs">
+<span class="text-white/60">Positive</span>
+<span class="font-bold">85%</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="text-white/60">Neutral</span>
+<span class="font-bold">12%</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="text-white/60">Critical</span>
+<span class="font-bold text-red-400">3%</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Topic Cloud -->
+<section class="glass-card rounded-xl p-6">
+<h2 class="text-lg font-bold mb-4">Topic Cloud</h2>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1.5 bg-primary rounded-lg text-sm font-bold">Migration</span>
+<span class="px-3 py-1.5 bg-white/5 rounded-lg text-sm text-white/70">AWS us-east-1</span>
+<span class="px-3 py-1.5 bg-white/5 rounded-lg text-xs text-white/50">Latency</span>
+<span class="px-3 py-1.5 bg-white/10 rounded-lg text-sm text-white/80">Security Protocol</span>
+<span class="px-3 py-1.5 bg-white/5 rounded-lg text-xs text-white/40">Legacy DB</span>
+<span class="px-3 py-1.5 bg-primary/20 text-primary rounded-lg text-sm font-bold">Budget Q4</span>
+<span class="px-3 py-1.5 bg-white/5 rounded-lg text-xs text-white/50">Recruiting</span>
+<span class="px-3 py-1.5 bg-white/5 rounded-lg text-sm text-white/70">Zero-Trust</span>
+<span class="px-3 py-1.5 bg-white/5 rounded-lg text-xs text-white/40">Observability</span>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="mt-12 border-t border-white/5 py-8 px-6 text-center text-white/20 text-xs">
+            © 2023 Lumina AI Systems. All meeting summaries are encrypted and private.
+        </footer>
+</div>
+</body></html>

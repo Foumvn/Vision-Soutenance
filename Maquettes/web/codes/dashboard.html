@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Intelligent Video Conferencing Web Dashboard</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#8B5CF6", // Vibrant Purple
+              accent: "#10B981", // Neon Green
+              "background-light": "#F9FAFB",
+              "background-dark": "#0B0C10",
+              "card-dark": "#16181D",
+              "glass-dark": "rgba(30, 41, 59, 0.7)",
+            },
+            fontFamily: {
+              display: ["Plus Jakarta Sans", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "1rem",
+              '2xl': '1.5rem',
+            },
+          },
+        },
+      };
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-effect {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .sidebar-item-active {
+            background: linear-gradient(90deg, rgba(139, 92, 246, 0.1) 0%, rgba(139, 92, 246, 0) 100%);
+            border-left: 3px solid #8B5CF6;
+        }
+        .mesh-gradient {
+            background-image: radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+                              radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex overflow-hidden">
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 flex flex-col glass-effect h-screen sticky top-0">
+<div class="p-6 flex items-center space-x-3">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-icons-round text-white">videocam</span>
+</div>
+<span class="text-xl font-bold tracking-tight">V-Sync AI</span>
+</div>
+<nav class="flex-1 px-4 space-y-1 mt-4">
+<a class="sidebar-item-active flex items-center px-4 py-3 text-primary transition-all duration-200 group" href="#">
+<span class="material-icons-round mr-3">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center px-4 py-3 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-white transition-all duration-200" href="#">
+<span class="material-icons-round mr-3">calendar_today</span>
+<span class="font-medium">Calendar</span>
+</a>
+<a class="flex items-center px-4 py-3 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-white transition-all duration-200" href="#">
+<span class="material-icons-round mr-3">history</span>
+<span class="font-medium">Recordings</span>
+</a>
+<a class="flex items-center px-4 py-3 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-white transition-all duration-200" href="#">
+<span class="material-icons-round mr-3">contacts</span>
+<span class="font-medium">Contacts</span>
+</a>
+<a class="flex items-center px-4 py-3 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-white transition-all duration-200" href="#">
+<span class="material-icons-round mr-3">psychology</span>
+<span class="font-medium">AI Assistant</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors">
+<img alt="User Profile" class="w-10 h-10 rounded-full object-cover ring-2 ring-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpBuakP_YIz4V1K1p1wv7YU2b56-V5h9N9aKNdU3w_yEI0ZcKvsocaFmD8pqqtdmidPnUTJLckoh7vWGoqu-7E_oumffmshizDke9ZmI3oiNtux15ijTyCOa8LLfLz5ASPX_64iMnYrEeEjbIqKg4fYmhFtyX5BUTczuXjS-EnIfhIA4_ICYZuH4A5DFPIPSw4tqRy2ejikfBjyYb5MmC1y068S7KhkeVOeUq0hsk2JzuXBuCDNfpooDIfhBRdwJWu2unPuyZMQJ0"/>
+<div class="ml-3 overflow-hidden">
+<p class="text-sm font-semibold truncate">Alex Johnson</p>
+<p class="text-xs text-slate-500 truncate">Pro Account</p>
+</div>
+<span class="material-icons-round text-slate-400 ml-auto">settings</span>
+</div>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto mesh-gradient relative">
+<header class="p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div>
+<h1 class="text-3xl font-bold">Welcome back, Alex! 👋</h1>
+<p class="text-slate-500 dark:text-slate-400 mt-1">You have 3 meetings scheduled for today.</p>
+</div>
+<div class="flex items-center gap-3 glass-effect p-2 rounded-2xl border border-slate-200 dark:border-slate-800 w-full md:w-auto">
+<div class="flex items-center px-4 py-2 bg-slate-100 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 focus-within:ring-2 focus-within:ring-primary/50 transition-all flex-1 md:w-64">
+<span class="material-icons-round text-slate-400 mr-2 text-xl">vpn_key</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full p-0" placeholder="Enter meeting code..." type="text"/>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-xl font-semibold transition-all shadow-lg shadow-primary/25">Join</button>
+</div>
+</header>
+<div class="px-8 pb-12 space-y-8">
+<section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="relative group overflow-hidden bg-primary p-8 rounded-2xl flex items-center justify-between text-white cursor-pointer hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300">
+<div class="relative z-10">
+<h3 class="text-2xl font-bold">New Meeting</h3>
+<p class="text-white/80 mt-2">Start an instant session with your team.</p>
+<button class="mt-6 px-6 py-2.5 bg-white text-primary rounded-xl font-bold text-sm shadow-sm">Start Now</button>
+</div>
+<div class="relative z-10 opacity-40 group-hover:scale-110 transition-transform duration-500">
+<span class="material-icons-round text-8xl">video_call</span>
+</div>
+<div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
+</div>
+<div class="relative group overflow-hidden bg-slate-900 dark:bg-card-dark p-8 rounded-2xl flex items-center justify-between text-white border border-slate-800 cursor-pointer hover:border-slate-700 transition-all duration-300 shadow-xl">
+<div class="relative z-10">
+<h3 class="text-2xl font-bold">Schedule</h3>
+<p class="text-slate-400 mt-2">Plan your next collaborative session.</p>
+<button class="mt-6 px-6 py-2.5 bg-slate-800 text-white border border-slate-700 rounded-xl font-bold text-sm shadow-sm hover:bg-slate-700 transition-colors">Open Calendar</button>
+</div>
+<div class="relative z-10 opacity-30 group-hover:scale-110 transition-transform duration-500">
+<span class="material-icons-round text-8xl">event</span>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 space-y-8">
+<section class="bg-white dark:bg-card-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+<div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<h2 class="text-xl font-bold">Upcoming Meetings</h2>
+<span class="text-xs font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full uppercase tracking-wider">3 Events Today</span>
+</div>
+<div class="divide-y divide-slate-100 dark:divide-slate-800">
+<div class="p-6 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors flex items-center gap-6">
+<div class="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700">
+<span class="text-xs font-bold text-slate-500">WED</span>
+<span class="text-xl font-black text-primary">13</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<h4 class="font-bold text-lg truncate">Strategy Alignment</h4>
+<span class="text-[10px] font-bold px-2 py-0.5 bg-primary/10 text-primary rounded-md uppercase">Upcoming</span>
+</div>
+<div class="flex items-center text-sm text-slate-500 dark:text-slate-400 gap-4">
+<span class="flex items-center"><span class="material-icons-round text-sm mr-1">schedule</span> 11:30 AM - 12:30 PM</span>
+<div class="flex -space-x-2">
+<img alt="User" class="w-6 h-6 rounded-full border-2 border-white dark:border-card-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIvpjazWb3OqyhvJmeeP7OQJy_vEoU7Ff7-Di5yPQVkfDwx9NhZNmGsMjN_bzqaWtG8s28ewHJ9o7tv7vxV_54A0dx31hk0pyCwrBvsE6CtUANOg33Tdg6VJ9z7vQPhkJwkqDjPy_Qxk8r0MRizSwlitgfd9QNZOzMUQZJYgOmPnlLBXJ74mFaerONlErQe-r6VZMIgW6zwBeXwxJSclFxolvm72li9_vsRak5tvaj8C2qp9IBEDlSDAbc3Mxopd3NEGqlnUFgQOs"/>
+<img alt="User" class="w-6 h-6 rounded-full border-2 border-white dark:border-card-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1fTILtIvL1QSedUIvFUXHAYDjQ5I235eRfovf0SNNJ6PjwqOTJRvGIeSQQIGqh-MHAICI8VEizl3Pl6v1w5z23rK7DazEm00y9jHpJYxc-Xx_NUfspzp48GRVGVNgtKRafza4RqVaUn9RqUaoad8PthQkeAe35uVTrIjehT32rQjsajJJhOvLAM5SUNai9M14Na8gjBRrygsuSFuw3LhZy4i60Pxg2lk1MgjZyeB4kZpFkTVvmneRNCM3PfSWQ2J4czvrvlmIN3E"/>
+<div class="w-6 h-6 rounded-full border-2 border-white dark:border-card-dark bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold">+3</div>
+</div>
+</div>
+</div>
+<button class="px-6 py-2 bg-primary text-white rounded-xl font-bold shadow-md shadow-primary/20">Join</button>
+</div>
+<div class="p-6 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors flex items-center gap-6">
+<div class="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700 opacity-60">
+<span class="text-xs font-bold text-slate-500">WED</span>
+<span class="text-xl font-black">13</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<h4 class="font-bold text-lg truncate text-slate-700 dark:text-slate-300">Design Critique</h4>
+<span class="text-[10px] font-bold px-2 py-0.5 bg-blue-500/10 text-blue-500 rounded-md uppercase">Pending</span>
+</div>
+<div class="flex items-center text-sm text-slate-500 dark:text-slate-400 gap-4">
+<span class="flex items-center"><span class="material-icons-round text-sm mr-1">schedule</span> 02:00 PM - 03:00 PM</span>
+<div class="flex -space-x-2">
+<img alt="User" class="w-6 h-6 rounded-full border-2 border-white dark:border-card-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTiPMkR1bc1kXcepOFdWhhSFdPpO3owbUkYFgG0AArx4Jcg9kVbESUnx54V8gfRA38dTPF6ZY2Z1wydyQ6Sttlj1Z9jRTBO51RNFPkRqcPMoHvK1EEyjGaGHExoaWsuxSeom0wO0B0w3VsWd4SGaNRDgYKcxwKGzJHlc5osg3ZH6YRjRiTgo2nomt0fB8qPfpwzHjH6UJzz2gpr-LL6DKwy753CS50EgLfq_vVQ4ad06m-q0xyaWWLWOlEF-tV15HPr2_K8jsxtV4"/>
+<img alt="User" class="w-6 h-6 rounded-full border-2 border-white dark:border-card-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa1_cgF3EnEee34UhOlT3qR6DOuepfuWmZWEK2mMQ9SsX4FJBF8PfWhwxhhmEvH32GGvV1PGnVeMKGrNtcQGisENDWaW5ln-QBepaiWzdNWLtFzVXWIueV_YDp4ifIJOMQKoZsUmWQaWZ0Zh2j6TiWioZDp8IRzDx6rv1aqZRX2Lc3VvRj-hVDOCmCttxqQOFB_TcnmkV0C6OgJdh1TPl1NvqUB8CHVBtRSzDZK3W0YKdmwpP5m97O3MjiLqNqMuXiwng0APssx_8"/>
+</div>
+</div>
+</div>
+<button class="px-6 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold border border-slate-200 dark:border-slate-700">Details</button>
+</div>
+</div>
+</section>
+<section class="bg-white dark:bg-card-dark rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+<div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<h2 class="text-xl font-bold">Recent Recordings</h2>
+<a class="text-primary text-sm font-semibold hover:underline" href="#">View All</a>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 text-xs font-bold uppercase tracking-wider">
+<tr>
+<th class="px-6 py-4">Meeting Title</th>
+<th class="px-6 py-4">Date</th>
+<th class="px-6 py-4">Duration</th>
+<th class="px-6 py-4">AI Insight</th>
+<th class="px-6 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 font-semibold text-sm">Frontend Architecture</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 11, 2023</td>
+<td class="px-6 py-4 text-sm text-slate-500">45:20</td>
+<td class="px-6 py-4">
+<span class="flex items-center text-xs font-bold text-accent"><span class="material-icons-round text-xs mr-1">auto_awesome</span> Summary Ready</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="material-icons-round text-slate-400 hover:text-primary transition-colors">download</button>
+<button class="material-icons-round text-slate-400 hover:text-primary transition-colors ml-3">share</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 font-semibold text-sm">Client Feedback: Nike Pro</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 10, 2023</td>
+<td class="px-6 py-4 text-sm text-slate-500">12:15</td>
+<td class="px-6 py-4">
+<span class="flex items-center text-xs font-bold text-primary"><span class="material-icons-round text-xs mr-1">translate</span> 4 Languages</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="material-icons-round text-slate-400 hover:text-primary transition-colors">download</button>
+<button class="material-icons-round text-slate-400 hover:text-primary transition-colors ml-3">share</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<div class="space-y-6">
+<div class="bg-gradient-to-br from-indigo-900/40 to-purple-900/40 dark:from-indigo-900/20 dark:to-purple-900/20 border border-primary/20 p-6 rounded-2xl shadow-xl glass-effect">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 bg-primary/20 text-primary rounded-xl flex items-center justify-center">
+<span class="material-icons-round">psychology</span>
+</div>
+<h2 class="text-lg font-bold">AI Meeting Assistant</h2>
+</div>
+<div class="space-y-4">
+<div class="bg-white/5 p-4 rounded-xl border border-white/5">
+<p class="text-[10px] font-bold text-primary uppercase tracking-widest mb-2">Last Summary</p>
+<p class="text-sm leading-relaxed text-slate-300 italic">"Alison proposed a switch to Tailwind v4, Peter noted the performance benefits. Deployment set for next sprint."</p>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="p-3 bg-white/5 rounded-xl border border-white/5 text-center">
+<p class="text-xs text-slate-400">Translation Accuracy</p>
+<p class="text-xl font-bold text-accent">98.4%</p>
+</div>
+<div class="p-3 bg-white/5 rounded-xl border border-white/5 text-center">
+<p class="text-xs text-slate-400">Hours Saved</p>
+<p class="text-xl font-bold text-primary">12h</p>
+</div>
+</div>
+<button class="w-full py-3 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/30 flex items-center justify-center gap-2">
+<span class="material-icons-round text-sm">analytics</span> Generate Reports
+                            </button>
+</div>
+</div>
+<section class="bg-white dark:bg-card-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-bold">Live Translation</h2>
+<span class="flex items-center text-accent text-xs font-black"><span class="w-2 h-2 bg-accent rounded-full mr-1.5 animate-pulse"></span> ACTIVE</span>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+<div class="flex items-center">
+<span class="text-lg mr-3">🇺🇸</span>
+<span class="text-sm font-semibold">English</span>
+</div>
+<span class="text-xs text-slate-500 font-medium">Source</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl border border-slate-100 dark:border-slate-800">
+<div class="flex items-center">
+<span class="text-lg mr-3">🇯🇵</span>
+<span class="text-sm font-semibold text-slate-600 dark:text-slate-400">Japanese</span>
+</div>
+<span class="material-icons-round text-slate-400 text-sm">visibility</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl border border-slate-100 dark:border-slate-800">
+<div class="flex items-center">
+<span class="text-lg mr-3">🇩🇪</span>
+<span class="text-sm font-semibold text-slate-600 dark:text-slate-400">German</span>
+</div>
+<span class="material-icons-round text-slate-400 text-sm">visibility</span>
+</div>
+<button class="w-full text-slate-500 dark:text-slate-400 text-xs font-bold hover:text-primary transition-colors">+ Add More Languages</button>
+</div>
+</section>
+<section class="bg-white dark:bg-card-dark p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<h2 class="font-bold mb-4">Frequent Contacts</h2>
+<div class="flex items-center gap-3 mb-4">
+<img alt="Contact" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZljVjRGauvoN9rorvRmWoJ_vOBsEv-kCtc8HRfiY8JlWa9YMUPpTUQfBNIHFdhlFG0uzgQKjRJkG2fzfELK1ViA_uwlXJny8ygzrdX8LTb6VWY5WAQCMNTf4Hqtw_BzMrWmOJ-7eSWwjucjs9TbQQrDjFCdug2uCH259GTIu80PLYWPMEWB_kSfNWeK2R1gF0qS-Vh--eH-rpHhLjJ0U4Jrdfv0sfJPCK7U_9pBQ3d0gaABwONGmLgNDX2VLbtuELxAFMlv3ckV0"/>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold truncate">Sarah Paige</p>
+<p class="text-xs text-slate-500">Design Lead</p>
+</div>
+<button class="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-500 hover:text-primary"><span class="material-icons-round text-lg">videocam</span></button>
+</div>
+<div class="flex items-center gap-3">
+<img alt="Contact" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9sj4m2oby3jeq6WVyNlEAsEbenBHerSrcJZW-bicATZlE2aDXZoMEAOTv9aelJmEc0cnNRnkrfBkxWY2g33x-uYeY70cSMcxc0XorzeCiB5yVQXoAqWDak6kyyCotayX5QieirHpShH2IgWRU4966-szDmHKK1ZsPKYpkWqbXQgOyax15aCUj4XIbpH31TuPvaax12yQX_OLYlcnlmS-xVXSUc0G6DlOH0bTKG3fv0KJ3jRF6rwCFNVvGmIRLSPhsBiGlSWXY84w"/>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold truncate">Luke Smith</p>
+<p class="text-xs text-slate-500">Senior Dev</p>
+</div>
+<button class="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-500 hover:text-primary"><span class="material-icons-round text-lg">videocam</span></button>
+</div>
+</section>
+</div>
+</div>
+</div>
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-full flex items-center justify-center shadow-2xl shadow-primary/40 hover:scale-110 transition-transform z-50 group">
+<span class="material-icons-round">chat_bubble</span>
+<span class="absolute right-16 bg-card-dark text-white px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">AI Assistant</span>
+</button>
+</main>
+<script>
+        // Optional: Simple logic to switch dark/light mode for demonstration if needed
+        // document.documentElement.classList.toggle('dark');
+    </script>
+
+</body></html>

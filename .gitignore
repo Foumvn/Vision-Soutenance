@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+venv/
+.venv/
+env/
+.env
+__pycache__/
+
+# Build
+.next/
+build/
+dist/
+out/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# IDE/Tools
+.vscode/
+.idea/
+.DS_Store
+*.log
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Databases
+mongo_data/
+*.db
+
+# Mobile specific
+mobile/android/app/src/main/res/drawable-*/
+mobile/android/app/src/main/res/mipmap-*/
+mobile/ios/Flutter/Generated.xcconfig
+mobile/ios/Flutter/flutter_export_environment.sh
+mobile/ios/Runner/GeneratedPluginRegistrant.h
+mobile/ios/Runner/GeneratedPluginRegistrant.m
+
+# LiveKit
+.livekit.pid
+livekit.log
+.backend.pid
+backend.log
+*.pem
+*.key
+*.crt

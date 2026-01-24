@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Schedule Meeting</title>
+    </script>
+    <script src="translations.js"></script>
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#A3E635",
+                        "background-deep": "#050508",
+                        "card-dark": "#0D0D12",
+                        "accent-purple": "#8B5CF6",
+                        "accent-blue": "#3B82F6",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+    <style type="text/tailwindcss">
+        :root {
+            --ai-primary: #8B5CF6;
+            --ai-secondary: #3B82F6;
+        }
+        .ios-status-bar {
+            height: 44px;
+            padding: 0 32px;
+        }
+        .bg-deep-gradient {
+            background: radial-gradient(circle at 50% 0%, #0f172a 0%, #050508 100%);
+        }
+        .dark .bg-deep-gradient {
+            background: radial-gradient(circle at 50% 0%, #0f172a 0%, #050508 100%);
+        }
+        html:not(.dark) .bg-deep-gradient {
+            background: white;
+        }
+        .bg-aura {
+            background: radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+                        radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .dark .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .calendar-item-active {
+            background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .ios-tab-bar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(25px);
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+        .dark .ios-tab-bar {
+            background: rgba(5, 5, 8, 0.95);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .glow-purple {
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.6);
+        }
+        .fab-glow {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+        }
+        .font-fill-1 {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-gray-200 dark:bg-zinc-950 font-display flex items-center justify-center min-h-screen p-4 transition-colors duration-300">
+    <div
+        class="relative w-[390px] h-[844px] bg-white dark:bg-background-deep overflow-hidden rounded-[55px] shadow-2xl border-[8px] border-zinc-200 dark:border-zinc-900 bg-deep-gradient transition-colors duration-300">
+        <div class="absolute inset-0 bg-aura pointer-events-none"></div>
+        <div class="ios-status-bar flex justify-between items-center w-full z-50 pt-4 relative">
+            <span class="text-zinc-900 dark:text-white text-[15px] font-semibold">10:42</span>
+            <div class="flex items-center gap-1.5">
+                <span
+                    class="material-symbols-rounded text-zinc-900 dark:text-white text-[18px]">signal_cellular_4_bar</span>
+                <span class="material-symbols-rounded text-zinc-900 dark:text-white text-[18px]">wifi</span>
+                <span class="material-symbols-rounded text-zinc-900 dark:text-white text-[22px]">battery_full</span>
+            </div>
+        </div>
+        <div class="px-6 mt-6 relative z-10">
+            <div class="flex items-center justify-between mb-6">
+                <h1 class="text-3xl font-bold text-zinc-900 dark:text-white tracking-tight" data-i18n="schedule_title">
+                    Schedule</h1>
+                <div class="flex gap-3">
+                    <button
+                        class="w-10 h-10 rounded-full bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 flex items-center justify-center">
+                        <span class="material-symbols-rounded text-zinc-600 dark:text-white/80">search</span>
+                    </button>
+                    <button
+                        class="w-10 h-10 rounded-full bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 flex items-center justify-center">
+                        <span class="material-symbols-rounded text-zinc-600 dark:text-white/80">tune</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="px-6 relative z-10 mb-8">
+            <div class="flex gap-4 overflow-x-auto no-scrollbar py-2">
+                <div
+                    class="flex flex-col items-center justify-center min-w-[54px] h-[84px] rounded-2xl glass-card opacity-50">
+                    <span class="text-zinc-500 dark:text-white/40 text-[11px] font-medium mb-1">MON</span>
+                    <span class="text-zinc-900 dark:text-white text-lg font-bold">11</span>
+                </div>
+                <div
+                    class="flex flex-col items-center justify-center min-w-[54px] h-[84px] rounded-2xl glass-card opacity-50">
+                    <span class="text-zinc-500 dark:text-white/40 text-[11px] font-medium mb-1">TUE</span>
+                    <span class="text-zinc-900 dark:text-white text-lg font-bold">12</span>
+                </div>
+                <div
+                    class="flex flex-col items-center justify-center min-w-[54px] h-[84px] rounded-2xl calendar-item-active">
+                    <span class="text-white/80 text-[11px] font-medium mb-1">WED</span>
+                    <span class="text-white text-lg font-bold">13</span>
+                </div>
+                <div class="flex flex-col items-center justify-center min-w-[54px] h-[84px] rounded-2xl glass-card">
+                    <span class="text-zinc-500 dark:text-white/40 text-[11px] font-medium mb-1">THU</span>
+                    <span class="text-zinc-900 dark:text-white text-lg font-bold">14</span>
+                </div>
+                <div class="flex flex-col items-center justify-center min-w-[54px] h-[84px] rounded-2xl glass-card">
+                    <span class="text-zinc-500 dark:text-white/40 text-[11px] font-medium mb-1">FRI</span>
+                    <span class="text-zinc-900 dark:text-white text-lg font-bold">15</span>
+                </div>
+                <div class="flex flex-col items-center justify-center min-w-[54px] h-[84px] rounded-2xl glass-card">
+                    <span class="text-zinc-500 dark:text-white/40 text-[11px] font-medium mb-1">SAT</span>
+                    <span class="text-zinc-900 dark:text-white text-lg font-bold">16</span>
+                </div>
+            </div>
+        </div>
+        <div class="px-6 h-[460px] overflow-y-auto no-scrollbar relative z-10 pb-32">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-zinc-500 dark:text-white/40 text-[11px] font-bold uppercase tracking-widest"
+                    data-i18n="schedule_todays_meetings">Today's
+                    Meetings</span>
+                <span class="text-accent-purple text-[11px] font-bold"><span data-i18n="schedule_events">3
+                        Events</span></span>
+            </div>
+            <div class="space-y-4">
+                <div class="glass-card rounded-3xl p-5 active:scale-[0.98] transition-transform">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex-1">
+                            <h3 class="text-zinc-900 dark:text-white font-bold text-lg mb-1">Strategy Alignment</h3>
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-rounded text-accent-purple text-sm">schedule</span>
+                                <p class="text-zinc-500 dark:text-white/60 text-xs">11:30 AM - 12:30 PM</p>
+                            </div>
+                        </div>
+                        <div class="px-2.5 py-1 rounded-lg bg-accent-purple/20 border border-accent-purple/30">
+                            <span
+                                class="text-accent-purple text-[10px] font-bold uppercase tracking-wider">Upcoming</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mt-6">
+                        <div class="flex -space-x-2">
+                            <img alt="avatar" class="w-8 h-8 rounded-full border-2 border-background-deep"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwAyxqIA08r2tXe9cXMTmmqLxl_QAUx-eQjZ6Ga9qIQrQm9kPmWHb_53wcI-TiSfa7dArF8iU3GTnhNc1mIzgx6r8G4m_XQGwt6CGrWqL3Jplcav4joBsWLuev8rUCH3C7kk6fyD0dDtW10RPJcWQKZV_yI385Z2L61DlxHCEtXEtZJ1zI1bRSa_wKjvPGhakOozFXfHBZYUo1_M4IVyu2OptNfW04PIrv5Dnac7Q5QLWmr2BH4iH98nkb_iUnGw0KvbQr2wkyhxI" />
+                            <img alt="avatar" class="w-8 h-8 rounded-full border-2 border-background-deep"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLETylpgsCNoFE16H5_8RZykVxuJ3vRN9iV3FsT1mQoz5P49QPH-Gd5I6QfKgMKP4CJBS-Oz3NnK9HIj6pMOxcSd5yCTWt7KykKRaS6_FQOSa41lDBGP0rcBJzfoljLmGiU5K2sr-qv5gA6ccT5kwwRNlWwx-gtTiMIs5LwiVwQ9yukaRE0uSvyDEgNKyBBHDgPSsrs3mS4uTLq7SrAWGqmpusflUCzvB4tPRSrw569OjKuLx64GBKD9ofOUJJqiXrW6moCW2Q5NM" />
+                            <img alt="avatar" class="w-8 h-8 rounded-full border-2 border-background-deep"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-hMURycIfoEEjAZQgtjgE6tF5RbH96tgCw0YyuTBv1oKyRKqcMGMZgviGVFpw_-TLkcB92mek_XB1rmjU60KAUNVIRAg8LPaUJlu4GqwXOrr_aCcE0qezvQ80mzjvdiAPfU4HXKLQYlHuS6jj91-bQ3mPssuYzFKJCU0KkFZripTlvDuR6pbLbNvDwpt1JZE-MQ7_XTbrzBvsyVmmBhEsGdjVEjgpDqhVBcA5xqeQFnZs4wAlaTAv8r9rv8jdgFlP3tADUgphpwA" />
+                            <div
+                                class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[10px] text-white/60">
+                                +3</div>
+                        </div>
+                        <button
+                            class="px-4 py-2 bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl text-xs font-bold text-zinc-900 dark:text-white hover:bg-zinc-200 dark:hover:bg-white/10 transition-colors">Details</button>
+                    </div>
+                </div>
+                <div class="glass-card rounded-3xl p-5 active:scale-[0.98] transition-transform">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex-1">
+                            <h3 class="text-zinc-900 dark:text-white font-bold text-lg mb-1">Design Critique</h3>
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-rounded text-accent-blue text-sm">schedule</span>
+                                <p class="text-zinc-500 dark:text-white/60 text-xs">02:00 PM - 03:00 PM</p>
+                            </div>
+                        </div>
+                        <div class="px-2.5 py-1 rounded-lg bg-accent-blue/20 border border-accent-blue/30">
+                            <span class="text-accent-blue text-[10px] font-bold uppercase tracking-wider">Pending</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mt-6">
+                        <div class="flex -space-x-2">
+                            <img alt="avatar" class="w-8 h-8 rounded-full border-2 border-background-deep"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiloeeeIvzs9ztCOm-atVdqY5L27wLHrl_vtDNS4W-hiSKuqvttJ7_BvYfPY2BS0ykjwxtp4IInjGJb5xJhnnniJlI2yInI24mJ0Kk5Srf2Uc09ZRF1EjA2SBJQvGqulY0ytrU1E5pbEm7nK-HqmDr61wx3F7TJ09nbbUIEERBCa9S_N-ENhYTZN8MFe4ugtzm_4Aa5mvMk0YYxUN0O_iob_1Mq0wuRtBcGD3p-n6TwCTwUM-TWcIYnZFv7hqYhb-IgNmz5i7l7m8" />
+                            <img alt="avatar" class="w-8 h-8 rounded-full border-2 border-background-deep"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ6rWJKjx-Tw_7ls0MrMBdIe6sa0wCRvkwkEfoFDoiuFTLQyf-gHXeblnr9vreYmQHXvZp2QIyzr7MZQkoVkfezJiz2lGfTHAZLi-VlIuACG4jiKoyIx9fQkmjD6pxX_eQ7xfzdHDEBaId0SqDUWD0hpUxVdlgzjfI-CDFQ0NlBL55d2px-80FlsPVNDgCzoxS0nyMzdyOJQTRVckRYy0yHhgFxvlyqCPmzjxtefI2UpOgA2KvdbOBgYOwijxnF_IdkzWdKPO8ZCE" />
+                        </div>
+                        <button
+                            class="px-4 py-2 bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl text-xs font-bold text-zinc-900 dark:text-white hover:bg-zinc-200 dark:hover:bg-white/10 transition-colors">Details</button>
+                    </div>
+                </div>
+                <div class="glass-card rounded-3xl p-5 active:scale-[0.98] transition-transform">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex-1">
+                            <h3 class="text-zinc-900 dark:text-white font-bold text-lg mb-1">AI Integration Workshop
+                            </h3>
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-rounded text-accent-purple text-sm">schedule</span>
+                                <p class="text-zinc-500 dark:text-white/60 text-xs">04:30 PM - 05:30 PM</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-center gap-1.5 px-3 py-1.5 bg-accent-purple/10 border border-accent-purple/20 rounded-full">
+                            <span class="material-symbols-rounded text-accent-purple text-[14px]">auto_awesome</span>
+                            <span class="text-accent-purple text-[10px] font-bold uppercase tracking-wider">AI
+                                Insight</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mt-6">
+                        <div class="flex -space-x-2">
+                            <img alt="avatar" class="w-8 h-8 rounded-full border-2 border-background-deep"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZMexhcWmGybIVeXmrg7gK8rowNx2SkKVcjIqJ2FjHRvzOWQFWzs3a-WFgHzR54nCisCVjC4lziRhaBgdqA_wYKLD_cmJ64Z0LKCK0hoIO-ZQWgvsSm331GoUlgcCQGjjQoXzdKpED9wqul1kPWZQuK_4OaP7vIQs4QSOuMPajFSRVdq8cp_A-x2guHyIhCtLltH_AAjqeQA6u1fVdApD0OXh0N0X4rQoo4r1sKR2UZjwtmQLeb42AOYyaUFrhC3kftIaPn1__2R4" />
+                            <img alt="avatar" class="w-8 h-8 rounded-full border-2 border-background-deep"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxnFZTbaFqLT1d5-bskFCH56r1HBr_Yj3IEgCdDlzyy9d0Wv2BubVQpX_LjPJIrx0hMd2wxY8UYJN1rkHEKyW1NtVfUl3v3Xa3SJZXy5jPmB98AwwoJgfEkhaXkI39wizf5ftP-S8I1-9BmeVuRWLutlNFiTSvLXdBfk0PByLXl-aFgdDagpSb-VS5uQzyhD7xUR9wCE2JaeCAezKtcDz2YxrDyIzQrwHOv19UNcO9ZcgTTsMgyQdzLMEEBk3GDFceYnHGu39t94U" />
+                            <img alt="avatar" class="w-8 h-8 rounded-full border-2 border-background-deep"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuADcuej4fIpU18HMIcXs9ZMrHqFVAq3eAMS2NLKK2Lzo2fvnztnyZ9GEeg4Dakesg7jsrF50kgMJkTC72ObSaP-RNCFsl2ELiSGaKAAuW0p7meXfK-L8BsQYPM-0DSbK14KcqhmFhcTSiue4awR-nGHTWgwwnbTPSAj7QuEJY_pkDMuzp5XmKfPQco6e0cK5bk-h-C6AC-eMYSVAu03p-gvuK07gyKR8P20x00yuF-0aR_y8TKLx3PPq32mARXyRiCRQ2MGzjPlVPU" />
+                        </div>
+                        <button
+                            class="px-4 py-2 bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl text-xs font-bold text-zinc-900 dark:text-white hover:bg-zinc-200 dark:hover:bg-white/10 transition-colors">Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button
+            class="absolute bottom-32 right-6 w-14 h-14 bg-accent-purple rounded-2xl fab-glow flex items-center justify-center z-50 active:scale-90 transition-transform">
+            <span class="material-symbols-rounded text-white text-3xl font-bold">add</span>
+        </button>
+        <div class="absolute bottom-0 left-0 right-0 p-6 ios-tab-bar border-t border-white/5 z-50">
+            <div class="flex items-center justify-between px-4 mb-2">
+                <button onclick="window.location.href='create.html'"
+                    class="flex flex-col items-center gap-1 text-zinc-400 dark:text-white/30 hover:text-accent-purple dark:hover:text-white transition-colors">
+                    <span class="material-symbols-rounded text-[28px]">add_circle</span>
+                    <span class="text-[10px] font-medium" data-i18n="nav_create">Create</span>
+                </button>
+                <button onclick="window.location.href='Schedule.html'"
+                    class="flex flex-col items-center gap-1 text-accent-purple drop-shadow-[0_0_12px_rgba(139,92,246,0.6)]">
+                    <span class="material-symbols-rounded text-[28px] font-fill-1">calendar_today</span>
+                    <span class="text-[10px] font-bold" data-i18n="nav_schedule">Schedule</span>
+                </button>
+                <button onclick="window.location.href='history.html'"
+                    class="flex flex-col items-center gap-1 text-zinc-400 dark:text-white/30 hover:text-accent-purple dark:hover:text-white transition-colors">
+                    <span class="material-symbols-rounded text-[28px]">history</span>
+                    <span class="text-[10px] font-medium" data-i18n="nav_history">History</span>
+                </button>
+                <button onclick="window.location.href='settings.html'"
+                    class="flex flex-col items-center gap-1 text-zinc-400 dark:text-white/30 hover:text-accent-purple dark:hover:text-white transition-colors">
+                    <span class="material-symbols-rounded text-[28px]">settings</span>
+                    <span class="text-[10px] font-medium" data-i18n="nav_settings">Settings</span>
+                </button>
+            </div>
+            <div class="w-32 h-1.5 bg-zinc-300 dark:bg-white/10 mx-auto mt-4 rounded-full transition-colors"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>

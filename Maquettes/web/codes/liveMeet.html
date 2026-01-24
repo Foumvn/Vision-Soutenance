@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Live Meeting with Unified Purple Accents</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#8b5cf6","primary-hover": "#7c3aed",
+                        "accent-purple": "#a78bfa",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0a0a0c",
+                        "glass-dark": "rgba(16, 19, 34, 0.7)",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        .glass {
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .active-glow {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+        }
+        .purple-glow {
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #282b39;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden h-screen flex flex-col">
+<header class="flex items-center justify-between px-6 py-3 border-b border-white/10 glass z-50">
+<div class="flex items-center gap-4">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xl">rocket_launch</span>
+</div>
+<div>
+<h1 class="text-white text-lg font-bold leading-tight tracking-tight">Quarterly Technical Review</h1>
+<div class="flex items-center gap-2">
+<span class="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-xs text-white/60 font-medium">Live Session</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
+<span class="material-symbols-outlined text-primary text-sm">schedule</span>
+<span class="text-sm font-bold tracking-wider">01:24:05</span>
+</div>
+<div class="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
+<span class="material-symbols-outlined text-white/70 text-sm">group</span>
+<span class="text-sm font-bold">12</span>
+</div>
+<div class="h-8 w-px bg-white/10 mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-xs font-bold text-white">Alex Johnson</p>
+<p class="text-[10px] text-white/50">Host (EN)</p>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-primary/50" data-alt="User profile picture of Alex Johnson" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBFl8hG9gzxC0-5JJ6khLzSB6IcaB-UMFnQUmKdPMJ69ZtZHZXlqN8Mm8_gQEJoBUWFsPNItykHcm2va80-5Jv7Fty0DqTMSf_7jDVBU8IgchZ9uWvUuPxzSr0YWhiwAXt1rl6grGIVK8Sk4W5V6gaoEkDqig-Op42DAMym5_RnvsE7VJPS820sct6UlU1YY1_4XYhrr1PQiVWqJDkXoiZ87BrVdkCNOBbbMH2ymYlFvQ5iObK4Eu-mv6UtsqFpN5nZ3JMelkRiDCU");'></div>
+</div>
+</div>
+</header>
+<main class="flex-1 flex overflow-hidden relative p-4 gap-4">
+<div class="flex-[3] flex flex-col gap-4">
+<div class="relative flex-1 bg-black/40 rounded-xl overflow-hidden border border-white/5 group">
+<div class="absolute top-4 left-4 z-10 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">present_to_all</span>
+<span class="text-xs font-bold text-white">Sarah is presenting: System Architecture.pdf</span>
+</div>
+<div class="w-full h-full bg-cover bg-center flex items-center justify-center" data-alt="Technical diagram showing cloud infrastructure and API endpoints" style="background-image: linear-gradient(45deg, rgba(0,0,0,0.8), transparent), url('https://lh3.googleusercontent.com/aida-public/AB6AXuA15_6MUUTRVAMKFNI6XBKDf-RlOQTXACHvWAoyXs0QCUHe0oqohAxkig1ZHiX0i0f59xoZOgXFKYkymBc8hugYeeeo6VA4TRQHow-eNCUcVhXrr8uBr-Sy2AegZ_iffYn5mlGDmbL8at8EuhI_qabA9n1X2Ih0Vbg7mE_hphCC3aZDKRXYykl4Z_Sg-l4xKAPO6dEojyy_54SjCvPGLGULmcWlRzeOg1aanSBSCFaGUGsK8oGteeMJiueWkV9vek3SaYuMJJOB2ys');">
+<div class="w-4/5 h-3/5 border-2 border-primary/20 rounded-lg flex items-center justify-center glass">
+<span class="material-symbols-outlined text-6xl text-primary/40">account_tree</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-5 gap-3 h-40">
+<div class="relative rounded-lg overflow-hidden border-2 border-primary active-glow bg-zinc-900" data-alt="Active speaker Alex video feed">
+<div class="absolute inset-0 bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBfCON7g4N_I1CI-aW5C5jB4ywcGN9SQNJcIPjF-g0hIMrX0MmdLMTRK0m0bD3S-sB5ZQk_bsGrHOmkcXUuvLf-JMaaJ2G7h-2TxXZjTJNNI-fSuUw77mLZUqV71KVvsrSQMNNNqEmoxliUoxLlFwQJRPg7P0oBcU5V4aerd92l7HyxMYJ3QuhVw-UXApAB0CyUPVwtWpwwqT7pXAsOlHljKyaAEaGeUGcpLCkiNWSBe2JxgIkmSwMh3q6_GeiQIQUiJj_JIMaYYAQ");'></div>
+<div class="absolute bottom-2 left-2 px-2 py-0.5 bg-primary rounded text-[10px] font-bold">Alex (Active)</div>
+<div class="absolute top-2 right-2 flex gap-1">
+<span class="material-symbols-outlined text-primary text-sm">mic</span>
+</div>
+</div>
+<div class="relative rounded-lg overflow-hidden border border-white/10 bg-zinc-900" data-alt="Participant Sarah video feed">
+<div class="absolute inset-0 bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCA1qJ1-aCstK5kFVpHfNGuFvL94ETDkJ9v0Y9l3aj8IFGI7UjtSlY9coR6Kccoco9lIvBmzn52UgbQrUGQYXh3lwnIZIanRgIC-2lKiBGl7JNpwbbm9CVxLEvSlxdon-YjWgDZbuXOLWA0fnYKbSyTXCKB2hiT-O94RQMuHcVcw9D9mXGao4TceAYzT-h-Oxp-cHoT_nXY5GWeR3FOr-wfCNaKKYjRqcHGmzBjcrnznBCBiDPhNmniuO4Er78rnvHvJya6MVJkhcg");'></div>
+<div class="absolute bottom-2 left-2 px-2 py-0.5 bg-black/60 rounded text-[10px] font-bold">Sarah</div>
+</div>
+<div class="relative rounded-lg overflow-hidden border border-white/10 bg-zinc-900" data-alt="Participant Michael video feed">
+<div class="absolute inset-0 bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuALQPR-NtI8EKvp-yFWVsMVHWDUIZZcMOrgzZXTz5InMdSRKu6UI96OoD0m89-1Ldmp5G4Jvw_SVWclueSh8ldrKDFtClvXGsKr_A1AigbYxcIWoqfBljGBqN2PlARkCxRgcDHschcr3hfZylX6-ptKtb7YoyJZUKnwKpCr9e-TVnGjxLK9o9QITsAuQtEAbXBZL4a20Wo4N6DmSPGfmmtcGIETu6fFxl4sJDlqe6791LhkFOgGMuykovEvpC3tSoojYqfN1qqV3YY");'></div>
+<div class="absolute bottom-2 left-2 px-2 py-0.5 bg-black/60 rounded text-[10px] font-bold">Michael</div>
+</div>
+<div class="relative rounded-lg overflow-hidden border border-white/10 bg-zinc-900" data-alt="Participant Elena video feed">
+<div class="absolute inset-0 bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBCMpT1RyYj_GTwtcGjnblegaJa7F5o9HUVEmPUyAbl-xAmXAt1wLMQ8B84P1H4-dpjfV19rqxR85Yr0rgjM8P-MsxgRcNfiNVLDOrV1wVbRWwNx9sTStQFSnAidakICfPHhk8JBtY6vd7cQwzUnDrbps9fvfXZU9vxmi2dH8DYzxnNV8oH0vEuLdvYPDJO_yb6l2_FXwyR4LkdzbVED92EldsR3c-E1dqt1tj7hgOgbXns02IYPVDW8tz_q_7eUZISaPj9mK6Hjv0");'></div>
+<div class="absolute bottom-2 left-2 px-2 py-0.5 bg-black/60 rounded text-[10px] font-bold">Elena</div>
+</div>
+<div class="relative rounded-lg overflow-hidden border border-white/10 bg-zinc-900 flex items-center justify-center" data-alt="Placeholder for more participants">
+<div class="text-center">
+<p class="text-sm font-bold text-white/60">+8</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-1 min-w-[340px] flex flex-col gap-4 max-h-full">
+<div class="glass rounded-xl flex flex-col flex-1 overflow-hidden">
+<div class="flex border-b border-white/10">
+<button class="flex-1 py-3 text-xs font-bold border-b-2 border-primary bg-primary/10 text-primary">LIVE TRANSCRIPT</button>
+<button class="flex-1 py-3 text-xs font-bold text-white/40 hover:text-white/60">CHAT</button>
+</div>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBPU8Ym6VPwfBwORgvRePJ1EdBSTMjSrba_q4NqAB0MeE4MkqXi8u6gIzKmHwVF6UBsCl4EZIED4Au0ZbVA1LNBoOUtPTooNViiFUeASH8XxF3JzDtXfoKvDllmo0qrzz4cznzhknIdvZNpduNMfvM__XmxrsibGBPpBD1zC2tjJpZ8SpTqkTrfIf_Ut21qTNwH08iOPp2LGrZiJNzhU3OUTSyv7VT_s5HGd7AuA9-MZ3tQAWlluUsIDZNozNmSmsuOjnyXnKDc3iw')"></div>
+<span class="text-[11px] font-bold text-white/50">Alex • 14:20</span>
+</div>
+<div class="bg-white/5 rounded-lg p-3 border border-white/5">
+<p class="text-xs font-medium text-white/90 leading-relaxed">The API integration should be completed by Friday for the staging environment.</p>
+<div class="mt-2 pt-2 border-t border-white/5">
+<p class="text-xs font-medium text-accent-purple leading-relaxed italic">L'intégration de l'API devrait être terminée d'ici vendredi pour l'environnement de pré-production.</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBLXRv0X0naCTvmqIoHvrtT-91Bpx-akPSllKJ4mdIev659JB9ssVRTAHwA5EFqVNP7LkkADW2rVGdP7BEkxnFMbO8lCsZ_EXj3CB5JzV3hW8THesJNtno-HxwuTeWy0wJsJ6DaLEoCW-ZZbRDzt0OaYt1SaXqlB4olwPJnLZb65yQDEZyXfdvu_wUu2JQJyk0DwyYTqWdsbsxEgdAqrnR8R9S-JqUobVyJo_uav0CQa9-H5UwYNuBzeHNtPn13xYsaWuSsClBMOPE')"></div>
+<span class="text-[11px] font-bold text-white/50">Michael • 14:21</span>
+</div>
+<div class="bg-white/5 rounded-lg p-3 border border-white/5">
+<p class="text-xs font-medium text-white/90 leading-relaxed">We need to review the security protocols before merging the PR.</p>
+<div class="mt-2 pt-2 border-t border-white/5">
+<p class="text-xs font-medium text-accent-purple leading-relaxed italic">Nous devons examiner les protocoles de sécurité avant de fusionner la PR.</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-1 opacity-70">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAJb-iUXfGmFxSxJzpDjWJbthWdRtNmwPq_rNyk9PsXaNx82RpafvVxnlJAH8OJB9lJME_DaxzoNLk7i_f2dluZxU9qsSjnBM5W6kWxXmPiwnVwRQFQqkR5dL2Sn_2iewiDAAw_7RAz9jOCn_75Hy5ZJeJsad2mEFaMPNEMomagyUMMd-SuJPlksvb3JB6cQX1qKQg4yJubwvMAX-07WOmy5qLcO2_6D7LEBQI6oGAjf67xPbCjx5OuXeXNEGh9W8ydWpYjzpiQGxo')"></div>
+<span class="text-[11px] font-bold text-white/50">Sarah • 14:22</span>
+</div>
+<div class="bg-primary/20 rounded-lg p-3 border border-primary/30">
+<p class="text-xs font-medium text-white/90 leading-relaxed">I will upload the architecture diagrams today.</p>
+<div class="mt-2 pt-2 border-t border-white/5">
+<p class="text-xs font-medium text-accent-purple leading-relaxed italic">Je vais télécharger les diagrammes d'architecture aujourd'hui.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 border-t border-primary/30 p-4">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary text-lg">psychology</span>
+<h3 class="text-xs font-bold uppercase tracking-wider text-primary">AI Assistant Insights</h3>
+</div>
+<ul class="space-y-2 mb-4">
+<li class="flex gap-2 items-start">
+<span class="material-symbols-outlined text-[14px] text-primary mt-0.5">check_circle</span>
+<span class="text-[11px] text-white/80">Action: Update API docs for Friday deadline</span>
+</li>
+<li class="flex gap-2 items-start">
+<span class="material-symbols-outlined text-[14px] text-primary mt-0.5">info</span>
+<span class="text-[11px] text-white/80">Topic: Security Protocol Review (Priority)</span>
+</li>
+</ul>
+<div class="relative">
+<input class="w-full bg-black/40 border border-white/10 rounded-lg py-2 pl-3 pr-10 text-xs focus:ring-1 focus:ring-primary focus:border-primary outline-none" placeholder="Ask AI anything..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 text-primary hover:text-primary-hover transition-colors">
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="p-6 flex justify-center items-center relative">
+<div class="flex items-center gap-3 glass px-6 py-3 rounded-2xl bg-glass-dark">
+<button class="flex items-center justify-center size-12 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-primary/50 transition-all">
+<span class="material-symbols-outlined">mic</span>
+</button>
+<button class="flex items-center justify-center size-12 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-primary/50 transition-all">
+<span class="material-symbols-outlined">videocam</span>
+</button>
+<div class="h-8 w-px bg-white/10 mx-2"></div>
+<button class="flex items-center justify-center size-12 rounded-xl bg-primary text-white active-glow hover:bg-primary-hover transition-all">
+<span class="material-symbols-outlined">present_to_all</span>
+</button>
+<button class="flex items-center justify-center size-12 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-primary/50 transition-all">
+<span class="material-symbols-outlined">front_hand</span>
+</button>
+<button class="flex items-center justify-center px-4 h-12 rounded-xl bg-primary/10 border border-primary/30 text-primary gap-2 hover:bg-primary/20 transition-all purple-glow">
+<span class="material-symbols-outlined text-sm">translate</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Live On</span>
+</button>
+<div class="h-8 w-px bg-white/10 mx-2"></div>
+<button class="flex items-center justify-center px-6 h-12 rounded-xl bg-red-500/10 border border-red-500/30 text-red-500 hover:bg-red-500 hover:text-white transition-colors font-bold text-sm tracking-wide">
+            LEAVE
+        </button>
+</div>
+<div class="absolute right-8 bottom-8 flex items-center gap-3">
+<div class="glass px-4 py-2 rounded-xl border-primary/30 flex items-center gap-3 bg-primary/5">
+<div class="size-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-[10px] font-bold text-primary/80">AI Summarizing...</span>
+</div>
+<button class="size-14 rounded-full bg-primary flex items-center justify-center text-white active-glow border-2 border-white/20 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-3xl">bolt</span>
+</button>
+</div>
+</footer>
+
+</body></html>

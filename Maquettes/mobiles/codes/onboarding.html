@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AI Onboarding - Meeting Assistant</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#8B5CF6",
+                        "background-dark": "#0B0A0F",
+                        "accent-purple": "#8B5CF6",
+                        "accent-blue": "#3B82F6",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
+    <style type="text/tailwindcss">
+        .ios-status-bar {
+            height: 44px;
+            padding: 0 32px;
+        }
+        .bg-aura-1 {
+            background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.15) 0%, #0B0A0F 70%);
+            background-color: #0B0A0F;
+        }
+        .bg-aura-2 {
+            background: radial-gradient(circle at 50% 30%, rgba(236, 72, 153, 0.15) 0%, transparent 60%),
+                        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.2) 0%, transparent 60%),
+                        #0B0A0F;
+        }
+        .bg-aura-3 {
+            background: radial-gradient(circle at 50% 20%, rgba(139, 92, 246, 0.25) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                        #0B0A0F;
+        }
+        .ai-blob {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 50%, #ffffff 100%);
+            filter: blur(40px);
+            opacity: 0.6;
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        }
+        .ai-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(59,130,246,0.5) 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.8), inset 0 0 15px rgba(255,255,255,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .label-tag {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            position: absolute;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-tag {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .notification-glow {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+        .image-glow {
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.2);
+        }
+        
+        /* Carousel styles */
+        .carousel-container {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            flex-shrink: 0;
+        }
+        
+        /* Fade animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-display flex items-center justify-center min-h-screen">
+    <div
+        class="relative w-[390px] h-[844px] bg-background-dark overflow-hidden rounded-[55px] shadow-2xl border-[8px] border-zinc-900">
+
+        <!-- iOS Status Bar -->
+        <div class="ios-status-bar flex justify-between items-center w-full z-50 pt-4 absolute top-0 left-0 right-0">
+            <span class="text-white text-[15px] font-semibold">9:41</span>
+            <div class="flex items-center gap-1.5">
+                <span class="material-symbols-rounded text-white text-[18px]">signal_cellular_4_bar</span>
+                <span class="material-symbols-rounded text-white text-[18px]">wifi</span>
+                <span class="material-symbols-rounded text-white text-[22px]">battery_full</span>
+            </div>
+        </div>
+
+        <!-- Carousel Container -->
+        <div id="carousel" class="carousel-container h-full">
+
+            <!-- Slide 1: Voice Profile -->
+            <div class="carousel-slide bg-aura-1 flex flex-col">
+                <div class="flex-1 flex flex-col items-center px-8 pt-20 text-center z-10 fade-in">
+                    <h1 class="text-white text-3xl font-bold tracking-tight mb-4 leading-tight">
+                        Let's get to know<br />each other
+                    </h1>
+                    <p class="text-white/60 text-sm leading-relaxed max-w-[280px]">
+                        Whisper learns your voice so it can follow the conversation and give you prompts that fit your
+                        goals, your interests, and the context.
+                    </p>
+                    <div class="relative flex-1 w-full flex items-center justify-center">
+                        <div class="ai-blob"></div>
+                        <div class="absolute w-full h-[1px] bg-white/10 top-1/2 left-0"></div>
+                        <div class="label-tag" style="top: 25%; left: 15%;">Patterns</div>
+                        <div class="label-tag" style="top: 20%; right: 15%;">Rhythm</div>
+                        <div class="label-tag" style="bottom: 25%; left: 10%;">Frequency</div>
+                        <div class="label-tag" style="bottom: 30%; right: 20%;">Tone</div>
+                        <div class="ai-core">
+                            <span class="material-symbols-outlined text-white text-3xl font-light">graphic_eq</span>
+                        </div>
+                    </div>
+                    <div class="mb-8">
+                        <p class="text-white/40 text-[12px] max-w-[240px] mx-auto">
+                            To help filter out the other noise, we'll need a short sample of your voice.
+                        </p>
+                        <div class="flex justify-center gap-2 mt-4">
+                            <div class="w-1.5 h-1.5 rounded-full bg-white transition-all duration-300"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-white/20 transition-all duration-300"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-white/20 transition-all duration-300"></div>
+                        </div>
+                    </div>
+                    <button onclick="nextSlide()"
+                        class="w-full bg-accent-purple hover:bg-purple-500 transition-all active:scale-95 py-4 rounded-2xl text-white font-semibold text-sm mb-12 shadow-lg shadow-purple-500/20">
+                        Record voice sample
+                    </button>
+                </div>
+                <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-white/20 rounded-full"></div>
+            </div>
+
+            <!-- Slide 2: Smart Prompts -->
+            <div class="carousel-slide bg-aura-2 flex flex-col">
+                <div class="px-10 mt-20 flex gap-2">
+                    <div class="h-1 flex-1 bg-white/10 rounded-full transition-all duration-300"></div>
+                    <div class="h-1 flex-1 bg-primary rounded-full transition-all duration-300"></div>
+                    <div class="h-1 flex-1 bg-white/10 rounded-full transition-all duration-300"></div>
+                </div>
+                <div class="flex flex-col items-center px-8 pt-12">
+                    <div class="w-full h-[360px] relative flex flex-col items-center justify-center">
+                        <div
+                            class="w-72 h-full bg-black/40 rounded-[40px] border border-white/5 flex flex-col items-center pt-8 gap-3 relative overflow-hidden">
+                            <div
+                                class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center mb-6 notification-glow">
+                                <span class="material-symbols-outlined text-white text-xl">smart_toy</span>
+                            </div>
+                            <div class="w-[90%] glass-card p-4 rounded-2xl flex gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-white text-lg">forum</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span
+                                            class="text-[10px] text-white/60 font-medium uppercase tracking-wider">Meeting
+                                            AI</span>
+                                        <span class="text-[10px] text-white/40">Now</span>
+                                    </div>
+                                    <div class="h-2 w-full bg-white/20 rounded-full mb-1.5"></div>
+                                    <div class="h-2 w-2/3 bg-white/10 rounded-full"></div>
+                                </div>
+                            </div>
+                            <div class="w-[90%] glass-card p-4 rounded-2xl flex gap-3 opacity-60">
+                                <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-white text-lg">lightbulb</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span
+                                            class="text-[10px] text-white/60 font-medium uppercase tracking-wider">Meeting
+                                            AI</span>
+                                        <span class="text-[10px] text-white/40">2m ago</span>
+                                    </div>
+                                    <div class="h-2 w-full bg-white/20 rounded-full mb-1.5"></div>
+                                    <div class="h-2 w-1/2 bg-white/10 rounded-full"></div>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-6 left-0 right-0 flex justify-between px-8">
+                                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-white/70 text-lg">flashlight_on</span>
+                                </div>
+                                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-white/70 text-lg">photo_camera</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 px-10 pb-16 flex flex-col items-center text-center">
+                    <h2 class="text-white text-2xl font-bold leading-tight mb-4">
+                        Get real-time prompts through your notifications
+                    </h2>
+                    <p class="text-white/60 text-[15px] leading-relaxed mb-10">
+                        Turn on push notifications to get discreet conversation prompts on your lock screen during
+                        meetings.
+                    </p>
+                    <div class="flex gap-1.5 mb-8">
+                        <div class="w-1.5 h-1.5 rounded-full bg-white/20 transition-all duration-300"></div>
+                        <div class="w-4 h-1.5 rounded-full bg-primary transition-all duration-300"></div>
+                        <div class="w-1.5 h-1.5 rounded-full bg-white/20 transition-all duration-300"></div>
+                    </div>
+                    <div class="flex gap-3 w-full">
+                        <button onclick="prevSlide()"
+                            class="px-6 bg-white/10 text-white font-semibold py-4 rounded-2xl hover:bg-white/20 transition-all active:scale-95">
+                            Back
+                        </button>
+                        <button onclick="nextSlide()"
+                            class="flex-1 bg-primary text-white font-semibold py-4 rounded-2xl shadow-lg shadow-purple-500/30 hover:bg-purple-500 transition-all active:scale-95">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+                <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-white/20 rounded-full"></div>
+            </div>
+
+            <!-- Slide 3: Visual Features -->
+            <div class="carousel-slide bg-aura-3 flex flex-col">
+                <div class="px-10 mt-20 flex gap-2">
+                    <div class="h-1 flex-1 bg-primary rounded-full transition-all duration-300"></div>
+                    <div class="h-1 flex-1 bg-white/10 rounded-full transition-all duration-300"></div>
+                    <div class="h-1 flex-1 bg-white/10 rounded-full transition-all duration-300"></div>
+                </div>
+                <div class="flex flex-col items-center px-8 pt-10">
+                    <div class="relative w-full aspect-square flex items-center justify-center mb-12">
+                        <div
+                            class="relative w-64 h-64 rounded-[40px] overflow-hidden border-4 border-white/5 image-glow">
+                            <img alt="Professional in video call" class="w-full h-full object-cover"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAROoIDA5ARGAEOZR7NEwDdfimhBbuCwSm-i_89PDykKoAQGh_KvQ_mZRhYLe5R4zilqE2dagBIBe01dmAIYqVFv2k6w-41N-IQOrXihVGDCuoqofI9ZDvtmrtTosSYXw3t5LyJWfGf-nheKxg9H8CAZ-wR1bIhzgmDGzvkJIuXYtNs3045yn0f_wGjgkVuBGcPTWpr0iQ0L-2jZURJovqiPWNFniBtNPGz8jkW9xgPSXCMMvCLtcCzgg9_Qteb36jKg7flaO-BtY" />
+                        </div>
+                        <div class="absolute -top-2 -left-2 glass-tag px-4 py-2 rounded-xl flex items-center gap-2">
+                            <span class="material-symbols-outlined text-purple-600 text-sm">translate</span>
+                            <span class="text-[11px] font-bold text-gray-800">Live Translation</span>
+                        </div>
+                        <div class="absolute top-12 -right-4 glass-tag px-4 py-2 rounded-xl flex items-center gap-2">
+                            <span class="material-symbols-outlined text-purple-600 text-sm">description</span>
+                            <span class="text-[11px] font-bold text-gray-800">Smart Notes</span>
+                        </div>
+                        <div class="absolute bottom-10 -left-6 glass-tag px-4 py-2 rounded-xl flex items-center gap-2">
+                            <span class="material-symbols-outlined text-purple-600 text-sm">closed_caption</span>
+                            <span class="text-[11px] font-bold text-gray-800">AI Transcription</span>
+                        </div>
+                        <div
+                            class="absolute -bottom-4 right-8 w-12 h-12 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center shadow-lg">
+                            <span class="material-symbols-outlined text-white">videocam</span>
+                        </div>
+                        <div
+                            class="absolute top-0 right-10 w-10 h-10 rounded-full bg-blue-500/90 backdrop-blur-md flex items-center justify-center shadow-lg border border-white/20">
+                            <span class="material-symbols-outlined text-white text-lg">mic</span>
+                        </div>
+                    </div>
+                    <div class="text-center w-full mt-4">
+                        <h2 class="text-white text-[32px] font-bold leading-tight mb-4 px-4">
+                            Experience Intelligence
+                        </h2>
+                        <p class="text-white/60 text-[16px] leading-relaxed mb-10 px-2">
+                            Elevate your video meetings with real-time AI features that help you focus on the
+                            conversation, not the notes.
+                        </p>
+                        <div class="flex justify-center gap-2 mb-10">
+                            <div class="w-2.5 h-1.5 rounded-full bg-primary transition-all duration-300"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-white/20 transition-all duration-300"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-white/20 transition-all duration-300"></div>
+                        </div>
+                        <div class="flex flex-col gap-4 w-full px-2">
+                            <div class="flex gap-3">
+                                <button onclick="prevSlide()"
+                                    class="px-6 bg-white/10 text-white font-semibold py-5 rounded-2xl hover:bg-white/20 transition-all active:scale-95">
+                                    Back
+                                </button>
+                                <button onclick="getStarted()"
+                                    class="flex-1 bg-primary text-white font-bold py-5 rounded-2xl shadow-xl shadow-purple-500/20 hover:brightness-110 active:scale-[0.98] transition-all text-lg">
+                                    Get Started
+                                </button>
+                            </div>
+                            <a onclick="skipOnboarding()"
+                                class="text-white/60 text-[15px] font-medium py-2 cursor-pointer hover:text-white/80 transition-colors">
+                                Skip for now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-white/20 rounded-full"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 3;
+        const carousel = document.getElementById('carousel');
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        function updateCarousel() {
+            const offset = -currentSlide * 100;
+            carousel.style.transform = `translateX(${offset}%)`;
+            updateProgressIndicators();
+        }
+
+        function updateProgressIndicators() {
+            // Update progress bars on slides 2 and 3
+            const progressBars = document.querySelectorAll('.carousel-slide .h-1');
+            progressBars.forEach((bar, index) => {
+                const slideIndex = Math.floor(index / 3);
+                const barIndex = index % 3;
+
+                if (slideIndex === currentSlide) {
+                    if (barIndex === currentSlide) {
+                        bar.classList.add('bg-primary');
+                        bar.classList.remove('bg-white/10');
+                    } else {
+                        bar.classList.remove('bg-primary');
+                        bar.classList.add('bg-white/10');
+                    }
+                }
+            });
+
+            // Update dots on slide 1
+            const dots = document.querySelectorAll('.carousel-slide:first-child .w-1\\.5');
+            dots.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.add('bg-white');
+                    dot.classList.remove('bg-white/20');
+                } else {
+                    dot.classList.remove('bg-white');
+                    dot.classList.add('bg-white/20');
+                }
+            });
+
+            // Update dots on slide 2
+            const dots2 = document.querySelectorAll('.carousel-slide:nth-child(2) .flex.gap-1\\.5 > div');
+            dots2.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.add('w-4', 'bg-primary');
+                    dot.classList.remove('w-1.5', 'bg-white/20');
+                } else {
+                    dot.classList.remove('w-4', 'bg-primary');
+                    dot.classList.add('w-1.5', 'bg-white/20');
+                }
+            });
+
+            // Update dots on slide 3
+            const dots3 = document.querySelectorAll('.carousel-slide:nth-child(3) .flex.justify-center.gap-2 > div');
+            dots3.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.add('w-2.5', 'bg-primary');
+                    dot.classList.remove('w-1.5', 'bg-white/20');
+                } else {
+                    dot.classList.remove('w-2.5', 'bg-primary');
+                    dot.classList.add('w-1.5', 'bg-white/20');
+                }
+            });
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateCarousel();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateCarousel();
+            }
+        }
+
+        function getStarted() {
+            // Sauvegarder que l'onboarding est terminé
+            localStorage.setItem('onboardingCompleted', 'true');
+            // Rediriger vers la page principale
+            window.location.href = 'create.html';
+        }
+
+        function skipOnboarding() {
+            localStorage.setItem('onboardingCompleted', 'true');
+            window.location.href = 'create.html';
+        }
+
+        // Touch/Swipe support
+        carousel.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        carousel.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // Swipe left - next slide
+                    nextSlide();
+                } else {
+                    // Swipe right - previous slide
+                    prevSlide();
+                }
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Enter') {
+                if (currentSlide === totalSlides - 1) {
+                    getStarted();
+                } else {
+                    nextSlide();
+                }
+            }
+            if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        // Initialize
+        updateProgressIndicators();
+    </script>
+
+</body>
+
+</html>

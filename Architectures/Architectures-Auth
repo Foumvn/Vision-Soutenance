@@ -1,0 +1,273 @@
+Parfait, là on passe clairement au **niveau Master 2 / soutenance** 💪
+Je vais te donner **un système d’authentification complet**, avec :
+
+1. **La modélisation conceptuelle (rôles & logique)**
+2. **Le modèle de données (entités)**
+3. **Les diagrammes UML clés**
+
+   * Diagramme de cas d’utilisation
+   * Diagramme de classes
+   * Diagramme de séquence (authentification)
+4. **Des diagrammes UML prêts à générer (PlantUML)**
+   👉 tu peux les transformer en images facilement pour ton PDF.
+
+---
+
+## 1️⃣ Modélisation du système d’authentification
+
+### 🎯 Objectif
+
+Sécuriser l’accès à une **plateforme de visioconférence intelligente** intégrant :
+
+* des utilisateurs humains
+* un **agent IA (participant virtuel)**
+* des services IA invisibles (STT / TTS / Vision)
+
+---
+
+### 👤 Acteurs du système
+
+| Acteur         | Description                         |
+| -------------- | ----------------------------------- |
+| Utilisateur    | Participant humain (audio/vidéo)    |
+| Administrateur | Gère utilisateurs, réunions, droits |
+| Agent IA       | Participant virtuel intelligent     |
+| Service IA     | STT / TTS / Vision (non interactif) |
+
+---
+
+### 🔐 Types d’authentification
+
+| Type                                      | Usage               |
+| ----------------------------------------- | ------------------- |
+| Authentification par email + mot de passe | Utilisateurs        |
+| JWT / Session Token                       | Accès API & LiveKit |
+| API Key / OAuth                           | Services IA         |
+| Token LiveKit                             | Accès aux rooms     |
+
+---
+
+## 2️⃣ Modèle de données (entités)
+
+### 🗂️ Entités principales
+
+#### **User**
+
+* id
+* email
+* password_hash
+* role (USER, ADMIN)
+* language_preference
+* created_at
+
+#### **Meeting**
+
+* id
+* title
+* created_by
+* start_time
+* end_time
+
+#### **LiveKitToken**
+
+* id
+* user_id
+* room_name
+* permissions
+* expires_at
+
+#### **IAAgent**
+
+* id
+* name
+* capabilities (STT, résumé, vision)
+* status
+
+#### **Group**
+
+* id
+* name
+* description
+* created_by (User ID)
+* members (List of User IDs)
+* created_at
+
+---
+
+## 3️⃣ UML – Diagramme de cas d’utilisation
+
+### 🎭 Cas d’utilisation principaux
+
+* S’inscrire
+* Se connecter
+* Rejoindre une réunion
+* Générer un token LiveKit
+* Interagir avec l’agent IA
+* Administrer le système
+* Créer/Gérer des groupes d'utilisateurs
+
+### 📐 Diagramme UML (PlantUML)
+
+```plantuml
+@startuml
+actor Utilisateur
+actor Administrateur
+actor "Agent IA" as IA
+
+Utilisateur --> (S'inscrire)
+Utilisateur --> (Se connecter)
+Utilisateur --> (Rejoindre réunion)
+Utilisateur --> (Recevoir assistance IA)
+
+Administrateur --> (Gérer utilisateurs)
+Administrateur --> (Gérer réunions)
+
+IA --> (Analyser audio)
+IA --> (Analyser vidéo)
+IA --> (Fournir assistance)
+@enduml
+```
+
+---
+
+## 4️⃣ UML – Diagramme de classes
+
+### 🧱 Structure du système
+
+```plantuml
+@startuml
+class User {
+  +id: UUID
+  +email: String
+  +passwordHash: String
+  +role: Role
+  +language: String
+}
+
+class Meeting {
+  +id: UUID
+  +title: String
+  +startTime: Date
+  +endTime: Date
+}
+
+class LiveKitToken {
+  +token: String
+  +expiresAt: Date
+}
+
+class IAAgent {
+  +id: UUID
+  +name: String
+  +capabilities: List
+}
+
+class Group {
+  +id: UUID
+  +name: String
+  +createdBy: UUID
+}
+
+User "1" -- "0..*" Meeting : participe
+User "1" -- "0..*" LiveKitToken
+Meeting "1" -- "1" IAAgent
+User "1" -- "0..*" Group : cree
+Group "0..*" -- "1..*" User : membres
+Meeting "0..*" -- "0..*" Group : invitation
+@enduml
+```
+
+---
+
+## 5️⃣ UML – Diagramme de séquence (authentification)
+
+### 🔄 Flux : Connexion utilisateur
+
+```plantuml
+@startuml
+actor Utilisateur
+participant "Frontend" as FE
+participant "Backend API" as API
+participant "Auth Service" as AUTH
+participant "LiveKit Server" as LK
+
+Utilisateur -> FE : Saisit email / mot de passe
+FE -> API : POST /login
+API -> AUTH : Vérifier identifiants
+AUTH --> API : OK + JWT
+API -> LK : Générer token LiveKit
+LK --> API : LiveKit Token
+API --> FE : JWT + LiveKit Token
+FE --> Utilisateur : Accès autorisé
+@enduml
+```
+---
+
+## 6️⃣ Architecture Frontend (Web & Mobile)
+
+### 🏗️ Stratégie Multi-Plateforme
+
+L’application repose sur une séparation stricte entre la couche de présentation et la logique métier, permettant une cohérence entre le **Web (Next.js)** et le **Mobile (Flutter)**.
+
+#### **Web (Next.js 15+ App Router)**
+*   **Gestion d'état :** React Context API (AuthContext) pour le partage global de la session.
+*   **Protection des routes :** Middleware Next.js pour intercepter les accès non authentifiés aux routes `/dashboard` ou `/meeting`.
+*   **Persistance :** Cookies HTTP-only pour la session JWT (sécurité XSS).
+
+#### **Mobile (Flutter)**
+*   **Gestion d'état :** `Provider` (ChangeNotifier) pour le flux d'authentification.
+*   **Protection des routes :** Guarding via `GoRouter` ou redirection logique dans `main.dart`.
+*   **Persistance :** `flutter_secure_storage` pour stocker le JWT de manière encryptée.
+
+---
+
+### 📡 Couche de Communication (API Client)
+
+Les deux clients implémentent un **Intercepteur** pour automatiser la gestion du cycle de vie du token :
+
+1.  **Request Interceptor :** Injecte automatiquement le header `Authorization: Bearer <token>`.
+2.  **Response Interceptor :** Capture les erreurs `401 Unauthorized` pour déconnecter l'utilisateur ou tenter un rafraîchissement de token.
+
+---
+
+### 🔄 Diagramme de Séquence : Intégration LiveKit (Frontend)
+
+Ce diagramme détaille comment le frontend obtient l'accès sécurisé à une salle de réunion.
+
+```plantuml
+@startuml
+participant "Frontend Client" as FE
+participant "Backend API" as API
+participant "LiveKit Server" as LK
+
+FE -> API : POST /meetings/join (RoomID, UserID)
+activate API
+API -> API : Vérifier droits d'accès
+API -> LK : Request Access Token (Grants: join=true)
+LK --> API : Signed JWT Token
+API --> FE : 200 OK (LiveKit Token + Room Metadata)
+deactivate API
+
+FE -> LK : Connect(WS URL, LiveKit Token)
+LK --> FE : Connection Established (Audio/Video Streams)
+@enduml
+```
+
+---
+
+### 🛡️ Sécurité de la Session
+
+| Couche | Mécanisme | Objectif |
+| :--- | :--- | :--- |
+| **Stockage** | Secure Storage (Mobile) / HttpOnly (Web) | Protection contre le vol de tokens. |
+| **Transport** | TLS (HTTPS / WSS) | Chiffrement point-à-point. |
+| **Validation** | JWT Expiration | Limitation de la durée de vie de la session. |
+| **Accès Room** | Token Ephemeral LiveKit | Droit d'accès limité à une seule réunion spécifique. |
+
+---
+
+## 7️⃣ Synthèse des Flux d'Authentification
+
+1.  **Enregistrement/Connexion :** Email/Pass -> Validation Backend -> Retour JWT.
+2.  **Initialisation App :** Vérification du token local -> Auto-login si valide.
+3.  **Accès Meeting :** Requête au backend -> Récupération du token LiveKit spécifique -> Connexion au serveur de média.
