@@ -1,6 +1,14 @@
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
+// Helper pour ajouter le header ngrok si nécessaire
+const getHeaders = (headers: any = {}) => {
+    return {
+        ...headers,
+        'ngrok-skip-browser-warning': 'true',
+    };
+};
+
 export async function login(email: string, password: string): Promise<any> {
     const formData = new URLSearchParams();
     formData.append('username', email);
@@ -8,9 +16,9 @@ export async function login(email: string, password: string): Promise<any> {
 
     const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
-        headers: {
+        headers: getHeaders({
             'Content-Type': 'application/x-www-form-urlencoded',
-        },
+        }),
         body: formData,
     });
 
@@ -28,9 +36,9 @@ export async function login(email: string, password: string): Promise<any> {
 export async function register(email: string, password: string, fullName: string): Promise<any> {
     const response = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
-        headers: {
+        headers: getHeaders({
             'Content-Type': 'application/json',
-        },
+        }),
         body: JSON.stringify({
             email,
             password,
@@ -52,9 +60,9 @@ export async function register(email: string, password: string, fullName: string
 export async function getUserMe(token: string): Promise<any> {
     const response = await fetch(`${API_URL}/api/auth/me`, {
         method: 'GET',
-        headers: {
+        headers: getHeaders({
             'Authorization': `Bearer ${token}`,
-        },
+        }),
     });
 
     if (!response.ok) {
@@ -63,12 +71,13 @@ export async function getUserMe(token: string): Promise<any> {
 
     return response.json();
 }
+
 export async function searchUser(email: string, token: string): Promise<any> {
     const response = await fetch(`${API_URL}/api/users/search?email=${encodeURIComponent(email)}`, {
         method: 'GET',
-        headers: {
+        headers: getHeaders({
             'Authorization': `Bearer ${token}`,
-        },
+        }),
     });
 
     if (!response.ok) {
@@ -85,9 +94,9 @@ export async function searchUser(email: string, token: string): Promise<any> {
 export async function addContact(contactId: string, token: string): Promise<any> {
     const response = await fetch(`${API_URL}/api/users/contacts/${contactId}`, {
         method: 'POST',
-        headers: {
+        headers: getHeaders({
             'Authorization': `Bearer ${token}`,
-        },
+        }),
     });
 
     if (!response.ok) {
@@ -104,9 +113,9 @@ export async function addContact(contactId: string, token: string): Promise<any>
 export async function inviteUser(userId: string, meetingId: string, message: string, token: string): Promise<any> {
     const response = await fetch(`${API_URL}/api/users/invite/${userId}?meeting_id=${meetingId}&message=${encodeURIComponent(message)}`, {
         method: 'POST',
-        headers: {
+        headers: getHeaders({
             'Authorization': `Bearer ${token}`,
-        },
+        }),
     });
 
     if (!response.ok) {
@@ -119,9 +128,9 @@ export async function inviteUser(userId: string, meetingId: string, message: str
 export async function getNotifications(token: string): Promise<any> {
     const response = await fetch(`${API_URL}/api/users/me/notifications`, {
         method: 'GET',
-        headers: {
+        headers: getHeaders({
             'Authorization': `Bearer ${token}`,
-        },
+        }),
         cache: 'no-store',
     });
 
@@ -139,9 +148,9 @@ export async function getNotifications(token: string): Promise<any> {
 export async function fetchContacts(token: string): Promise<any> {
     const response = await fetch(`${API_URL}/api/users/contacts`, {
         method: 'GET',
-        headers: {
+        headers: getHeaders({
             'Authorization': `Bearer ${token}`,
-        },
+        }),
     });
 
     if (!response.ok) {
@@ -154,9 +163,9 @@ export async function fetchContacts(token: string): Promise<any> {
 export async function removeContact(contactId: string, token: string): Promise<any> {
     const response = await fetch(`${API_URL}/api/users/contacts/${contactId}`, {
         method: 'DELETE',
-        headers: {
+        headers: getHeaders({
             'Authorization': `Bearer ${token}`,
-        },
+        }),
     });
 
     if (!response.ok) {
@@ -169,9 +178,9 @@ export async function removeContact(contactId: string, token: string): Promise<a
 export async function markNotificationAsRead(notificationId: string, token: string): Promise<any> {
     const response = await fetch(`${API_URL}/api/users/me/notifications/${notificationId}/read`, {
         method: 'POST',
-        headers: {
+        headers: getHeaders({
             'Authorization': `Bearer ${token}`,
-        },
+        }),
     });
 
     if (!response.ok) {
@@ -184,9 +193,9 @@ export async function markNotificationAsRead(notificationId: string, token: stri
 export async function clearAllNotifications(token: string): Promise<any> {
     const response = await fetch(`${API_URL}/api/users/me/notifications/clear`, {
         method: 'POST',
-        headers: {
+        headers: getHeaders({
             'Authorization': `Bearer ${token}`,
-        },
+        }),
     });
 
     if (!response.ok) {
@@ -224,10 +233,10 @@ export async function getLiveKitToken(
 ): Promise<LiveKitTokenResponse> {
     const response = await fetch(`${API_URL}/api/livekit/token`, {
         method: 'POST',
-        headers: {
+        headers: getHeaders({
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
-        },
+        }),
         body: JSON.stringify({
             room_name: roomName,
             user_id: userId,
@@ -254,10 +263,10 @@ export async function createRoom(
 ): Promise<any> {
     const response = await fetch(`${API_URL}/api/livekit/rooms`, {
         method: 'POST',
-        headers: {
+        headers: getHeaders({
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
-        },
+        }),
         body: JSON.stringify({
             room_name: roomName,
             participants: participants,
@@ -282,9 +291,9 @@ export async function joinRoom(
 ): Promise<any> {
     const response = await fetch(`${API_URL}/api/livekit/rooms/${roomName}/join`, {
         method: 'POST',
-        headers: {
+        headers: getHeaders({
             'Authorization': `Bearer ${token}`,
-        },
+        }),
     });
 
     if (!response.ok) {
@@ -304,9 +313,9 @@ export async function leaveRoom(
 ): Promise<any> {
     const response = await fetch(`${API_URL}/api/livekit/rooms/${roomName}/leave`, {
         method: 'POST',
-        headers: {
+        headers: getHeaders({
             'Authorization': `Bearer ${token}`,
-        },
+        }),
     });
 
     if (!response.ok) {
@@ -326,9 +335,9 @@ export async function getRoomInfo(
 ): Promise<any> {
     const response = await fetch(`${API_URL}/api/livekit/rooms/${roomName}`, {
         method: 'GET',
-        headers: {
+        headers: getHeaders({
             'Authorization': `Bearer ${token}`,
-        },
+        }),
     });
 
     if (!response.ok) {
@@ -345,9 +354,9 @@ export async function getRoomInfo(
 export async function listMyRooms(token: string): Promise<any> {
     const response = await fetch(`${API_URL}/api/livekit/rooms`, {
         method: 'GET',
-        headers: {
+        headers: getHeaders({
             'Authorization': `Bearer ${token}`,
-        },
+        }),
     });
 
     if (!response.ok) {
