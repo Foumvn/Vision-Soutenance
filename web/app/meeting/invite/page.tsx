@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getUserMe, getRoomInfo, joinRoom } from "@/app/lib/api";
 
-export default function JoinRoomPage() {
+import { Suspense } from "react";
+
+function JoinRoomContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const roomName = searchParams.get("room");
@@ -142,8 +144,8 @@ export default function JoinRoomPage() {
                             <div className="flex items-center gap-2">
                                 <span
                                     className={`flex h-2 w-2 rounded-full ${roomInfo?.status === "active"
-                                            ? "bg-green-500 animate-pulse"
-                                            : "bg-yellow-500"
+                                        ? "bg-green-500 animate-pulse"
+                                        : "bg-yellow-500"
                                         }`}
                                 ></span>
                                 <p className="font-bold capitalize">{roomInfo?.status}</p>
@@ -198,5 +200,20 @@ export default function JoinRoomPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function JoinRoomPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-[#0a0a0c] flex items-center justify-center">
+                <div className="flex flex-col items-center gap-4">
+                    <div className="w-16 h-16 border-4 border-[#8b5cf6] border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-white/60 text-sm">Chargement...</p>
+                </div>
+            </div>
+        }>
+            <JoinRoomContent />
+        </Suspense>
     );
 }

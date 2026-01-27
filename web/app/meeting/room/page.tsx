@@ -15,7 +15,9 @@ import "@livekit/components-styles";
 import { Track } from "livekit-client";
 import { getLiveKitToken, leaveRoom, getUserMe } from "@/app/lib/api";
 
-export default function LiveKitRoomPage() {
+import { Suspense } from "react";
+
+function LiveKitRoomContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -166,5 +168,20 @@ export default function LiveKitRoomPage() {
                 </div>
             </LiveKitRoom>
         </div>
+    );
+}
+
+export default function LiveKitRoomPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-[#0a0a0c] flex items-center justify-center">
+                <div className="flex flex-col items-center gap-4">
+                    <div className="w-16 h-16 border-4 border-[#8b5cf6] border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-white/60 text-sm">Connexion à la room...</p>
+                </div>
+            </div>
+        }>
+            <LiveKitRoomContent />
+        </Suspense>
     );
 }
