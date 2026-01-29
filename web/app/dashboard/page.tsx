@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { getUserMe, getNotifications, clearAllNotifications } from "@/app/lib/api";
 import NotificationBell from "@/components/ui/NotificationBell";
 
@@ -10,6 +11,7 @@ export default function Dashboard() {
     const [user, setUser] = useState<{ email: string; full_name?: string } | null>(null);
     const [notifications, setNotifications] = useState<any[]>([]);
     const [isClearing, setIsClearing] = useState(false);
+    const router = useRouter();
 
     const fetchNotifications = async () => {
         const token = localStorage.getItem("access_token");
@@ -62,9 +64,28 @@ export default function Dashboard() {
                     <div className="flex items-center gap-3 glass p-2 rounded-2xl border border-slate-200 dark:border-slate-800">
                         <div className="flex items-center px-4 py-2 bg-slate-100 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 focus-within:ring-2 focus-within:ring-primary/50 transition-all flex-1 md:w-64">
                             <span className="material-icons-round text-slate-400 mr-2 text-xl">vpn_key</span>
-                            <input className="bg-transparent border-none focus:ring-0 text-sm w-full p-0 outline-none" placeholder="Enter meeting code..." type="text" />
+                            <input
+                                className="bg-transparent border-none focus:ring-0 text-sm w-full p-0 outline-none"
+                                placeholder="Enter meeting code..."
+                                type="text"
+                                id="meeting-code-input"
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        const code = (e.target as HTMLInputElement).value;
+                                        if (code) router.push(`/meeting/invite?room=${encodeURIComponent(code)}`);
+                                    }
+                                }}
+                            />
                         </div>
-                        <button className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-xl font-semibold transition-all shadow-lg shadow-primary/25">Join</button>
+                        <button
+                            onClick={() => {
+                                const input = document.getElementById('meeting-code-input') as HTMLInputElement;
+                                if (input.value) router.push(`/meeting/invite?room=${encodeURIComponent(input.value)}`);
+                            }}
+                            className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-xl font-semibold transition-all shadow-lg shadow-primary/25"
+                        >
+                            Join
+                        </button>
                     </div>
                 </div>
             </header>

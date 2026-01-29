@@ -39,7 +39,7 @@ export default function NotificationToast({ notification, onClose }: Notificatio
 
                             <div className="flex gap-2 mt-3">
                                 <Link
-                                    href="/meeting/pre-join"
+                                    href={`/meeting/invite?room=${notification.meeting_id}`}
                                     className="px-4 py-1.5 bg-primary text-white text-xs font-bold rounded-lg shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
                                     onClick={onClose}
                                 >
