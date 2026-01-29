@@ -10,3 +10,4 @@ python-dotenv
 livekit
 livekit-api
 websockets
+dnspython

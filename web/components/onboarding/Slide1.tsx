@@ -61,9 +61,9 @@ const Slide1: React.FC<Slide1Props> = ({ onNext }) => {
                             {/* Main Visual Image Wrapper */}
                             <div className="relative z-20 w-full h-full rounded-[3rem] overflow-hidden border border-border shadow-2xl animate-float bg-card">
                                 <img
-                                    alt="Professional woman in a digital meeting"
+                                    alt="Crown Prince Haakon and Crown Princess Mette-Marit video conference"
                                     className="w-full h-full object-cover grayscale-[20%] brightness-90 contrast-110"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBy3rSZxd0PQLikzLYFmSyJdV-PyBsZNVUDhdik_MtFukZhGLonrSm3Kc0CFY33XtBnaUT-i9NVPy6OtHWPfNShiuoCoXn6QYEcXFwlWl_xKBG0gqFdjhx0ky9H61WVetpHOt2wqAjjDkv3nNqVpCK2VMD2M0Aj2vYJzxakNKpoTwE2-y_Gp424R9Alyy02etp3JvR0spGHed9DxI43CLZowtwt5trfhn4S2AmD-JtED-AFj3wIB_1staVsM7ivnnAw6pHm1aE6sTM"
+                                    src="/images/onboarding-slide-1.jpg"
                                 />
                                 {/* Meeting Controls Bar */}
                                 <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center bg-black/40 backdrop-blur-md rounded-2xl p-4 border border-white/10">
