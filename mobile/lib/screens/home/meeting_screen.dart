@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fred_soutenance_app/theme.dart';
 import 'package:fred_soutenance_app/l10n.dart';
+import 'package:fred_soutenance_app/providers/meeting_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:livekit_client/livekit_client.dart';
 import 'dart:ui';
 
 class MeetingScreen extends StatefulWidget {
@@ -106,34 +109,38 @@ class _MeetingScreenState extends State<MeetingScreen> with TickerProviderStateM
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  const Color(0xFFE2A7B5),
-                  const Color(0xFFD4A3E3),
+                  const Color(0xFFF97316).withOpacity(0.2), // Orange tint
+                  const Color(0xFFFB923C).withOpacity(0.1),
                   isDark ? AppTheme.backgroundDark : Colors.white,
                 ],
                 stops: const [0.0, 0.15, 0.45],
               ),
             ),
-            child: SafeArea(
-              child: Column(
-                children: [
-                  // Header
-                  _buildHeader(l10n, isDark),
-                  
-                  // Grande vidéo du participant actif
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                    child: _buildActiveSpeakerVideo(),
+            child: Consumer<MeetingProvider>(
+              builder: (context, meetingProvider, child) {
+                return SafeArea(
+                  child: Column(
+                    children: [
+                      // Header
+                      _buildHeader(l10n, isDark, meetingProvider.roomName ?? 'Meeting'),
+                      
+                      // Grande vidéo du participant actif (ou local si seul)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                        child: _buildVideoArea(meetingProvider),
+                      ),
+                      
+                      // Grille des autres participants
+                      Expanded(
+                        child: _buildParticipantsGrid(meetingProvider),
+                      ),
+                      
+                      // Contrôles en bas
+                      _buildBottomControls(l10n, isDark, meetingProvider),
+                    ],
                   ),
-                  
-                  // Grille des autres participants
-                  Expanded(
-                    child: _buildParticipantsGrid(),
-                  ),
-                  
-                  // Contrôles en bas
-                  _buildBottomControls(l10n, isDark),
-                ],
-              ),
+                );
+              },
             ),
           ),
           
@@ -144,7 +151,7 @@ class _MeetingScreenState extends State<MeetingScreen> with TickerProviderStateM
     );
   }
 
-  Widget _buildHeader(AppLocalizations l10n, bool isDark) {
+  Widget _buildHeader(AppLocalizations l10n, bool isDark, String title) {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: ClipRRect(
@@ -167,7 +174,7 @@ class _MeetingScreenState extends State<MeetingScreen> with TickerProviderStateM
                 Column(
                   children: [
                     Text(
-                      l10n.translate('development_team') ?? 'Development Team',
+                      title,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 15,
@@ -195,21 +202,42 @@ class _MeetingScreenState extends State<MeetingScreen> with TickerProviderStateM
     );
   }
 
-  Widget _buildActiveSpeakerVideo() {
+  Widget _buildVideoArea(MeetingProvider provider) {
+    final room = provider.room;
+    if (room == null) return const Center(child: CircularProgressIndicator());
+
+    // On cherche s'il y a des participants distants
+    final remoteParticipants = room.remoteParticipants.values.toList();
+    
+    if (remoteParticipants.isNotEmpty) {
+      // Afficher premier participant distant
+      final participant = remoteParticipants.first;
+      final videoTrack = participant.videoTrackPublications.firstOrNull?.track;
+      
+      return _buildVideoTile(
+        participant.identity, 
+        videoTrack as VideoTrack?,
+        isLocal: false
+      );
+    } else {
+      // Afficher vidéo locale
+      final videoTrack = room.localParticipant?.videoTrackPublications.firstOrNull?.track;
+      return _buildVideoTile(
+        "Vous", 
+        videoTrack as VideoTrack?,
+        isLocal: true
+      );
+    }
+  }
+
+  Widget _buildVideoTile(String name, VideoTrack? track, {bool isLocal = false}) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: const Color(0xFFA3E635),
+          color: isLocal ? AppTheme.primary : const Color(0xFFA3E635),
           width: 2.5,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFA3E635).withValues(alpha: 0.4),
-            blurRadius: 10,
-            spreadRadius: 0,
-          ),
-        ],
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(24),
@@ -218,57 +246,27 @@ class _MeetingScreenState extends State<MeetingScreen> with TickerProviderStateM
           child: Stack(
             fit: StackFit.expand,
             children: [
-              Image.network(
-                'https://lh3.googleusercontent.com/aida-public/AB6AXuAeKLHwcvoQdMMAKMJLWtZm3N37e8Hqb7hdBe48Lj0EzqOxNtthWY-9ytfi0nFVoRC8iIROize-Bgt2up6Jbk73LK6KEgToDMRpQp_eNaAT6r2ugJ7VuBzNrRWSuYT8T_J0oNoZmQ18anOq5wA5h7pJMr66Vq2nq5NvxL20k-GNbTsBezhl9IM49N3_Hy3Jmmypp79Ag6jYlg1kiIHhTJAcNhStjtSdQRd3Qt3FW_XTqz4T-nal7KmhmDL86Ov3tu7oyAWD3RbXENg',
-                fit: BoxFit.cover,
-              ),
-              // Badge "Speaking"
-              Positioned(
-                top: 12,
-                right: 12,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFA3E635).withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: const Color(0xFFA3E635).withValues(alpha: 0.3),
-                    ),
-                  ),
-                  child: const Text(
-                    'SPEAKING',
-                    style: TextStyle(
-                      color: Color(0xFFA3E635),
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
-                    ),
+              if (track != null)
+                VideoTrackRenderer(track)
+              else
+                Container(
+                  color: Colors.black87,
+                  child: Center(
+                    child: Icon(Icons.videocam_off, color: Colors.white54, size: 48),
                   ),
                 ),
-              ),
-              // Nom du participant
               Positioned(
-                bottom: 0,
-                left: 0,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(topRight: Radius.circular(16)),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: AppTheme.backgroundDark.withValues(alpha: 0.9),
-                        borderRadius: const BorderRadius.only(topRight: Radius.circular(16)),
-                      ),
-                      child: const Text(
-                        'Alison Roberts',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
+                bottom: 12,
+                left: 12,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.black54,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    name,
+                    style: TextStyle(color: Colors.white, fontSize: 12),
                   ),
                 ),
               ),
@@ -279,32 +277,33 @@ class _MeetingScreenState extends State<MeetingScreen> with TickerProviderStateM
     );
   }
 
-  Widget _buildParticipantsGrid() {
+  Widget _buildParticipantsGrid(MeetingProvider provider) {
+    final room = provider.room;
+    if (room == null) return Container();
+    
+    final remoteParticipants = room.remoteParticipants.values.toList();
+    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: GridView.count(
-        crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
-        children: [
-          _buildAIParticipant(),
-          _buildParticipantTile(
-            'Sarah Paige',
-            'https://lh3.googleusercontent.com/aida-public/AB6AXuDuI-yWwU-2tX8OzQhZPB9WEMyOCRS0i9l0KOeTCek6nW3hMFH0BY6y8Vj_QIQa7ZXhxQUJNf5hMlPs-rTZao2UXB-RptWUmHAuuWd9WbpcOOerDI62W7evT7cLodCAQXsMsZNlCWOzRixGEdePxkRIgvP8bFCHOVrNi8DMJl0V0TNYg_1Vb3mfOH-YeqCzeKFTl58HpALZECclqJ9RZvZf8qk5Ry25jVXHTW22QUX_ub8wtxsmM1i3vREUE3qs0tKhHQDyoMTw7bM',
-            isMicMuted: true,
-            isAvatar: true,
-          ),
-          _buildParticipantTile(
-            'Peter Lee',
-            'https://lh3.googleusercontent.com/aida-public/AB6AXuCATDRZUqD4UaQcrFegcmQc9Ui3nhFN3i6CMa-y9XAySIQnwfHI1Qh8CMhVcMz70DzECxuiPjBcNo9ab3xqgIgie4LtpDcL1x6HJ5Eu4tXo6cy3-ChuaM_5mVBKboC_cOE3HSFSFjhGARLV_EsVq6UB29QC1cN3zKibRbNhMSp4zGEhDn2zYES-md44zb49LnA1uqCyHI11r75PBDwPQNVnEW41Viuaxh5h5fbGZpoj4P7HrmVl3TslnfNVL0feku4VFz7Ut6FosjY',
-          ),
-          _buildParticipantTile(
-            'Luke Smith',
-            'https://lh3.googleusercontent.com/aida-public/AB6AXuCC3xvWM1UYZ-sCN02LF_iczwYmoBWcsRGc1mAh3TWO7eMcnh6XjjJPwblHCooCCQe8jt7Y4Ddw0H2cywFef0t9ApO90a1BO7NFmGkzvmItv8cxduCN3vIkmJ2ZDn5evgbPiRALvDUxC1CAXHi14kAZQH9bpSu8JJrl2Qa7YAEX9vJM-E4Mn4FMRsgc7fz2VsWPqCPC3TNs3ke4-Yvb_CSJ9CSTjZaCucxqFzehQYJelgnelxFCofKBY_mfGHwA0KtdU1C6q98r2DA',
-            isMicMuted: true,
-            isAvatar: true,
-          ),
-        ],
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 12,
+          crossAxisSpacing: 12,
+        ),
+        itemCount: remoteParticipants.length + 1, // +1 pour l'AI (factice)
+        itemBuilder: (context, index) {
+          if (index == 0) return _buildAIParticipant();
+          
+          final participant = remoteParticipants[index - 1];
+          final videoTrack = participant.videoTrackPublications.firstOrNull?.track;
+          
+          return _buildVideoTile(
+            participant.identity,
+            videoTrack as VideoTrack?,
+            isLocal: false
+          );
+        },
       ),
     );
   }
@@ -524,7 +523,7 @@ class _MeetingScreenState extends State<MeetingScreen> with TickerProviderStateM
     );
   }
 
-  Widget _buildBottomControls(AppLocalizations l10n, bool isDark) {
+  Widget _buildBottomControls(AppLocalizations l10n, bool isDark, MeetingProvider provider) {
     return Container(
       padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
       decoration: BoxDecoration(
@@ -533,7 +532,7 @@ class _MeetingScreenState extends State<MeetingScreen> with TickerProviderStateM
           end: Alignment.topCenter,
           colors: [
             AppTheme.backgroundDark,
-            AppTheme.backgroundDark.withValues(alpha: 0.95),
+            AppTheme.backgroundDark.withOpacity(0.95),
             Colors.transparent,
           ],
         ),
@@ -546,7 +545,10 @@ class _MeetingScreenState extends State<MeetingScreen> with TickerProviderStateM
             children: [
               _buildControlButton(
                 icon: isMicOn ? Icons.mic : Icons.mic_off,
-                onTap: () => setState(() => isMicOn = !isMicOn),
+                onTap: () {
+                  setState(() => isMicOn = !isMicOn);
+                  provider.room?.localParticipant?.setMicrophoneEnabled(isMicOn);
+                },
               ),
               _buildControlButton(
                 icon: Icons.chat_bubble,
@@ -560,7 +562,7 @@ class _MeetingScreenState extends State<MeetingScreen> with TickerProviderStateM
                 icon: Icons.flip_camera_ios,
                 onTap: () {},
               ),
-              _buildEndCallButton(),
+              _buildEndCallButton(provider),
             ],
           ),
           const SizedBox(height: 24),
@@ -568,7 +570,7 @@ class _MeetingScreenState extends State<MeetingScreen> with TickerProviderStateM
             width: 128,
             height: 6,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
+              color: Colors.white.withOpacity(0.2),
               borderRadius: BorderRadius.circular(3),
             ),
           ),
@@ -577,28 +579,12 @@ class _MeetingScreenState extends State<MeetingScreen> with TickerProviderStateM
     );
   }
 
-  Widget _buildControlButton({required IconData icon, required VoidCallback onTap}) {
+  Widget _buildEndCallButton(MeetingProvider provider) {
     return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 48,
-        height: 48,
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Icon(
-          icon,
-          color: Colors.white.withValues(alpha: 0.8),
-          size: 24,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEndCallButton() {
-    return GestureDetector(
-      onTap: () => Navigator.pop(context),
+      onTap: () {
+        provider.leaveMeeting();
+        Navigator.pop(context);
+      },
       child: Container(
         width: 56,
         height: 56,
@@ -607,7 +593,7 @@ class _MeetingScreenState extends State<MeetingScreen> with TickerProviderStateM
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.red.withValues(alpha: 0.2),
+              color: Colors.red.withOpacity(0.2),
               blurRadius: 12,
             ),
           ],

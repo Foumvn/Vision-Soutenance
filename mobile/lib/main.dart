@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fred_soutenance_app/theme.dart';
 import 'package:fred_soutenance_app/providers/theme_provider.dart';
+import 'package:fred_soutenance_app/providers/language_provider.dart';
+import 'package:fred_soutenance_app/providers/meeting_provider.dart';
 import 'package:fred_soutenance_app/screens/splash_screen.dart';
 import 'package:fred_soutenance_app/screens/onboarding/onboarding_screen.dart';
 import 'package:fred_soutenance_app/screens/main_scaffold.dart';
@@ -23,6 +24,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => LanguageProvider()),
+        ChangeNotifierProvider(create: (_) => MeetingProvider()),
       ],
       child: const MyApp(),
     ),

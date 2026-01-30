@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fred_soutenance_app/theme.dart';
 import 'package:fred_soutenance_app/l10n.dart';
 import 'package:fred_soutenance_app/providers/theme_provider.dart';
+import 'package:fred_soutenance_app/providers/meeting_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:ui';
 
@@ -442,8 +443,25 @@ class _PreMeetingScreenState extends State<PreMeetingScreen> {
                 ],
               ),
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/meeting');
+                onPressed: () async {
+                  final meetingProvider = Provider.of<MeetingProvider>(context, listen: false);
+                  try {
+                    // Pour le test, on utilise des valeurs statiques ou on récupère du contexte
+                    const String testRoom = 'dev-team-sync';
+                    const String testUser = 'User_Mobile';
+                    
+                    await meetingProvider.joinMeeting(testRoom, testUser);
+                    
+                    if (context.mounted) {
+                      Navigator.pushNamed(context, '/meeting');
+                    }
+                  } catch (e) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Erreur: $e')),
+                      );
+                    }
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
