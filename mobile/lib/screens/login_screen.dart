@@ -57,8 +57,17 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
       backgroundColor: const Color(0xFF0B0A0F),
       body: Stack(
         children: [
-          // Aurora Background (Style consistency)
-          // ... implementation of Aurora Painter ...
+          // Aurora Background
+          Positioned.fill(
+            child: AnimatedBuilder(
+              animation: _auroraController,
+              builder: (context, child) {
+                return CustomPaint(
+                  painter: AuroraPainter(progress: _auroraController.value),
+                );
+              },
+            ),
+          ),
           
           SafeArea(
             child: SingleChildScrollView(
@@ -144,4 +153,37 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
       ),
     );
   }
+}
+
+class AuroraPainter extends CustomPainter {
+  final double progress;
+
+  AuroraPainter({required this.progress});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..maskFilter = const MaskFilter.blur(BlurStyle.normal, 100);
+
+    // Purple Aura (Top Left-ish)
+    final purplePath = Path();
+    double pX = size.width * (0.2 + 0.1 * sin(progress * 2 * pi));
+    double pY = size.height * (0.2 + 0.1 * cos(progress * 2 * pi));
+    canvas.drawCircle(
+      Offset(pX, pY),
+      size.width * 0.8,
+      paint..color = const Color(0xFFF97316).withOpacity(0.15),
+    );
+
+    // Pink/Blue Aura (Bottom Right-ish)
+    double bX = size.width * (0.8 + 0.1 * cos(progress * 2 * pi));
+    double bY = size.height * (0.8 + 0.1 * sin(progress * 2 * pi));
+    canvas.drawCircle(
+      Offset(bX, bY),
+      size.width * 0.8,
+      paint..color = const Color(0xFFFB923C).withOpacity(0.1),
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant AuroraPainter oldDelegate) => oldDelegate.progress != progress;
 }
