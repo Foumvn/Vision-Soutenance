@@ -5,6 +5,7 @@ import 'package:fred_soutenance_app/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:fred_soutenance_app/providers/language_provider.dart';
+import 'package:fred_soutenance_app/providers/auth_provider.dart';
 import 'package:fred_soutenance_app/l10n.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -15,7 +16,10 @@ class SettingsScreen extends StatelessWidget {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
     final themeProvider = Provider.of<ThemeProvider>(context);
     final languageProvider = Provider.of<LanguageProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
     final l10n = AppLocalizations.of(context)!;
+    
+    final user = authProvider.user;
 
     return SingleChildScrollView(
       child: Column(
@@ -55,11 +59,11 @@ class SettingsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            "Alison",
+            user?['full_name'] ?? "User",
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
           ),
           Text(
-            "alison.design@nebula.ai",
+            user?['email'] ?? "user@example.com",
             style: TextStyle(color: isDark ? Colors.white38 : Colors.black45),
           ),
           const SizedBox(height: 32),
@@ -192,7 +196,12 @@ class SettingsScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await authProvider.logout();
+                      if (context.mounted) {
+                        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                      }
+                    },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       backgroundColor: isDark ? Colors.white.withValues(alpha: 0.03) : Colors.white,

@@ -8,6 +8,7 @@ class GlassInputField extends StatefulWidget {
   final IconData icon;
   final bool isPassword;
   final TextInputType keyboardType;
+  final TextEditingController? controller;
 
   const GlassInputField({
     super.key,
@@ -16,6 +17,7 @@ class GlassInputField extends StatefulWidget {
     required this.icon,
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
+    this.controller,
   });
 
   @override
@@ -84,6 +86,7 @@ class _GlassInputFieldState extends State<GlassInputField> {
                 ] : [],
               ),
               child: TextField(
+                controller: widget.controller,
                 focusNode: _focusNode,
                 obscureText: widget.isPassword ? _obscureText : false,
                 keyboardType: widget.keyboardType,

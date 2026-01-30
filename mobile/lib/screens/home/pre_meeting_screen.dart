@@ -4,7 +4,9 @@ import 'package:fred_soutenance_app/theme.dart';
 import 'package:fred_soutenance_app/l10n.dart';
 import 'package:fred_soutenance_app/providers/theme_provider.dart';
 import 'package:fred_soutenance_app/providers/meeting_provider.dart';
+import 'package:fred_soutenance_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'dart:ui';
 
 class PreMeetingScreen extends StatefulWidget {
@@ -445,12 +447,21 @@ class _PreMeetingScreenState extends State<PreMeetingScreen> {
               child: ElevatedButton(
                 onPressed: () async {
                   final meetingProvider = Provider.of<MeetingProvider>(context, listen: false);
+                  final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                  
+                  // Vérifier les permissions
+                  if (isCameraEnabled) {
+                    await Permission.camera.request();
+                  }
+                  if (isMicEnabled) {
+                    await Permission.microphone.request();
+                  }
+
                   try {
-                    // Pour le test, on utilise des valeurs statiques ou on récupère du contexte
                     const String testRoom = 'dev-team-sync';
-                    const String testUser = 'User_Mobile';
+                    final String userName = authProvider.user?['full_name'] ?? 'Guest';
                     
-                    await meetingProvider.joinMeeting(testRoom, testUser);
+                    await meetingProvider.joinMeeting(testRoom, userName);
                     
                     if (context.mounted) {
                       Navigator.pushNamed(context, '/meeting');

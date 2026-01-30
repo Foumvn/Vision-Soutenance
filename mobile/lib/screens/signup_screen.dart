@@ -1,5 +1,6 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 import 'widgets/glass_input_field.dart';
 import 'widgets/neon_button.dart';
 import 'widgets/social_login_button.dart';
@@ -13,6 +14,9 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> with SingleTickerProviderStateMixin {
   late AnimationController _auroraController;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -26,7 +30,27 @@ class _SignupScreenState extends State<SignupScreen> with SingleTickerProviderSt
   @override
   void dispose() {
     _auroraController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
+  }
+
+  void _handleSignup() async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final success = await authProvider.register(
+      _nameController.text.trim(),
+      _emailController.text.trim(),
+      _passwordController.text.trim(),
+    );
+
+    if (success && mounted) {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Registration failed. Please check your data.')),
+      );
+    }
   }
 
   @override
@@ -91,32 +115,37 @@ class _SignupScreenState extends State<SignupScreen> with SingleTickerProviderSt
                   const SizedBox(height: 40),
                   
                   // Form Fields
-                  const GlassInputField(
+                  GlassInputField(
                     label: 'Full Name',
                     hintText: 'John Doe',
                     icon: Icons.person_outline,
+                    controller: _nameController,
                   ),
                   const SizedBox(height: 20),
-                  const GlassInputField(
+                  GlassInputField(
                     label: 'Email Address',
                     hintText: 'john@example.com',
                     icon: Icons.mail_outline,
                     keyboardType: TextInputType.emailAddress,
+                    controller: _emailController,
                   ),
                   const SizedBox(height: 20),
-                  const GlassInputField(
+                  GlassInputField(
                     label: 'Password',
                     hintText: '••••••••',
                     icon: Icons.lock_outline,
                     isPassword: true,
+                    controller: _passwordController,
                   ),
                   const SizedBox(height: 32),
                   
                   // Sign Up Button
-                  NeonButton(
-                    text: 'Create Account',
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/home');
+                  Consumer<AuthProvider>(
+                    builder: (context, auth, _) {
+                      return NeonButton(
+                        text: auth.isLoading ? 'Creating Account...' : 'Create Account',
+                        onPressed: auth.isLoading ? () {} : _handleSignup,
+                      );
                     },
                   ),
                   const SizedBox(height: 40),
@@ -197,7 +226,7 @@ class _SignupScreenState extends State<SignupScreen> with SingleTickerProviderSt
                         ),
                         GestureDetector(
                           onTap: () {
-                            // Navigate to login
+                            Navigator.pushNamed(context, '/login');
                           },
                           child: const Text(
                             'Log In',

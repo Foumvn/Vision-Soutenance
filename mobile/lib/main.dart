@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:fred_soutenance_app/theme.dart';
 import 'package:fred_soutenance_app/providers/theme_provider.dart';
 import 'package:fred_soutenance_app/providers/language_provider.dart';
 import 'package:fred_soutenance_app/providers/meeting_provider.dart';
+import 'package:fred_soutenance_app/providers/auth_provider.dart';
 import 'package:fred_soutenance_app/screens/splash_screen.dart';
 import 'package:fred_soutenance_app/screens/onboarding/onboarding_screen.dart';
 import 'package:fred_soutenance_app/screens/main_scaffold.dart';
@@ -11,12 +11,13 @@ import 'package:fred_soutenance_app/screens/home/invite_participants_screen.dart
 import 'package:fred_soutenance_app/screens/home/pre_meeting_screen.dart';
 import 'package:fred_soutenance_app/screens/home/meeting_screen.dart';
 import 'package:fred_soutenance_app/screens/signup_screen.dart';
+import 'package:fred_soutenance_app/screens/login_screen.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:fred_soutenance_app/providers/language_provider.dart';
 import 'package:fred_soutenance_app/l10n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:ui';
+import 'package:fred_soutenance_app/theme.dart';
 
 void main() {
   runApp(
@@ -25,6 +26,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => LanguageProvider()),
         ChangeNotifierProvider(create: (_) => MeetingProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
       ],
       child: const MyApp(),
     ),
@@ -65,6 +67,7 @@ class MyApp extends StatelessWidget {
           routes: {
             '/': (context) => const SplashScreen(),
             '/onboarding': (context) => const OnboardingScreen(),
+            '/login': (context) => const LoginScreen(),
             '/signup': (context) => const SignupScreen(),
             '/home': (context) => const MainScaffold(),
             '/invite': (context) => const InviteParticipantsScreen(),

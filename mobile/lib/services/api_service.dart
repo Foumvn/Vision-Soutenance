@@ -24,6 +24,19 @@ class ApiService {
     return await http.post(url, headers: headers, body: jsonEncode(body));
   }
 
+  static Future<http.Response> login(String email, String password) async {
+    final url = Uri.parse('$baseUrl/auth/login');
+    // FastAPI OAuth2PasswordRequestForm attend du form-data
+    return await http.post(
+      url,
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: {
+        'username': email,
+        'password': password,
+      },
+    );
+  }
+
   static Future<http.Response> get(String endpoint) async {
     final url = Uri.parse('$baseUrl$endpoint');
     final headers = await _getHeaders();

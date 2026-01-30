@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fred_soutenance_app/theme.dart';
 import 'package:fred_soutenance_app/l10n.dart';
 import 'package:fred_soutenance_app/providers/theme_provider.dart';
+import 'package:fred_soutenance_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,7 +13,10 @@ class CreateScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
     final l10n = AppLocalizations.of(context)!;
+    
+    final String userName = authProvider.user?['full_name'] ?? 'User';
     
     return SingleChildScrollView(
       child: Padding(
@@ -45,7 +49,7 @@ class CreateScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              l10n.translate('welcome_hi'),
+                              '${l10n.translate('welcome_hi')}, $userName!',
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                     fontWeight: FontWeight.bold,

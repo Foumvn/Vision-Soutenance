@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fred_soutenance_app/theme.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -23,10 +25,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
     final prefs = await SharedPreferences.getInstance();
     final bool onboardingCompleted = prefs.getBool('onboardingCompleted') ?? false;
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     if (mounted) {
-      if (onboardingCompleted) {
+      if (authProvider.isAuthenticated) {
         Navigator.pushReplacementNamed(context, '/home');
+      } else if (onboardingCompleted) {
+        Navigator.pushReplacementNamed(context, '/login');
       } else {
         Navigator.pushReplacementNamed(context, '/onboarding');
       }
