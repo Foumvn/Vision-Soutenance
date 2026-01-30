@@ -28,18 +28,18 @@ class CreateScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       Container(
-                        width: 48,
-                        height: 48,
+                        width: 48.w,
+                        height: 48.w,
                         padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(color: AppTheme.primary.withOpacity(0.5), width: 2),
+                          border: Border.all(color: AppTheme.primary.withOpacity(0.5), width: 2.w),
                         ),
                         child: const CircleAvatar(
                           backgroundImage: NetworkImage('https://lh3.googleusercontent.com/aida-public/AB6AXuAeKLHwcvoQdMMAKMJLWtZm3N37e8Hqb7hdBe48Lj0EzqOxNtthWY-9ytfi0nFVoRC8iIROize-Bgt2up6Jbk73LK6KEgToDMRpQp_eNaAT6r2ugJ7VuBzNrRWSuYT8T_J0oNoZmQ18anOq5wA5h7pJMr66Vq2nq5NvxL20k-GNbTsBezhl9IM49N3_Hy3Jmmypp79Ag6jYlg1kiIHhTJAcNhStjtSdQRd3Qt3FW_XTqz4T-nal7KmhmDL86Ov3tu7oyAWD3RbXENg'), // Placeholder
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12.w),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,8 +70,8 @@ class CreateScreen extends StatelessWidget {
                     GestureDetector(
                       onTap: () => themeProvider.toggleTheme(!isDark),
                       child: Container(
-                        width: 40,
-                        height: 40,
+                        width: 40.w,
+                        height: 40.w,
                         decoration: BoxDecoration(
                           color: isDark ? Colors.white10 : Colors.grey[200],
                           shape: BoxShape.circle,
@@ -80,7 +80,7 @@ class CreateScreen extends StatelessWidget {
                         child: Icon(
                           isDark ? Icons.light_mode : Icons.dark_mode,
                           color: isDark ? Colors.white : Colors.black54,
-                          size: 20,
+                          size: 20.sp,
                         ),
                       ),
                     ),

@@ -98,6 +98,7 @@ class _InviteParticipantsScreenState extends State<InviteParticipantsScreen> wit
                             child: Column(
                               children: [
                                 // Top bar
+                                Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -162,28 +163,28 @@ class _InviteParticipantsScreenState extends State<InviteParticipantsScreen> wit
                                           l10n.translate('meeting_link_label_caps'),
                                           style: TextStyle(
                                             color: isDark ? Colors.white.withValues(alpha: 0.6) : Colors.black54,
-                                            fontSize: 10,
+                                            fontSize: 10.sp,
                                             letterSpacing: 2,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        const SizedBox(height: 6),
+                                        SizedBox(height: 6.h),
                                         Text(
                                           "v-meeting.ai/dev-team-sync",
                                           style: TextStyle(
                                             color: isDark ? Colors.white : Colors.black87,
-                                            fontSize: 16,
+                                            fontSize: 16.sp,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        const SizedBox(height: 16),
+                                        SizedBox(height: 16.h),
                                         ElevatedButton.icon(
                                           onPressed: () {},
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: AppTheme.primary,
                                             foregroundColor: AppTheme.backgroundDark,
-                                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
                                             elevation: 0,
                                           ).copyWith(
                                             shadowColor: WidgetStateProperty.all(AppTheme.primary.withValues(alpha: 0.4)),
@@ -268,19 +269,19 @@ class _InviteParticipantsScreenState extends State<InviteParticipantsScreen> wit
                           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                           child: Container(
                             width: double.infinity,
-                            height: 52,
+                            height: 52.h,
                             decoration: BoxDecoration(
                               gradient: const LinearGradient(
                                 colors: [AppTheme.primary, Color(0xFFFB923C)],
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,
                               ),
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(16.r),
                               boxShadow: [
                                 BoxShadow(
                                   color: AppTheme.primary.withValues(alpha: 0.3),
-                                  blurRadius: 12,
-                                  offset: const Offset(0, 6),
+                                  blurRadius: 12.r,
+                                  offset: Offset(0, 6.h),
                                 ),
                               ],
                             ),
@@ -296,13 +297,13 @@ class _InviteParticipantsScreenState extends State<InviteParticipantsScreen> wit
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Icon(Icons.play_circle_filled, color: Colors.white, size: 22),
-                                  const SizedBox(width: 12),
+                                  Icon(Icons.play_circle_filled, color: Colors.white, size: 22.sp),
+                                  SizedBox(width: 12.w),
                                   Text(
                                     l10n.translate('launch_meeting'),
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 15,
+                                      fontSize: 15.sp,
                                       fontWeight: FontWeight.bold,
                                       letterSpacing: 0.5,
                                     ),
