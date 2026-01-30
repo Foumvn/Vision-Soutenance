@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:livekit_client/livekit_client.dart';
-import 'api_service.dart';
+import 'package:fred_soutenance_app/services/api_service.dart';
 
 class MeetingProvider with ChangeNotifier {
   bool _isConnecting = false;

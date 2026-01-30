@@ -607,6 +607,25 @@ class _MeetingScreenState extends State<MeetingScreen> with TickerProviderStateM
     );
   }
 
+  Widget _buildControlButton({required IconData icon, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Icon(
+          icon,
+          color: Colors.white.withOpacity(0.8),
+          size: 24,
+        ),
+      ),
+    );
+  }
+
   Widget _buildChatPanel(AppLocalizations l10n, bool isDark) {
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 300),
