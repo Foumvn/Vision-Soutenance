@@ -14,6 +14,7 @@ import 'package:fred_soutenance_app/screens/signup_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fred_soutenance_app/providers/language_provider.dart';
 import 'package:fred_soutenance_app/l10n.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:ui';
 
 void main() {
@@ -36,32 +37,39 @@ class MyApp extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final languageProvider = Provider.of<LanguageProvider>(context);
 
-    return MaterialApp(
-      title: 'Fred Soutenance',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: themeProvider.themeMode,
-      locale: languageProvider.locale,
-      supportedLocales: const [
-        Locale('en'),
-        Locale('fr'),
-      ],
-      localizationsDelegates: const [
-        AppLocalizationsDelegate(),
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const SplashScreen(),
-        '/onboarding': (context) => const OnboardingScreen(),
-        '/signup': (context) => const SignupScreen(),
-        '/home': (context) => const MainScaffold(),
-        '/invite': (context) => const InviteParticipantsScreen(),
-        '/pre-meeting': (context) => const PreMeetingScreen(),
-        '/meeting': (context) => const MeetingScreen(),
+    return ScreenUtilInit(
+      designSize: const Size(390, 844), // Standard iPhone 12/13/14 size
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MaterialApp(
+          title: 'Fred Soutenance',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: themeProvider.themeMode,
+          locale: languageProvider.locale,
+          supportedLocales: const [
+            Locale('en'),
+            Locale('fr'),
+          ],
+          localizationsDelegates: const [
+            AppLocalizationsDelegate(),
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const SplashScreen(),
+            '/onboarding': (context) => const OnboardingScreen(),
+            '/signup': (context) => const SignupScreen(),
+            '/home': (context) => const MainScaffold(),
+            '/invite': (context) => const InviteParticipantsScreen(),
+            '/pre-meeting': (context) => const PreMeetingScreen(),
+            '/meeting': (context) => const MeetingScreen(),
+          },
+        );
       },
     );
   }

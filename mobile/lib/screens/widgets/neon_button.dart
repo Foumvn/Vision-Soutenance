@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NeonButton extends StatefulWidget {
   final String text;
@@ -57,7 +58,7 @@ class _NeonButtonState extends State<NeonButton> with SingleTickerProviderStateM
           scale: _scaleAnimation,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
-            height: 64,
+            height: 64.h,
             width: double.infinity,
             decoration: BoxDecoration(
               color: _isHovered ? Color.alphaBlend(Colors.white.withOpacity(0.1), widget.baseColor) : widget.baseColor,
@@ -82,9 +83,9 @@ class _NeonButtonState extends State<NeonButton> with SingleTickerProviderStateM
                 Center(
                   child: Text(
                     widget.text,
-                    style: const TextStyle(
-                      color: Color(0xFF0B0A0F),
-                      fontSize: 18,
+                    style: TextStyle(
+                      color: const Color(0xFF0B0A0F),
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.5,
                     ),

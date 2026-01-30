@@ -3,6 +3,7 @@ import 'package:fred_soutenance_app/theme.dart';
 import 'package:fred_soutenance_app/l10n.dart';
 import 'package:fred_soutenance_app/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CreateScreen extends StatelessWidget {
   const CreateScreen({super.key});
@@ -15,7 +16,7 @@ class CreateScreen extends StatelessWidget {
     
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+        padding: EdgeInsets.symmetric(horizontal: 24.0.w, vertical: 16.0.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -23,40 +24,47 @@ class CreateScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 48,
-                      height: 48,
-                      padding: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: AppTheme.primary.withOpacity(0.5), width: 2),
-                      ),
-                      child: const CircleAvatar(
-                        backgroundImage: NetworkImage('https://lh3.googleusercontent.com/aida-public/AB6AXuAeKLHwcvoQdMMAKMJLWtZm3N37e8Hqb7hdBe48Lj0EzqOxNtthWY-9ytfi0nFVoRC8iIROize-Bgt2up6Jbk73LK6KEgToDMRpQp_eNaAT6r2ugJ7VuBzNrRWSuYT8T_J0oNoZmQ18anOq5wA5h7pJMr66Vq2nq5NvxL20k-GNbTsBezhl9IM49N3_Hy3Jmmypp79Ag6jYlg1kiIHhTJAcNhStjtSdQRd3Qt3FW_XTqz4T-nal7KmhmDL86Ov3tu7oyAWD3RbXENg'), // Placeholder
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l10n.translate('welcome_hi'),
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                Expanded(
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 48,
+                        height: 48,
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: AppTheme.primary.withOpacity(0.5), width: 2),
                         ),
-                        Text(
-                          l10n.translate('ready_session'),
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: isDark ? Colors.white38 : Colors.black45,
-                              ),
+                        child: const CircleAvatar(
+                          backgroundImage: NetworkImage('https://lh3.googleusercontent.com/aida-public/AB6AXuAeKLHwcvoQdMMAKMJLWtZm3N37e8Hqb7hdBe48Lj0EzqOxNtthWY-9ytfi0nFVoRC8iIROize-Bgt2up6Jbk73LK6KEgToDMRpQp_eNaAT6r2ugJ7VuBzNrRWSuYT8T_J0oNoZmQ18anOq5wA5h7pJMr66Vq2nq5NvxL20k-GNbTsBezhl9IM49N3_Hy3Jmmypp79Ag6jYlg1kiIHhTJAcNhStjtSdQRd3Qt3FW_XTqz4T-nal7KmhmDL86Ov3tu7oyAWD3RbXENg'), // Placeholder
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l10n.translate('welcome_hi'),
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                            Text(
+                              l10n.translate('ready_session'),
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: isDark ? Colors.white38 : Colors.black45,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+                const SizedBox(width: 12),
                 Row(
                   children: [
                     GestureDetector(
@@ -111,16 +119,16 @@ class CreateScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   Text(
+                  Text(
                     l10n.translate('meeting_title_label'),
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: 10.sp,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.5,
                       color: isDark ? Colors.white54 : Colors.black54,
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   TextField(
                     style: TextStyle(color: isDark ? Colors.white : Colors.black),
                     decoration: InputDecoration(
@@ -129,15 +137,15 @@ class CreateScreen extends StatelessWidget {
                       hintText: "e.g. Weekly Sync",
                       hintStyle: TextStyle(color: isDark ? Colors.white24 : Colors.grey[400]),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                         borderSide: BorderSide(color: isDark ? Colors.white.withOpacity(0.05) : Colors.grey[200]!),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                         borderSide: BorderSide(color: isDark ? Colors.white.withOpacity(0.05) : Colors.grey[200]!),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                         borderSide: const BorderSide(color: AppTheme.primary, width: 1),
                       ),
                     ),

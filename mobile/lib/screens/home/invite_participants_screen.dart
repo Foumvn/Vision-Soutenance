@@ -4,6 +4,7 @@ import 'package:fred_soutenance_app/theme.dart';
 import 'package:fred_soutenance_app/l10n.dart';
 import 'package:fred_soutenance_app/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:ui';
 
 class InviteParticipantsScreen extends StatefulWidget {
@@ -97,32 +98,34 @@ class _InviteParticipantsScreenState extends State<InviteParticipantsScreen> wit
                             child: Column(
                               children: [
                                 // Top bar
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                                  padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       GestureDetector(
                                         onTap: () => Navigator.pop(context),
                                         child: Container(
-                                          width: 40,
-                                          height: 40,
+                                          width: 40.w,
+                                          height: 40.w,
                                           decoration: BoxDecoration(
                                             color: isDark ? Colors.white.withValues(alpha: 0.1) : Colors.grey[200],
                                             shape: BoxShape.circle,
                                           ),
-                                          child: Icon(Icons.close, color: isDark ? Colors.white : Colors.black54, size: 20),
+                                          child: Icon(Icons.close, color: isDark ? Colors.white : Colors.black54, size: 20.sp),
                                         ),
                                       ),
-                                      Text(
-                                        l10n.translate('invite_participants'),
-                                        style: TextStyle(
-                                          color: isDark ? Colors.white : Colors.black87,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
+                                      Expanded(
+                                        child: Text(
+                                          l10n.translate('invite_participants'),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: isDark ? Colors.white : Colors.black87,
+                                            fontSize: 18.sp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
-                                      const SizedBox(width: 40),
+                                      SizedBox(width: 40.w),
                                     ],
                                   ),
                                 ),
@@ -135,10 +138,10 @@ class _InviteParticipantsScreenState extends State<InviteParticipantsScreen> wit
                                     child: Column(
                                       children: [
                                         Container(
-                                          width: 64,
-                                          height: 64,
+                                          width: 64.w,
+                                          height: 64.w,
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(16),
+                                            borderRadius: BorderRadius.circular(16.r),
                                             gradient: const LinearGradient(
                                               colors: [AppTheme.primary, Color(0xFFFB923C)],
                                               begin: Alignment.topLeft,
@@ -152,7 +155,7 @@ class _InviteParticipantsScreenState extends State<InviteParticipantsScreen> wit
                                               ),
                                             ],
                                           ),
-                                          child: const Icon(Icons.link, color: Colors.white, size: 30),
+                                          child: Icon(Icons.link, color: Colors.white, size: 30.sp),
                                         ),
                                         const SizedBox(height: 16),
                                         Text(

@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GlassInputField extends StatefulWidget {
   final String label;
@@ -53,7 +54,7 @@ class _GlassInputFieldState extends State<GlassInputField> {
             widget.label,
             style: TextStyle(
               color: _isFocused ? const Color(0xFFF97316) : Colors.white.withOpacity(0.6),
-              fontSize: 12,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -64,7 +65,7 @@ class _GlassInputFieldState extends State<GlassInputField> {
             filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
-              height: 56,
+              height: 56.h,
               decoration: BoxDecoration(
                 color: _isFocused ? Colors.white.withOpacity(0.08) : Colors.white.withOpacity(0.03),
                 borderRadius: BorderRadius.circular(16),
@@ -86,7 +87,7 @@ class _GlassInputFieldState extends State<GlassInputField> {
                 focusNode: _focusNode,
                 obscureText: widget.isPassword ? _obscureText : false,
                 keyboardType: widget.keyboardType,
-                style: const TextStyle(color: Colors.white, fontSize: 16),
+                style: TextStyle(color: Colors.white, fontSize: 16.sp),
                 decoration: InputDecoration(
                   hintText: widget.hintText,
                   hintStyle: TextStyle(color: Colors.white.withOpacity(0.2)),
