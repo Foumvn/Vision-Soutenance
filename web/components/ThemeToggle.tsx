@@ -48,7 +48,7 @@ export function ThemeToggle() {
                 transition={{ duration: 0.2 }}
                 className="absolute inset-0 flex items-center justify-center"
             >
-                <span className="material-symbols-outlined text-[#8B5CF6] text-[20px]">dark_mode</span>
+                <span className="material-symbols-outlined text-[#F97316] text-[20px]">dark_mode</span>
             </motion.div>
         </button>
     );

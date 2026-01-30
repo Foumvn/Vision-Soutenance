@@ -52,7 +52,7 @@ class _GlassInputFieldState extends State<GlassInputField> {
           child: Text(
             widget.label,
             style: TextStyle(
-              color: _isFocused ? const Color(0xFFA3E635) : Colors.white.withOpacity(0.6),
+              color: _isFocused ? const Color(0xFFF97316) : Colors.white.withOpacity(0.6),
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
@@ -70,13 +70,13 @@ class _GlassInputFieldState extends State<GlassInputField> {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: _isFocused 
-                      ? const Color(0xFF8B5CF6).withOpacity(0.5) 
+                      ? const Color(0xFFF97316).withOpacity(0.5) 
                       : Colors.white.withOpacity(0.08),
                   width: 1,
                 ),
                 boxShadow: _isFocused ? [
                   BoxShadow(
-                    color: const Color(0xFF8B5CF6).withOpacity(0.1),
+                    color: const Color(0xFFF97316).withOpacity(0.1),
                     blurRadius: 4,
                     spreadRadius: 0,
                   )
@@ -92,7 +92,7 @@ class _GlassInputFieldState extends State<GlassInputField> {
                   hintStyle: TextStyle(color: Colors.white.withOpacity(0.2)),
                   prefixIcon: Icon(
                     widget.icon,
-                    color: _isFocused ? const Color(0xFFA3E635) : Colors.white.withOpacity(0.3),
+                    color: _isFocused ? const Color(0xFFF97316) : Colors.white.withOpacity(0.3),
                     size: 20,
                   ),
                   suffixIcon: widget.isPassword

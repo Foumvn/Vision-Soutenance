@@ -51,7 +51,7 @@ class _InviteParticipantsScreenState extends State<InviteParticipantsScreen> wit
                     center: const Alignment(-0.8, -0.8),
                     radius: 1.2,
                     colors: [
-                      const Color(0xFF8B5CF6).withValues(alpha: 0.2),
+                      const Color(0xFFF97316).withValues(alpha: 0.2),
                       AppTheme.backgroundDark,
                     ],
                   ) : null,
@@ -77,7 +77,7 @@ class _InviteParticipantsScreenState extends State<InviteParticipantsScreen> wit
                     shape: BoxShape.circle,
                     gradient: RadialGradient(
                       colors: [
-                        const Color(0xFFEC4899).withValues(alpha: 0.15),
+                        const Color(0xFFFB923C).withValues(alpha: 0.15),
                         Colors.transparent,
                       ],
                     ),
@@ -140,13 +140,13 @@ class _InviteParticipantsScreenState extends State<InviteParticipantsScreen> wit
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(16),
                                             gradient: const LinearGradient(
-                                              colors: [Color(0xFF8B5CF6), Color(0xFF00F0FF)],
+                                              colors: [AppTheme.primary, Color(0xFFFB923C)],
                                               begin: Alignment.topLeft,
                                               end: Alignment.bottomRight,
                                             ),
                                             boxShadow: [
                                               BoxShadow(
-                                                color: const Color(0xFF8B5CF6).withValues(alpha: 0.3),
+                                                color: AppTheme.primary.withValues(alpha: 0.3),
                                                 blurRadius: 15,
                                                 offset: const Offset(0, 5),
                                               ),
@@ -177,13 +177,13 @@ class _InviteParticipantsScreenState extends State<InviteParticipantsScreen> wit
                                         ElevatedButton.icon(
                                           onPressed: () {},
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: const Color(0xFF00F0FF),
+                                            backgroundColor: AppTheme.primary,
                                             foregroundColor: AppTheme.backgroundDark,
                                             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                             elevation: 0,
                                           ).copyWith(
-                                            shadowColor: WidgetStateProperty.all(const Color(0xFF00F0FF).withValues(alpha: 0.4)),
+                                            shadowColor: WidgetStateProperty.all(AppTheme.primary.withValues(alpha: 0.4)),
                                             elevation: WidgetStateProperty.all(8),
                                           ),
                                           icon: const Icon(Icons.content_copy, size: 18),
@@ -268,7 +268,7 @@ class _InviteParticipantsScreenState extends State<InviteParticipantsScreen> wit
                             height: 52,
                             decoration: BoxDecoration(
                               gradient: const LinearGradient(
-                                colors: [AppTheme.primary, Color(0xFF8B5CF6)],
+                                colors: [AppTheme.primary, Color(0xFFFB923C)],
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,
                               ),
@@ -389,7 +389,7 @@ class _InviteParticipantsScreenState extends State<InviteParticipantsScreen> wit
             "Groupe d'étude",
             5,
             Icons.school,
-            const Color(0xFF8B5CF6),
+            const Color(0xFFFB923C),
             l10n.translate('invite'),
             isDark,
           ),
@@ -398,7 +398,7 @@ class _InviteParticipantsScreenState extends State<InviteParticipantsScreen> wit
             "Kairos Entreprise",
             12,
             Icons.business,
-            const Color(0xFF00F0FF),
+            AppTheme.primary,
             l10n.translate('invite'),
             isDark,
           ),

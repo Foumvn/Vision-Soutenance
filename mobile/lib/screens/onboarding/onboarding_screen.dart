@@ -117,16 +117,14 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   Widget _buildPage1() {
     final l10n = AppLocalizations.of(context)!;
     return Container(
-      decoration: const BoxDecoration(
         gradient: RadialGradient(
           center: Alignment(0, 0),
           radius: 0.9,
           colors: [
-            Color.fromRGBO(139, 92, 246, 0.15),
+            Color.fromRGBO(249, 115, 22, 0.15),
             AppTheme.backgroundDark,
           ],
         ),
-      ),
       child: SafeArea(
         child: Column(
           children: [
@@ -223,13 +221,13 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       end: Alignment.bottomRight,
                       colors: [
                         Color(0xFF3B82F6),
-                        Color(0xFF8B5CF6),
+                        AppTheme.primary,
                         Color(0xFFEEEEEE),
                       ],
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFF8B5CF6).withValues(alpha: 0.3),
+                        color: AppTheme.primary.withValues(alpha: 0.3),
                         blurRadius: 60,
                         spreadRadius: 20,
                       ),
@@ -259,7 +257,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF8B5CF6).withValues(alpha: 0.8),
+                  color: AppTheme.primary.withValues(alpha: 0.8),
                   blurRadius: 30,
                 ),
                 BoxShadow(
@@ -399,11 +397,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [Color(0xFF9333EA), Color(0xFFEC4899)],
+                  colors: [Color(0xFFF97316), Color(0xFFFB923C)],
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF8B5CF6).withValues(alpha: 0.3),
+                    color: AppTheme.primary.withValues(alpha: 0.3),
                     blurRadius: 20,
                     spreadRadius: 5,
                   ),
@@ -562,7 +560,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               gradient: RadialGradient(
                 center: Alignment(0, -0.5),
                 radius: 0.8,
-                colors: [Color.fromRGBO(139, 92, 246, 0.25), Colors.transparent],
+                colors: [Color.fromRGBO(249, 115, 22, 0.25), Colors.transparent],
                 stops: [0.0, 0.5],
               ),
             ),
@@ -572,7 +570,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               gradient: RadialGradient(
                 center: Alignment(0.8, 0.8),
                 radius: 0.7,
-                colors: [Color.fromRGBO(139, 92, 246, 0.15), Colors.transparent],
+                colors: [Color.fromRGBO(249, 115, 22, 0.15), Colors.transparent],
                 stops: [0.0, 0.5],
               ),
             ),
@@ -615,7 +613,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                 border: Border.all(color: Colors.white.withValues(alpha: 0.05), width: 4),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF8B5CF6).withValues(alpha: 0.2),
+                    color: AppTheme.primary.withValues(alpha: 0.2),
                     blurRadius: 40,
                     spreadRadius: 5,
                   ),
@@ -649,11 +647,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   gradient: const LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [Color(0xFF9333EA), Color(0xFFEC4899)],
+                    colors: [Color(0xFFF97316), Color(0xFFFB923C)],
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF8B5CF6).withValues(alpha: 0.4),
+                      color: AppTheme.primary.withValues(alpha: 0.4),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -707,7 +705,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: const Color(0xFF7C3AED), size: 16),
+            Icon(icon, color: AppTheme.primary, size: 16),
             const SizedBox(width: 8),
             Text(label, style: const TextStyle(color: Color(0xFF1F2937), fontSize: 11, fontWeight: FontWeight.bold)),
           ],

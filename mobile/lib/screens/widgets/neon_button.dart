@@ -10,8 +10,8 @@ class NeonButton extends StatefulWidget {
     super.key,
     required this.text,
     required this.onPressed,
-    this.baseColor = const Color(0xFF00F0FF),
-    this.glowColor = const Color(0xFF00F0FF),
+    this.baseColor = const Color(0xFFF97316),
+    this.glowColor = const Color(0xFFF97316),
   });
 
   @override

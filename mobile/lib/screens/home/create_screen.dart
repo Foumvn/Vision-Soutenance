@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fred_soutenance_app/theme.dart';
 import 'package:fred_soutenance_app/l10n.dart';
+import 'package:fred_soutenance_app/providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class CreateScreen extends StatelessWidget {
   const CreateScreen({super.key});
@@ -8,6 +10,7 @@ class CreateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    final themeProvider = Provider.of<ThemeProvider>(context);
     final l10n = AppLocalizations.of(context)!;
     
     return SingleChildScrollView(
@@ -54,15 +57,37 @@ class CreateScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: isDark ? Colors.white10 : Colors.grey[200],
-                    shape: BoxShape.circle,
-                    border: Border.all(color: isDark ? Colors.white.withOpacity(0.05) : Colors.grey[300]!),
-                  ),
-                  child: Icon(Icons.notifications_outlined, color: isDark ? Colors.white : Colors.black54),
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => themeProvider.toggleTheme(!isDark),
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: isDark ? Colors.white10 : Colors.grey[200],
+                          shape: BoxShape.circle,
+                          border: Border.all(color: isDark ? Colors.white.withOpacity(0.05) : Colors.grey[300]!),
+                        ),
+                        child: Icon(
+                          isDark ? Icons.light_mode : Icons.dark_mode,
+                          color: isDark ? Colors.white : Colors.black54,
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: isDark ? Colors.white10 : Colors.grey[200],
+                        shape: BoxShape.circle,
+                        border: Border.all(color: isDark ? Colors.white.withOpacity(0.05) : Colors.grey[300]!),
+                      ),
+                      child: Icon(Icons.notifications_outlined, color: isDark ? Colors.white : Colors.black54),
+                    ),
+                  ],
                 ),
               ],
             ),

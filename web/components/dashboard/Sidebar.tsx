@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { ThemeToggle } from "../ThemeToggle";
 
 interface SidebarProps {
     user: {
@@ -30,13 +31,14 @@ export default function Sidebar({ user }: SidebarProps) {
 
     return (
         <aside className="w-64 border-r border-slate-200 dark:border-slate-800 flex flex-col glass h-screen sticky top-0 hidden lg:flex">
-            <div className="p-6 flex items-center space-x-3">
+            <div className="p-6 flex items-center justify-between">
                 <Link href="/dashboard" className="flex items-center space-x-3">
                     <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
                         <span className="material-icons-round text-white">videocam</span>
                     </div>
                     <span className="text-xl font-bold tracking-tight">V-Sync AI</span>
                 </Link>
+                <ThemeToggle />
             </div>
 
             <nav className="flex-1 px-4 space-y-1 mt-4">

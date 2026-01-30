@@ -202,7 +202,7 @@ class _SignupScreenState extends State<SignupScreen> with SingleTickerProviderSt
                           child: const Text(
                             'Log In',
                             style: TextStyle(
-                              color: Color(0xFF00F0FF),
+                              color: Color(0xFFF97316),
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                             ),
@@ -250,7 +250,7 @@ class AuroraPainter extends CustomPainter {
     canvas.drawCircle(
       Offset(pX, pY),
       size.width * 0.8,
-      paint..color = const Color(0xFF8B5CF6).withOpacity(0.15),
+      paint..color = const Color(0xFFF97316).withOpacity(0.15),
     );
 
     // Pink/Blue Aura (Bottom Right-ish)
@@ -259,7 +259,7 @@ class AuroraPainter extends CustomPainter {
     canvas.drawCircle(
       Offset(bX, bY),
       size.width * 0.8,
-      paint..color = const Color(0xFFEC4899).withOpacity(0.1),
+      paint..color = const Color(0xFFFB923C).withOpacity(0.1),
     );
   }
 
