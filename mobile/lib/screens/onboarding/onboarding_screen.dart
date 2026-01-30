@@ -117,6 +117,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   Widget _buildPage1() {
     final l10n = AppLocalizations.of(context)!;
     return Container(
+      decoration: const BoxDecoration(
         gradient: RadialGradient(
           center: Alignment(0, 0),
           radius: 0.9,
@@ -125,6 +126,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             AppTheme.backgroundDark,
           ],
         ),
+      ),
       child: SafeArea(
         child: Column(
           children: [
@@ -313,7 +315,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           center: Alignment(0, -0.3),
           radius: 1.0,
           colors: [
-            Color.fromRGBO(236, 72, 153, 0.15),
+            Color.fromRGBO(249, 115, 22, 0.15),
             AppTheme.backgroundDark,
           ],
           stops: [0.0, 0.6],
