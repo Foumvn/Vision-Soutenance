@@ -97,7 +97,7 @@ export class TranslationManager {
             ...transcript
         }));
 
-        this.room.localParticipant.publishData(data, { kind: DataPacket_Kind.RELIABLE });
+        this.room.localParticipant.publishData(data, { reliable: true });
 
         this.updateTranscripts(transcript);
     }

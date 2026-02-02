@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -23,8 +25,8 @@ function RoomControls({ onToggleTranslation, isTranslationEnabled }: { onToggleT
             <button
                 onClick={onToggleTranslation}
                 className={`px-4 py-2 rounded-lg font-bold text-sm transition-colors flex items-center gap-2 ${isTranslationEnabled
-                        ? "bg-[#8b5cf6] text-white"
-                        : "bg-white/5 border border-white/10 text-white/60 hover:text-white"
+                    ? "bg-[#8b5cf6] text-white"
+                    : "bg-white/5 border border-white/10 text-white/60 hover:text-white"
                     }`}
             >
                 <span className="material-symbols-outlined text-sm">translate</span>
@@ -272,8 +274,8 @@ function RoomContent({
                             <button
                                 onClick={() => setActiveTab("transcript")}
                                 className={`flex-1 py-3 text-xs font-bold transition-all ${activeTab === "transcript"
-                                        ? "border-b-2 border-[#8b5cf6] bg-[#8b5cf6]/10 text-[#8b5cf6]"
-                                        : "text-white/40 hover:text-white/60"
+                                    ? "border-b-2 border-[#8b5cf6] bg-[#8b5cf6]/10 text-[#8b5cf6]"
+                                    : "text-white/40 hover:text-white/60"
                                     }`}
                             >
                                 TRANSCRIPTION LIVE
@@ -281,8 +283,8 @@ function RoomContent({
                             <button
                                 onClick={() => setActiveTab("chat")}
                                 className={`flex-1 py-3 text-xs font-bold transition-all ${activeTab === "chat"
-                                        ? "border-b-2 border-[#8b5cf6] bg-[#8b5cf6]/10 text-[#8b5cf6]"
-                                        : "text-white/40 hover:text-white/60"
+                                    ? "border-b-2 border-[#8b5cf6] bg-[#8b5cf6]/10 text-[#8b5cf6]"
+                                    : "text-white/40 hover:text-white/60"
                                     }`}
                             >
                                 CHAT
