@@ -20,6 +20,9 @@ export class TranslationManager {
     private sourceLanguage: string = "fr-FR";
     private onTranscriptUpdate: (transcripts: Transcript[]) => void;
     private transcripts: Transcript[] = [];
+    private ttsEnabled: boolean = false;
+    private ttsVoice: SpeechSynthesisVoice | null = null;
+    private synth: SpeechSynthesis | null = null;
 
     constructor(room: Room, onTranscriptUpdate: (transcripts: Transcript[]) => void) {
         this.room = room;
@@ -40,6 +43,10 @@ export class TranslationManager {
                 this.recognition.onerror = (event: any) => {
                     console.error("Speech Recognition Error:", event.error);
                 };
+            }
+
+            if ("speechSynthesis" in window) {
+                this.synth = window.speechSynthesis;
             }
         }
 
@@ -121,6 +128,13 @@ export class TranslationManager {
                 }
 
                 this.updateTranscripts(transcript);
+
+                // Lecture automatique si activée (uniquement pour les messages finaux)
+                if (this.ttsEnabled && transcript.isFinal) {
+                    const textToSpeak = transcript.translation || transcript.text;
+                    // Eviter de lire ce qu'on a déjà traduit si c'est la même langue que la source (cas rare mais possible)
+                    this.speak(textToSpeak);
+                }
             }
         } catch (e) {
             // Ignorer les données non transcript
@@ -156,6 +170,45 @@ export class TranslationManager {
         } catch (e) {
             console.error("Translation error:", e);
             return text;
+        }
+    }
+
+    // --- Fonctionnalités Text-to-Speech (TTS) ---
+
+    getAvailableVoices(): SpeechSynthesisVoice[] {
+        if (!this.synth) return [];
+        return this.synth.getVoices();
+    }
+
+    setTTSVoice(voiceURI: string) {
+        if (!this.synth) return;
+        const voices = this.synth.getVoices();
+        this.ttsVoice = voices.find(v => v.voiceURI === voiceURI) || null;
+    }
+
+    setTTSEnabled(enabled: boolean) {
+        this.ttsEnabled = enabled;
+        if (!enabled) {
+            this.stopSpeaking();
+        }
+    }
+
+    speak(text: string) {
+        if (!this.synth || !text) return;
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        if (this.ttsVoice) {
+            utterance.voice = this.ttsVoice;
+        }
+
+        // Ajuster la vitesse
+        utterance.rate = 1;
+        this.synth.speak(utterance);
+    }
+
+    stopSpeaking() {
+        if (this.synth) {
+            this.synth.cancel();
         }
     }
 }

@@ -19,9 +19,87 @@ import { TranslationManager, Transcript } from "@/app/lib/TranslationManager";
 
 import { Suspense } from "react";
 
-function RoomControls({ onToggleTranslation, isTranslationEnabled }: { onToggleTranslation: () => void, isTranslationEnabled: boolean }) {
+function RoomControls({ onToggleTranslation, isTranslationEnabled, translationManager }: { onToggleTranslation: () => void, isTranslationEnabled: boolean, translationManager: TranslationManager | null }) {
+    const [ttsEnabled, setTtsEnabled] = useState(false);
+    const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+    const [selectedVoiceURI, setSelectedVoiceURI] = useState("");
+
+    useEffect(() => {
+        if (!translationManager) return;
+
+        const loadVoices = () => {
+            const availableVoices = translationManager.getAvailableVoices();
+            console.log("Voix disponibles:", availableVoices.length);
+            setVoices(availableVoices);
+
+            // Si aucune voix sélectionnée et qu'on a des voix, en prendre une par défaut
+            if (!selectedVoiceURI && availableVoices.length > 0) {
+                // Essayer le français par défaut
+                const frVoice = availableVoices.find(v => v.lang.startsWith("fr"));
+                if (frVoice) {
+                    setSelectedVoiceURI(frVoice.voiceURI);
+                    translationManager.setTTSVoice(frVoice.voiceURI);
+                }
+            }
+        };
+
+        // Charger immédiatement
+        loadVoices();
+
+        // Écouter l'événement standard de changement de voix (nécessaire sur Chrome)
+        if (typeof window !== "undefined" && window.speechSynthesis) {
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        return () => {
+            if (typeof window !== "undefined" && window.speechSynthesis) {
+                window.speechSynthesis.onvoiceschanged = null;
+            }
+        };
+    }, [translationManager]);
+
+    const handleToggleTTS = () => {
+        const newState = !ttsEnabled;
+        setTtsEnabled(newState);
+        translationManager?.setTTSEnabled(newState);
+    };
+
+    const handleVoiceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const uri = e.target.value;
+        setSelectedVoiceURI(uri);
+        translationManager?.setTTSVoice(uri);
+    };
+
     return (
         <div className="flex items-center gap-2">
+            {/* Contrôles TTS */}
+            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all ${ttsEnabled ? "bg-[#8b5cf6]/20 border-[#8b5cf6]/50" : "bg-white/5 border-white/10"}`}>
+                <button
+                    onClick={handleToggleTTS}
+                    className={`flex items-center gap-2 text-xs font-bold ${ttsEnabled ? "text-[#8b5cf6]" : "text-white/60 hover:text-white"}`}
+                    title="Lecture à voix haute"
+                >
+                    <span className="material-symbols-outlined text-sm">{ttsEnabled ? "volume_up" : "volume_off"}</span>
+                    <span>{ttsEnabled ? "Lecture ON" : "Lecture OFF"}</span>
+                </button>
+
+                {ttsEnabled && voices.length > 0 && (
+                    <select
+                        value={selectedVoiceURI}
+                        onChange={handleVoiceChange}
+                        className="bg-transparent text-xs text-white/80 border-none outline-none max-w-[100px] truncate cursor-pointer"
+                    >
+                        {voices.map(v => (
+                            <option key={v.voiceURI} value={v.voiceURI} className="bg-[#0a0a0c] text-white">
+                                {v.name.slice(0, 20)}
+                            </option>
+                        ))}
+                    </select>
+                )}
+            </div>
+
+            <div className="h-6 w-px bg-white/10 mx-1"></div>
+
             <button
                 onClick={onToggleTranslation}
                 className={`px-4 py-2 rounded-lg font-bold text-sm transition-colors flex items-center gap-2 ${isTranslationEnabled
@@ -36,7 +114,7 @@ function RoomControls({ onToggleTranslation, isTranslationEnabled }: { onToggleT
     );
 }
 
-function TranscriptPanel({ transcripts, localParticipantSid }: { transcripts: Transcript[], localParticipantSid?: string }) {
+function TranscriptPanel({ transcripts, localParticipantSid, onSpeak }: { transcripts: Transcript[], localParticipantSid?: string, onSpeak?: (text: string) => void }) {
     const sortedTranscripts = [...transcripts].sort((a, b) => b.timestamp - a.timestamp);
 
     return (
@@ -56,11 +134,22 @@ function TranscriptPanel({ transcripts, localParticipantSid }: { transcripts: Tr
                                 <span className="text-[8px] text-white/30">{new Date(t.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                 {isMe && <span className="text-[10px] font-bold text-[#8b5cf6] uppercase">Moi</span>}
                             </div>
-                            <div className={`max-w-[85%] px-3 py-2 rounded-2xl text-sm ${isMe
+                            <div className={`max-w-[85%] px-3 py-2 rounded-2xl text-sm relative group ${isMe
                                 ? "bg-[#8b5cf6] text-white rounded-tr-none"
                                 : "bg-white/10 text-white/90 rounded-tl-none border border-white/5"
                                 }`}>
                                 <p>{t.text}</p>
+
+                                {/* Bouton de lecture manuel */}
+                                {t.isFinal && onSpeak && (
+                                    <button
+                                        onClick={() => onSpeak(t.translation || t.text)}
+                                        className={`absolute -right-6 top-1 opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-white/10 rounded`}
+                                        title="Lire à haute voix"
+                                    >
+                                        <span className="material-symbols-outlined text-[14px] text-white/60">volume_up</span>
+                                    </button>
+                                )}
                             </div>
                             {t.translation && (
                                 <div className={`flex items-center gap-2 mt-1 ${isMe ? "flex-row-reverse" : "flex-row"}`}>
@@ -257,6 +346,7 @@ function RoomContent({
                     <RoomControls
                         isTranslationEnabled={isTranslationEnabled}
                         onToggleTranslation={() => setIsTranslationEnabled(!isTranslationEnabled)}
+                        translationManager={translationManager}
                     />
                     <div className="h-8 w-px bg-white/10 mx-2"></div>
                     <button
@@ -305,6 +395,7 @@ function RoomContent({
                                 <TranscriptPanel
                                     transcripts={transcripts}
                                     localParticipantSid={room?.localParticipant?.sid}
+                                    onSpeak={(text) => translationManager?.speak(text)}
                                 />
                             ) : (
                                 <div className="p-4 text-center text-white/30 text-xs mt-10">
