@@ -84,7 +84,7 @@ export class TranslationManager {
         const transcript: Transcript = {
             id: `local-${Date.now()}`,
             participantSid: this.room.localParticipant.sid,
-            participantName: this.room.localParticipant.name || "Vous",
+            participantName: this.room.localParticipant.name || this.room.localParticipant.identity,
             text: text,
             timestamp: Date.now(),
             isFinal: isFinal,
@@ -108,6 +108,12 @@ export class TranslationManager {
             const data = JSON.parse(decoder.decode(payload));
             if (data.type === "transcript") {
                 const transcript = data as Transcript;
+
+                // Utiliser les informations réelles du participant LiveKit pour plus de précision
+                if (participant) {
+                    transcript.participantName = participant.name || participant.identity;
+                    transcript.participantSid = participant.sid;
+                }
 
                 // Traduire si nécessaire
                 if (this.targetLanguage && transcript.text) {

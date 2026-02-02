@@ -36,7 +36,7 @@ function RoomControls({ onToggleTranslation, isTranslationEnabled }: { onToggleT
     );
 }
 
-function TranscriptPanel({ transcripts }: { transcripts: Transcript[] }) {
+function TranscriptPanel({ transcripts, localParticipantSid }: { transcripts: Transcript[], localParticipantSid?: string }) {
     const sortedTranscripts = [...transcripts].sort((a, b) => b.timestamp - a.timestamp);
 
     return (
@@ -47,21 +47,30 @@ function TranscriptPanel({ transcripts }: { transcripts: Transcript[] }) {
                     <p className="text-xs">En attente de parole...</p>
                 </div>
             ) : (
-                sortedTranscripts.map((t) => (
-                    <div key={t.id} className={`flex flex-col gap-1 ${t.isFinal ? "opacity-100" : "opacity-70"}`}>
-                        <div className="flex items-center gap-2">
-                            <span className="text-[10px] font-bold text-[#8b5cf6] uppercase">{t.participantName}</span>
-                            <span className="text-[8px] text-white/30">{new Date(t.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                        </div>
-                        <p className="text-sm text-white/80">{t.text}</p>
-                        {t.translation && (
-                            <div className="flex items-center gap-2 mt-1">
-                                <span className="material-symbols-outlined text-[10px] text-[#8b5cf6]">translate</span>
-                                <p className="text-sm text-[#8b5cf6] italic">{t.translation}</p>
+                sortedTranscripts.map((t) => {
+                    const isMe = t.participantSid === localParticipantSid;
+                    return (
+                        <div key={t.id} className={`flex flex-col gap-1 ${isMe ? "items-end" : "items-start"} ${t.isFinal ? "opacity-100" : "opacity-70"}`}>
+                            <div className="flex items-center gap-2 mb-1">
+                                {!isMe && <span className="text-[10px] font-bold text-[#8b5cf6] uppercase">{t.participantName}</span>}
+                                <span className="text-[8px] text-white/30">{new Date(t.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                {isMe && <span className="text-[10px] font-bold text-[#8b5cf6] uppercase">Moi</span>}
                             </div>
-                        )}
-                    </div>
-                ))
+                            <div className={`max-w-[85%] px-3 py-2 rounded-2xl text-sm ${isMe
+                                ? "bg-[#8b5cf6] text-white rounded-tr-none"
+                                : "bg-white/10 text-white/90 rounded-tl-none border border-white/5"
+                                }`}>
+                                <p>{t.text}</p>
+                            </div>
+                            {t.translation && (
+                                <div className={`flex items-center gap-2 mt-1 ${isMe ? "flex-row-reverse" : "flex-row"}`}>
+                                    <span className="material-symbols-outlined text-[10px] text-[#8b5cf6]">translate</span>
+                                    <p className="text-sm text-[#8b5cf6] italic">{t.translation}</p>
+                                </div>
+                            )}
+                        </div>
+                    );
+                })
             )}
         </div>
     );
@@ -293,7 +302,10 @@ function RoomContent({
 
                         <div className="flex-1 overflow-hidden">
                             {activeTab === "transcript" ? (
-                                <TranscriptPanel transcripts={transcripts} />
+                                <TranscriptPanel
+                                    transcripts={transcripts}
+                                    localParticipantSid={room?.localParticipant?.sid}
+                                />
                             ) : (
                                 <div className="p-4 text-center text-white/30 text-xs mt-10">
                                     <span className="material-symbols-outlined text-4xl mb-2">forum</span>
