@@ -11,15 +11,21 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 print("!!! USERS ENDPOINT MODULE LOADED !!!")
 
-@router.get("/search", response_model=UserResponse)
-async def search_user(email: str, db = Depends(get_database)):
-    user = await db["users"].find_one({"email": email})
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Utilisateur non présent"
-        )
-    return user
+@router.get("/search", response_model=List[UserResponse])
+async def search_user(query: Optional[str] = None, db = Depends(get_database)):
+    if not query or len(query) < 2:
+        return []
+    
+    # Recherche par email ou nom complet (insensible à la casse)
+    cursor = db["users"].find({
+        "$or": [
+            {"email": {"$regex": query, "$options": "i"}},
+            {"full_name": {"$regex": query, "$options": "i"}}
+        ]
+    }).limit(10)
+    
+    users = await cursor.to_list(length=10)
+    return users
 
 @router.post("/contacts/{contact_id}")
 async def add_contact(

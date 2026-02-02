@@ -33,8 +33,12 @@ export default function ContactsPage() {
         try {
             const token = localStorage.getItem("access_token");
             if (!token) throw new Error("Not authenticated");
-            const user = await searchUser(searchEmail, token);
-            setFoundUser(user);
+            const users = await searchUser(searchEmail, token);
+            if (users && users.length > 0) {
+                setFoundUser(users[0]);
+            } else {
+                setError("Utilisateur non trouvé");
+            }
         } catch (err: any) {
             setError(err.message || "Utilisateur non présent");
         } finally {

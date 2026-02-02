@@ -72,8 +72,8 @@ export async function getUserMe(token: string): Promise<any> {
     return response.json();
 }
 
-export async function searchUser(email: string, token: string): Promise<any> {
-    const response = await fetch(`${API_URL}/api/users/search?email=${encodeURIComponent(email)}`, {
+export async function searchUser(query: string, token: string): Promise<any[]> {
+    const response = await fetch(`${API_URL}/api/users/search?query=${encodeURIComponent(query)}`, {
         method: 'GET',
         headers: getHeaders({
             'Authorization': `Bearer ${token}`,
@@ -85,7 +85,7 @@ export async function searchUser(email: string, token: string): Promise<any> {
         const errorMessage = typeof errorData.detail === 'string'
             ? errorData.detail
             : JSON.stringify(errorData.detail);
-        throw new Error(errorMessage || 'Utilisateur non présent');
+        throw new Error(errorMessage || 'Erreur lors de la recherche');
     }
 
     return response.json();

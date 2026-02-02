@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { getUserMe, fetchContacts, createRoom, searchUser } from "@/app/lib/api";
 
@@ -13,6 +13,9 @@ export default function PreJoinPage() {
     const [callType, setCallType] = useState<"audio" | "video">("video");
     const [isLoading, setIsLoading] = useState(true);
     const [isCreating, setIsCreating] = useState(false);
+    const [searchResults, setSearchResults] = useState<any[]>([]);
+    const [isSearching, setIsSearching] = useState(false);
+    const searchTimeout = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         async function loadData() {
@@ -47,6 +50,29 @@ export default function PreJoinPage() {
                 ? prev.filter((id) => id !== contactId)
                 : [...prev, contactId]
         );
+    };
+
+    const handleSearchChange = (query: string) => {
+        if (searchTimeout.current) clearTimeout(searchTimeout.current);
+
+        if (!query || query.length < 2) {
+            setSearchResults([]);
+            setIsSearching(false);
+            return;
+        }
+
+        setIsSearching(true);
+        searchTimeout.current = setTimeout(async () => {
+            try {
+                const token = localStorage.getItem("access_token");
+                const results = await searchUser(query, token!);
+                setSearchResults(results);
+            } catch (err) {
+                console.error("Erreur recherche:", err);
+            } finally {
+                setIsSearching(false);
+            }
+        }, 300); // 300ms debounce
     };
 
     const handleCreateRoom = async () => {
@@ -207,47 +233,70 @@ export default function PreJoinPage() {
                             {selectedContacts.length > 1 ? "s" : ""})
                         </h2>
 
-                        {/* Search Bar for System Users */}
-                        <div className="mb-6">
+                        {/* Search Bar for System Users - Dynamic AJAX Style */}
+                        <div className="mb-6 relative">
+                            <label className="block text-sm font-bold mb-2 text-white/80">
+                                Rechercher des participants
+                            </label>
                             <div className="relative">
-                                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm">search</span>
+                                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm">
+                                    {isSearching ? "sync" : "search"}
+                                </span>
                                 <input
                                     type="text"
-                                    placeholder="Rechercher un utilisateur par email..."
-                                    className="w-full bg-black/40 border border-white/10 rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-1 focus:ring-[#8b5cf6] outline-none"
-                                    onKeyDown={async (e) => {
-                                        if (e.key === 'Enter') {
-                                            const email = (e.target as HTMLInputElement).value;
-                                            if (!email) return;
-                                            try {
-                                                const token = localStorage.getItem("access_token");
-                                                const foundUser = await searchUser(email, token!);
-                                                const foundUserId = foundUser.id || foundUser._id;
-
-                                                if (!foundUserId) {
-                                                    throw new Error("ID utilisateur non trouvé");
-                                                }
-
-                                                // Vérifier si l'utilisateur est déjà dans la liste des contacts affichés
-                                                const alreadyInContacts = contacts.find(c => (c.id || c._id) === foundUserId);
-                                                if (!alreadyInContacts) {
-                                                    setContacts(prev => [foundUser, ...prev]);
-                                                }
-
-                                                // Le sélectionner automatiquement
-                                                if (!selectedContacts.includes(foundUserId)) {
-                                                    setSelectedContacts(prev => [...prev, foundUserId]);
-                                                }
-
-                                                (e.target as HTMLInputElement).value = '';
-                                            } catch (err: any) {
-                                                alert(err.message || "Utilisateur non trouvé");
-                                            }
-                                        }
-                                    }}
+                                    placeholder="Nom ou email de l'utilisateur..."
+                                    className={`w-full bg-black/40 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-sm focus:ring-1 focus:ring-[#8b5cf6] outline-none transition-all ${isSearching ? "animate-pulse" : ""}`}
+                                    onChange={(e) => handleSearchChange(e.target.value)}
                                 />
+                                {isSearching && (
+                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 animate-spin">
+                                        <span className="material-symbols-outlined text-[#8b5cf6] text-sm">progress_activity</span>
+                                    </div>
+                                )}
                             </div>
-                            <p className="text-[10px] text-white/40 mt-2 px-1">Appuyez sur Entrée pour rechercher dans tout le système</p>
+
+                            {/* Dropdown Suggestions */}
+                            {searchResults.length > 0 && (
+                                <div className="absolute z-50 mt-2 w-full bg-[#121216] border border-white/10 rounded-xl shadow-2xl overflow-hidden backdrop-blur-xl">
+                                    <div className="py-2">
+                                        <p className="px-4 py-1 text-[10px] font-bold text-[#8b5cf6] uppercase tracking-wider">Résultats suggérés</p>
+                                        {searchResults.map((foundUser: any) => {
+                                            const fId = foundUser.id || foundUser._id;
+                                            const isSelected = selectedContacts.includes(fId);
+                                            return (
+                                                <button
+                                                    key={fId}
+                                                    onClick={() => {
+                                                        // Ajouter aux contacts affichés si absent
+                                                        if (!contacts.find(c => (c.id || c._id) === fId)) {
+                                                            setContacts(prev => [foundUser, ...prev]);
+                                                        }
+                                                        // Basculer la sélection
+                                                        toggleContact(fId);
+                                                        setSearchResults([]);
+                                                    }}
+                                                    className="w-full px-4 py-3 flex items-center justify-between hover:bg-white/5 transition-colors group"
+                                                >
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="size-8 bg-[#8b5cf6]/20 border border-[#8b5cf6]/30 text-[#8b5cf6] rounded-full flex items-center justify-center text-xs font-bold">
+                                                            {getInitials(foundUser.full_name)}
+                                                        </div>
+                                                        <div className="text-left">
+                                                            <p className="text-sm font-bold text-white group-hover:text-[#8b5cf6] transition-colors">{foundUser.full_name}</p>
+                                                            <p className="text-[10px] text-white/40">{foundUser.email}</p>
+                                                        </div>
+                                                    </div>
+                                                    {isSelected ? (
+                                                        <span className="material-symbols-outlined text-[#8b5cf6] text-lg">check_circle</span>
+                                                    ) : (
+                                                        <span className="material-symbols-outlined text-white/20 group-hover:text-white/40 text-lg">add_circle</span>
+                                                    )}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
                         {/* Current User */}
